@@ -12,6 +12,7 @@ import com.kh.finalproject.exception.exceptions.InvaildFindIdException;
 import com.kh.finalproject.exception.exceptions.InvaildFindPwException;
 import com.kh.finalproject.exception.exceptions.InvalidTokenException;
 import com.kh.finalproject.exception.exceptions.LoginFailedException;
+import com.kh.finalproject.exception.exceptions.NotFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -47,6 +48,10 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<?> handlerInvaildFindPwException(InvaildFindPwException e){
 		return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 	}
-	
+
+	@ExceptionHandler(NotFoundException.class)
+	public ResponseEntity<?> handlerNotFoundException(NotFoundException e){
+		return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+	}
 	
 }

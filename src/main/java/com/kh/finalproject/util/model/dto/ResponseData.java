@@ -1,7 +1,5 @@
 package com.kh.finalproject.util.model.dto;
 
-import com.kh.finalproject.auth.model.dto.LoginResponseDTO;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

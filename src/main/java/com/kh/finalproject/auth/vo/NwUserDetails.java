@@ -24,7 +24,7 @@ public class NwUserDetails  implements UserDetails {
 	private String password;
 	private String email;
 	private String nickName;
-	private String realName ;
+	private String realName;
 	private Collection<? extends GrantedAuthority> authorities;
 	
 	
