@@ -20,7 +20,7 @@
     <result property="status" column="STATUS"/>
   </resultMap>
 
-  <sql id="selectColumns">
+  <sql id="selectByColumns">
       r.REPORT_NO
     , r.REVIEW_NO
     , u.USER_NAME
@@ -33,7 +33,7 @@
   <select 
     id="findByReportList" 
     resultMap="reportMap">
-    SELECT  <include refid="selectColumns"/>
+    SELECT  <include refid="selectByColumns"/>
       FROM  TB_REPORT r
       JOIN  TB_USER u ON(r.USER_NO = u.USER_NO)
       JOIN  TB_REPORT_CATEGORY c ON(r.CATEGORY_NO = c.CATEGORY_NO)
@@ -49,7 +49,7 @@
     id="findByReportId" 
     parameterType="int" 
     resultMap="reportMap">
-    SELECT  <include refid="selectColumns"/>
+    SELECT  <include refid="selectByColumns"/>
           , r.REPORT_CONTENT
       FROM  TB_REPORT r
       JOIN  TB_USER u ON(r.USER_NO = u.USER_NO)
@@ -82,12 +82,4 @@
         )
   </insert>
 
-  <!-- <update 
-    id="" >
-    UPDATE  TB_REPORT
-       SET  STATUS = #{status}
-          , MODIFIED_TIME = SYSDATE
-     WHERE  REPORT_NO = #{reportNo}
-  </update> -->
-    
 </mapper>

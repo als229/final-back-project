@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.finalproject.admin.model.dao.ContentMapper">
+
+  <resultMap id="FoodMap" type="com.kh.finalproject.admin.model.dto.FoodDTO">
+    <id property="contentId" column="CONTENT_ID"/>
+    <result property="categoryCode" column="CATEGORY_CODE"/>
+    <result property="title" column="TITLE"/>
+    <result property="firstImage" column="FIRST_IMAGE"/>
+    <result property="tel" column="TEL"/>
+    <result property="homepage" column="HOMEPAGE"/>
+    <result property="playTime" column="PLAY_TIME"/>
+    <result property="foodExp" column="FOOD_EXP"/>
+    <result property="mainMenu" column="MAIN_MENU"/>
+    <result property="menu" column="MENU"/>
+    <result property="parking" column="PARKING"/>
+    <result property="createdTime" column="CREATED_TIME"/>
+    <result property="modifiedTime" column="MODIFIED_TIME"/>
+    <result property="status" column="STATUS"/>
+    <result property="fileUrl" column="FILE_URL"/>
+  </resultMap>
+
+  <resultMap id="LodgingMap" type="com.kh.finalproject.admin.model.dto.LodgingDTO">
+    <id property="contentId" column="CONTENT_ID"/>
+    <result property="categoryCode" column="CATEGORY_CODE"/>
+    <result property="title" column="TITLE"/>
+    <result property="firstImage" column="FIRST_IMAGE"/>
+    <result property="tel" column="TEL"/>
+    <result property="homepage" column="HOMEPAGE"/>
+    <result property="playTime" column="PLAY_TIME"/>
+    <result property="lodgingExp" column="LODGING_EXP"/>
+    <result property="checkIn" column="CHECK_IN"/>
+    <result property="checkOut" column="CHECK_OUT"/>
+    <result property="parking" column="PARKING"/>
+    <result property="elevator" column="ELEVATOR"/>
+    <result property="createdTime" column="CREATED_TIME"/>
+    <result property="modifiedTime" column="MODIFIED_TIME"/>
+    <result property="status" column="STATUS"/>
+    <result property="fileUrl" column="FILE_URL"/>
+  </resultMap>
+
+  <sql id="selectByColumns">
+      c.CONTENT_ID
+    , c.CATEGORY_CODE
+    , c.TITLE
+    , c.FIRST_IMAGE
+    , c.TEL
+    , c.HOMEPAGE
+    , c.PLAY_TIME
+    , c.CREATED_TIME
+    , c.MODIFIED_TIME
+    , c.STATUS
+  </sql>
+
+  <select
+    id="findByFood"
+    resultMap="FoodMap">
+    SELECT  <include refid="selectByColumns"/>
+          , f.FOOD_EXP
+          , f.MAIN_MENU
+          , f.MENU
+          , f.PARKING
+          , i.FILE_URL
+      FROM  TB_CONTENT c
+      JOIN  TB_FOOD f ON c.CONTENT_ID = f.CONTENT_ID
+      JOIN  TB_CONTENT_IMG i ON c.CONTENT_ID = i.CONTENT_ID
+     WHERE  CONTENT_ID = #{contentId}
+       AND  c.STATUS = 'Y'
+     ORDER BY  c.CREATED_TIME DESC
+          , c.MODIFIED_TIME DESC
+  </select>
+  <select
+    id="findByLodging"
+    resultMap="LodgingMap">
+    SELECT  <include refid="selectByColumns"/>
+          , l.LODGING_EXP
+          , l.CHECK_IN
+          , l.CHECK_OUT
+          , l.PARKING
+          , l.ELEVATOR
+          , i.FILE_URL
+      FROM  TB_CONTENT c
+      JOIN  TB_LODGING l ON c.CONTENT_ID = l.CONTENT_ID
+      JOIN  TB_CONTENT_IMG i ON c.CONTENT_ID = i.CONTENT_ID
+     WHERE  c.CONTENT_ID = #{contentId}
+       AND  c.STATUS = 'Y'
+     ORDER BY  c.CREATED_TIME DESC
+          , c.MODIFIED_TIME DESC
+  </select>
+
+
+
+
+
+
+  <insert 
+    id="addByContent"
+    parameterType="com.kh.finalproject.admin.model.vo.ContentVO">
+    INSERT 
+      INTO  TB_CONTENT
+        (
+            CONTENT_ID
+          , CATEGORY_CODE
+          , TITLE
+          , FIRST_IMAGE
+          , TEL
+          , HOMEPAGE
+          , PLAY_TIME
+        )
+    VALUES
+        (
+            SEQ_CONTENT_ID.NEXTVAL
+          , #{categoryCode}
+          , #{title}
+          , #{firstImage}
+          , #{tel}
+          , #{homepage}
+          , #{playTime}
+        )
+  </insert>
+
+  <insert
+    id="addByFood"
+    parameterType="com.kh.finalproject.admin.model.vo.FoodVO">
+    INSERT 
+      INTO  TB_FOOD
+        (
+            CONTENT_ID
+          , FOOD_EXP
+          , MAIN_MENU
+          , MENU
+          , PARKING
+        )
+    VALUES
+        (
+            #{contentId}
+          , #{foodExp}
+          , #{mainMenu}
+          , #{menu}
+          , #{parking}
+        )
+  </insert>
+  <insert
+    id="addByLodging"
+    parameterType="com.kh.finalproject.admin.model.vo.LodgingVO">
+    INSERT 
+      INTO  TB_LODGING
+        (
+            CONTENT_ID
+          , LODGING_EXP
+          , CHECK_IN
+          , CHECK_OUT
+          , PARKING
+          , ELEVATOR
+        )
+    VALUES
+        (
+            #{contentId}
+          , #{lodgingExp}
+          , #{checkIn}
+          , #{checkOut}
+          , #{parking}
+          , #{elevator}
+        )
+  </insert>
+
+  <insert
+    id="addByContentImg"
+    parameterType="com.kh.finalproject.admin.model.vo.ContentVO">
+    INSERT 
+      INTO  TB_CONTENT_IMG
+        (
+            CONTENT_IMG_NO
+          , CONTENT_ID
+          , FILE_URL
+        )
+    VALUES
+        (
+            SEQ_CONTENT_IMG_NO.NEXTVAL
+          , #{contentId}
+          , #{fileUrl}
+        )
+  </insert>
+
+  <insert
+    id="addByContentMap"
+    parameterType="com.kh.finalproject.admin.model.vo.mapVO">
+    INSERT 
+      INTO  TB_MAP
+        (
+            CONTENT_ID
+          , MAP_X
+          , MAP_Y
+        )
+    VALUES
+        (
+            #{contentId}
+          , #{mapX}
+          , #{mapY}
+        )
+  </insert>
+
+
+
+  <update
+    id="updateByContent"
+    parameterType="com.kh.finalproject.admin.model.vo.ContentVO">
+    UPDATE  TB_CONTENT
+    <set>
+      <if test="categoryCode != null">CATEGORY_CODE = #{categoryCode},</if>
+      <if test="title != null">TITLE = #{title},</if>
+      <if test="firstImage != null">FIRST_IMAGE = #{firstImage},</if>
+      <if test="tel != null">TEL = #{tel},</if>
+      <if test="homepage != null">HOMEPAGE = #{homepage},</if>
+      <if test="playTime != null">PLAY_TIME = #{playTime},</if>
+      MODIFIED_TIME = SYSDATE
+    </set>
+     WHERE  CONTENT_ID = #{contentId}
+  </update>
+
+  <update
+    id="updateByFood"
+    parameterType="com.kh.finalproject.admin.model.vo.ContentVO">
+    UPDATE  TB_FOOD
+    <set>
+      <if test="foodExp != null">FOOD_EXP = #{foodExp},</if>
+      <if test="mainMenu != null">MAIN_MENU = #{mainMenu},</if>
+      <if test="menu != null">MENU = #{menu},</if>
+      <if test="parking != null">PARKING = #{parking},</if>
+    </set>
+     WHERE  CONTENT_ID = #{contentId}
+  </update>
+  <update
+    id="updateByLodging"
+    parameterType="com.kh.finalproject.admin.model.vo.ContentVO">
+    UPDATE  TB_LODGING
+    <set>
+      <if test="lodgingExp != null">LODGING_EXP = #{lodgingExp},</if>
+      <if test="checkIn != null">CHECK_IN = #{checkIn},</if>
+      <if test="checkOut != null">CHECK_OUT = #{checkOut},</if>
+      <if test="parking != null">PARKING = #{parking},</if>
+      <if test="elevator != null">ELEVATOR = #{elevator},</if>
+    </set>
+     WHERE  CONTENT_ID = #{contentId}
+  </update>
+
+  <update
+    id="updateByContentImg"
+    parameterType="com.kh.finalproject.admin.model.vo.ContentVO">
+    UPDATE  TB_CONTENT_IMG
+       SET  FILE_URL = #{fileUrl}
+     WHERE  CONTENT_ID = #{contentId}
+  </update>
+
+
+
+  <update
+    id="deleteByContent"
+    parameterType="long">
+    UPDATE  TB_CONTENT
+       SET  STATUS = 'N'
+     WHERE  CONTENT_ID = #{contentId}
+  </update>
+
+</mapper>
