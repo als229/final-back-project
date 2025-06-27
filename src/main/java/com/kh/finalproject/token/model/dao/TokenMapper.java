@@ -1,5 +1,7 @@
 package com.kh.finalproject.token.model.dao;
 
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.kh.finalproject.auth.model.dto.LogoutDTO;
@@ -16,5 +18,7 @@ public interface TokenMapper {
 	int insertRefreshToken(RefreshTokenVO token);
 	
 	int deleteToken(LogoutDTO logoutDTO);
+	
+	int deleteUserToken(Map<String,Object> deleteInfo);
 	
 }
