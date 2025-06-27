@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.finalproject.lodging.model.dao.LodgingMapper">
+
+  <!-- 숙소 상세 조회 -->
+  <select
+    id="findByLodgingId"
+    resultType="com.kh.finalproject.lodging.model.dto.LodgingDTO"
+    parameterType="long">
+    SELECT  c.CONTENT_ID
+          , c.CATEGORY_CODE
+          , c.TITLE
+          , c.FIRST_IMAGE
+          , c.TEL
+          , c.HOMEPAGE
+          , c.PLAY_TIME
+          , c.CREATED_TIME
+          , c.MODIFIED_TIME
+          , c.STATUS
+          , l.LODGING_EXP
+          , l.CHECK_IN
+          , l.CHECK_OUT
+          , l.PARKING
+          , l.ELEVATOR
+      FROM  TB_CONTENT c
+      JOIN  TB_LODGING l ON c.CONTENT_ID = l.CONTENT_ID
+     WHERE  c.CONTENT_ID = #{contentId}
+       AND  c.STATUS = 'Y'
+     ORDER BY  c.CREATED_TIME DESC
+          , c.MODIFIED_TIME DESC
+  </select>
+
+  <!-- 숙소 저장 -->
+  <insert
+    id="addByLodging"
+    parameterType="com.kh.finalproject.lodging.model.vo.LodgingVO">
+    INSERT 
+      INTO  TB_LODGING
+        (
+            CONTENT_ID
+          , LODGING_EXP
+          , CHECK_IN
+          , CHECK_OUT
+          , PARKING
+          , ELEVATOR
+        )
+    VALUES
+        (
+            #{contentId}
+          , #{lodgingExp}
+          , #{checkIn}
+          , #{checkOut}
+          , #{parking}
+          , #{elevator}
+        )
+  </insert>
+
+    <!-- 숙소 수정 -->
+  <update
+    id="updateByLodging"
+    parameterType="com.kh.finalproject.lodging.model.vo.LodgingVO">
+    UPDATE  TB_LODGING
+    <set>
+      <if test="lodgingExp != null">LODGING_EXP = #{lodgingExp},</if>
+      <if test="checkIn != null">CHECK_IN = #{checkIn},</if>
+      <if test="checkOut != null">CHECK_OUT = #{checkOut},</if>
+      <if test="parking != null">PARKING = #{parking},</if>
+      <if test="elevator != null">ELEVATOR = #{elevator},</if>
+    </set>
+     WHERE  CONTENT_ID = #{contentId}
+  </update>
+
+</mapper>

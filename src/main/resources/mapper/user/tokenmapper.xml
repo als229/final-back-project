@@ -7,7 +7,7 @@
   <mapper namespace="com.kh.finalproject.token.model.dao.TokenMapper">
   
    <select id="existingToken"
-   		   resultType="com.kh.finalproject.token.model.dao.RefreshTokenVO">
+   		   resultType="com.kh.finalproject.token.model.vo.RefreshTokenVO">
    
    SELECT
    		 USER_NO userNo,
@@ -22,7 +22,7 @@
   
   
   	<insert id="insertRefreshToken"
-  			parameterType="com.kh.finalproject.token.model.dao.RefreshTokenVO"
+  			parameterType="com.kh.finalproject.token.model.vo.RefreshTokenVO"
   	>
   	INSERT
   	INTO
@@ -53,7 +53,7 @@
   
  
   <delete id="deleteToken"
-  		parameterType="com.kh.finalproject.auth.model.dao.LogoutDTO">
+  		parameterType="com.kh.finalproject.auth.model.dto.LogoutDTO">
   
   DELETE
   FROM

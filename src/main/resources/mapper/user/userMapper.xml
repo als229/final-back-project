@@ -41,7 +41,7 @@
 
   
   <insert id="signUp"
-  		parameterType="com.kh.finalproject.user.model.UserDTO">
+  		parameterType="com.kh.finalproject.user.model.dto.UserDTO">
  
   
 	  INSERT INTO

@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/report")
+@RequestMapping("/api/systm/reports")
 public class ReportController {
 
   private final ReportService reportService;
@@ -43,7 +43,6 @@ public class ReportController {
                     .build()
       );
     }
-
     return ResponseEntity.ok(
       ResponseData.builder()
                   .code("R100")

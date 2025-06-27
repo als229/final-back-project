@@ -4,11 +4,11 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   
-  <mapper namespace="kh.com.finalproject.auth.model.dao.AuthMapper">
+  <mapper namespace="com.kh.finalproject.auth.model.dao.AuthMapper">
   	
   
   <select id="loadUserByUserId"
-          resultType="kh.com.finalproject.auth.model.dao.UserDTO">
+          resultType="com.kh.finalproject.user.model.dto.UserDTO">
   
   	SELECT
   			USER_NO userNo,
@@ -25,8 +25,8 @@
   </select>
   
   <select id="selectByfindId"
-  		  parameterType="kh.com.finalproject.auth.model.dao.FindDTO"
-  		  resultType="kh.com.finalproject.auth.model.dao.FindDTO">
+  		  parameterType="com.kh.finalproject.auth.model.dto.FindDTO"
+  		  resultType="com.kh.finalproject.auth.model.dto.FindDTO">
   
   	SELECT
   		    USER_ID userId
@@ -38,8 +38,8 @@
   </select>
   
   <select id="selectByfindPw"
- 		  parameterType="kh.com.finalproject.auth.model.dao.FindDTO"
-  		  resultType="kh.com.finalproject.auth.model.dao.FindDTO">
+ 		  parameterType="com.kh.finalproject.auth.model.dto.FindDTO"
+  		  resultType="com.kh.finalproject.auth.model.dto.FindDTO">
   
   	SELECT
   			USER_ID userId,

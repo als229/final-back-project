@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.finalproject.global.map.model.dao.MapMapper">
+
+  <!-- 지도 저장 -->
+  <insert
+    id="addByMap"
+    parameterType="com.kh.finalproject.global.map.model.vo.MapVO">
+    INSERT 
+      INTO  TB_MAP
+        (
+            CONTENT_ID
+          , MAP_X
+          , MAP_Y
+        )
+    VALUES
+        (
+            #{contentId}
+          , #{mapX}
+          , #{mapY}
+        )
+  </insert>
+
+  <!-- 시도 저장 -->
+  <insert
+    id="addBySido"
+    parameterType="com.kh.finalproject.global.map.model.vo.AddrVO">
+    INSERT 
+      INTO  TB_SIDO
+        (
+            SIDO_NO
+          , SIDO_NAME
+        )
+    VALUES
+        (
+            #{sidoNo}
+          , #{sidoName}
+        )
+  </insert>
+
+  <!-- 시군구 저장 -->
+  <insert
+    id="addBySigungu"
+    parameterType="com.kh.finalproject.global.map.model.vo.AddrVO">
+    INSERT 
+      INTO  TB_SIGUNGU
+        (
+            SIGUNGU_NO
+          , SIDO_NO
+          , SIGUNGU_NAME
+        )
+    VALUES
+        (
+            #{sigunguNo}
+          , #{sidoNo}
+          , #{sigunguName}
+        )
+  </insert>
+
+  <!-- 동 저장 -->
+  <insert
+    id="addByDong"
+    parameterType="com.kh.finalproject.global.map.model.vo.AddrVO">
+    INSERT 
+      INTO  TB_DONG
+        (
+            DONG_NO
+          , SIGUNGU_NO
+          , DONG_NAME
+        )
+    VALUES
+        (
+            #{dongNo}
+          , #{sigunguNo}
+          , #{dongName}
+        )
+  </insert>
+
+  <!-- 상세 주소 저장 -->
+  <insert
+    id="addByDetailAdd"
+    parameterType="com.kh.finalproject.global.map.model.vo.AddrVO">
+    INSERT 
+      INTO  TB_DETAIL_ADD
+        (
+            DETAIL_NO
+          , CONTENT_ID
+          , DONG_NO
+          , DETAIL_NAME
+          , POST_ADDRESS
+        )
+    VALUES
+        (
+            SEQ_DETAIL_NO.NEXTVAL
+          , #{contentId}
+          , #{dongNo}
+          , #{detailName}
+          , #{postAddress}
+        )
+  </insert>
+
+</mapper>

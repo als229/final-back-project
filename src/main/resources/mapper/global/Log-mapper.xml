@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.finalproject.global.log.model.dao.LogMapper">
+
+  <!-- 회원로그 목록 조회 -->
+  <select
+    id="findByUserLog" 
+    parameterType="com.kh.finalproject.global.log.model.dto.UserLogDTO"
+    resultType="long">
+    SELECT  LOG_NO
+          , OLD_INFO
+          , NEW_INFO
+          , CREATED_TIME
+      FROM  TB_USER_LOG
+     WHERE  USER_NO = #{userNo}
+     ORDER 
+        BY  CREATED_TIME DESC
+  </select>
+
+  <!-- 회원로그 저장 -->
+  <insert 
+    id="addByUserLog" 
+    parameterType="com.kh.finalproject.global.log.model.vo.UserLogVO">
+    INSERT 
+      INTO  TB_USER_LOG 
+        (
+            LOG_NO
+          , USER_NO
+          , OLD_INFO
+          , NEW_INFO
+        )
+    VALUES 
+        (
+            SEQ_LOG_NO.NEXTVAL
+          , #{userNo}
+          , #{oldInfo}
+          , #{newInfo}
+        )
+  </insert>
+
+</mapper>
