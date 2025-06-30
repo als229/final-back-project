@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="kh.com.finalproject.chat.model.dao.ChatMapper">
+  
+	<select id="findRoomByContentId" 
+		parameterType="Long" 
+		resultType="ChatRoomDTO"
+	>
+        SELECT 
+        	  ROOM_NO as roomNo
+        	, CONTENT_ID as contentId
+        FROM 
+        	TB_CHAT_ROOM
+        WHERE 
+        	CONTENT_ID = #{contentId}
+	</select>
+	
+    <insert id="insertRoom"
+    		parameterType="Long"
+    >
+        INSERT INTO 
+        	TB_CHAT_ROOM 
+        		(
+					  ROOM_NO
+					, CONTENT_ID
+				)
+        VALUES 
+        		(
+					  SEQ_CHAT_ROOM.NEXTVAL
+					, #{contentId}
+				)
+    </insert>
+    
+    <insert id="insertMessage"
+    		parameterType="MessageDTO"
+    >
+        INSERT INTO TB_CHAT_MESSAGE (
+            CHAT_MESSAGE_NO,
+            ROOM_NO,
+            USER_NO,
+            MESSAGE_CONTENT,
+            CREATED_DATE
+        ) VALUES (
+            SEQ_CHAT_MESSAGE.NEXTVAL,
+            #{roomNo},
+            #{userNo},
+            #{messageContent},
+            SYSDATE
+        )
+    </insert>
+    
+    <select id="selectMessagesByRoomNo" 
+    		parameterType="Long"
+    		resultType="MessageDTO"
+    >
+        SELECT 
+        	  CHAT_MESSAGE_NO as chatMessageNo
+        	, ROOM_NO as roomNo
+        	, USER_NO as userNo
+        	, MESSAGE_CONTENT as messageContent
+        	, CREATED_DATE as createdDate
+        FROM 
+        	TB_CHAT_MESSAGE
+        WHERE 
+        	ROOM_NO = #{roomNo}
+        ORDER BY CREATED_DATE ASC
+    </select>
+
+  
+  
+  
+</mapper>
