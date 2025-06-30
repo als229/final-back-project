@@ -30,13 +30,13 @@
   <insert 
     id="addByContent"
     parameterType="com.kh.finalproject.global.model.vo.ContentVO">
-    <selectkey
+    <selectKey
       keyProperty="contentId"
       resultType="long"
       order="BEFORE">
       SELECT  SEQ_CONTENT_ID.NEXTVAL
         FROM  DUAL
-    </selectkey>
+    </selectKey>
     INSERT 
       INTO  TB_CONTENT
         (
@@ -50,7 +50,7 @@
         )
     VALUES
         (
-            SEQ_CONTENT_ID.NEXTVAL
+            #{contentId}
           , #{categoryCode}
           , #{title}
           , #{firstImage}

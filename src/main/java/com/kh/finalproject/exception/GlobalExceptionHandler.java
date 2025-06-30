@@ -5,11 +5,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.kh.finalproject.exception.exceptions.DuplicateNicknameException;
 import com.kh.finalproject.exception.exceptions.DuplicateUserEmailException;
 import com.kh.finalproject.exception.exceptions.DuplicateUserIdException;
 import com.kh.finalproject.exception.exceptions.DuplicateUserNickameException;
+import com.kh.finalproject.exception.exceptions.EmailCodeException;
 import com.kh.finalproject.exception.exceptions.InvaildFindIdException;
 import com.kh.finalproject.exception.exceptions.InvaildFindPwException;
+import com.kh.finalproject.exception.exceptions.InvaildPasswordException;
 import com.kh.finalproject.exception.exceptions.InvalidTokenException;
 import com.kh.finalproject.exception.exceptions.LoginFailedException;
 import com.kh.finalproject.exception.exceptions.NotFoundException;
@@ -53,5 +56,18 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<?> handlerNotFoundException(NotFoundException e){
 		return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 	}
+	@ExceptionHandler(EmailCodeException.class)
+	public ResponseEntity<?> handlerEmailCodeException(EmailCodeException e){
+		return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+	}
+	@ExceptionHandler(InvaildPasswordException.class)
+	public ResponseEntity<?> handlerInvaildPasswordException(InvaildPasswordException e){
+		return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+	}
+	@ExceptionHandler(DuplicateNicknameException.class)
+	public ResponseEntity<?> handlerDuplicateNicknameException(DuplicateNicknameException e){
+		return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+	}
 	
+
 }

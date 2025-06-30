@@ -26,7 +26,7 @@
   <!-- 시도 저장 -->
   <insert
     id="addBySido"
-    parameterType="com.kh.finalproject.global.map.model.vo.AddrVO">
+    parameterType="com.kh.finalproject.global.map.model.vo.SidoVO">
     INSERT 
       INTO  TB_SIDO
         (
@@ -43,7 +43,7 @@
   <!-- 시군구 저장 -->
   <insert
     id="addBySigungu"
-    parameterType="com.kh.finalproject.global.map.model.vo.AddrVO">
+    parameterType="com.kh.finalproject.global.map.model.vo.SigunguVO">
     INSERT 
       INTO  TB_SIGUNGU
         (
@@ -62,7 +62,7 @@
   <!-- 동 저장 -->
   <insert
     id="addByDong"
-    parameterType="com.kh.finalproject.global.map.model.vo.AddrVO">
+    parameterType="com.kh.finalproject.global.map.model.vo.DongVO">
     INSERT 
       INTO  TB_DONG
         (
@@ -81,7 +81,7 @@
   <!-- 상세 주소 저장 -->
   <insert
     id="addByDetailAdd"
-    parameterType="com.kh.finalproject.global.map.model.vo.AddrVO">
+    parameterType="com.kh.finalproject.global.map.model.vo.DetailVO">
     INSERT 
       INTO  TB_DETAIL_ADD
         (

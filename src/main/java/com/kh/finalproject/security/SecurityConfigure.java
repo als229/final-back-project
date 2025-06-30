@@ -42,52 +42,56 @@ public class SecurityConfigure {
 							   request.requestMatchers("/admin/**").hasRole("ADMIN");
 							  
 							   request.requestMatchers(HttpMethod.POST,
-									   "/users",
-									   "/users/**",
-									   "/auth/**",
-									   "/favorite/",
-									   "/favorite/**",
-									   "/favoriteList",
-									   "/festivals/**").permitAll();
+									   "/api/auth/tokens",
+									   "/api/users",
+									   "/api/users/**",
+									   "/api/auth/**",
+									   "/api/favorite/",
+									   "/api/favorite/**",
+									   "/api/favoriteList",
+									   "/api/festivals/**").permitAll();
 							   request.requestMatchers(HttpMethod.POST,
-									   "/region",
-									   "/festivals",
-									   "/systm/**").hasRole("ADMIN");
+									   "/api/region",
+									   "/api/festivals",
+									   "/api/systm/**").hasRole("ADMIN");
 							  
 							   request.requestMatchers(HttpMethod.DELETE,
-									  "/auth/**").permitAll();
+									  "/api/auth/**").permitAll();
 							   
 							   request.requestMatchers(HttpMethod.DELETE, 
-									   "/users",
-									   "/commnet/**").authenticated();
+									   "/api/users",
+									   "/api/users/**",
+									   "/api/commnet/**").authenticated();
 							   request.requestMatchers(HttpMethod.DELETE,
-									  "/region/**",
-									  "/festivals",
-									  "/festivals/**",
-									  "/lodgings",
-									  "/diners").hasRole("ADMIN");
+									  "/api/region/**",
+									  "/api/festivals",
+									  "/api/festivals/**",
+									  "/api/lodgings",
+									  "/api/diners").hasRole("ADMIN");
 							  
-							   request.requestMatchers(HttpMethod.PUT,
-										 "/comment").permitAll();
+							   
 							   request.requestMatchers(HttpMethod.PUT, 
-										  "/users/**").authenticated();
+									   "/api/users/update-nickname",
+									   "/api/users/update-pw",
+										  "/api/users/**").authenticated();
 							   request.requestMatchers(HttpMethod.PUT,
-										  "/region/**",
-										  "/festivals",
-										  "/lodgings",
-										  "/lodgings/**",
-										  "/diners",
-										  "/diners/**").hasRole("ADMIN");
+										  "/api/region/**",
+										  "/api/festivals",
+										  "/api/lodgings",
+										  "/api/lodgings/**",
+										  "/api/diners",
+										  "/api/diners/**").hasRole("ADMIN");
 							   
 							   request.requestMatchers(HttpMethod.GET,
-									   "/region/**",
-									   "/commnet/**",
-									   "/festivals",
-									   "/lodgings",
-									   "/diners",
-									   "/diners/**").permitAll();
-							   request.requestMatchers(HttpMethod.GET, 
-										  "/users/**"
+									   "/api/region/**",
+									   "/api/users/comments",
+									   "/api/users/festivals",
+									   "/api/lodgings",
+									   "/api/diners",
+									   "/api/diners/**").permitAll();
+							   request.requestMatchers(HttpMethod.GET,
+									   "/api/users/comments",
+										  "/api/users/**"
 										).authenticated();
 							   
 	                       })

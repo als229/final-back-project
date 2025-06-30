@@ -10,52 +10,132 @@
   <select id="loadUserByUserId"
           resultType="com.kh.finalproject.user.model.dto.UserDTO">
   
-  	SELECT
-  			USER_NO userNo,
-  			USER_ID userId,
-  			REALNAME realName,
-  			NICKNAME nickName,
-  			EMAIL email
-  	FROM
-  			TB_USER
-  	WHERE
-  			USER_ID = #{userId}
+	  	SELECT
+	  			USER_NO userNo,
+	  			USER_ID userId,
+	  			PASSWORD password,
+	  			REALNAME realName,
+	  			NICKNAME nickName,
+	  			EMAIL email,
+	  			ROLE role
+	  	FROM
+	  			TB_USER
+	  	WHERE
+	  			USER_ID = #{userId}
   	
   
   </select>
   
   <select id="selectByfindId"
   		  parameterType="com.kh.finalproject.auth.model.dto.FindDTO"
-  		  resultType="com.kh.finalproject.auth.model.dto.FindDTO">
+  		  resultType="com.kh.finalproject.auth.model.dto.FindResponseDTO">
   
-  	SELECT
-  		    USER_ID userId
-  	FROM
-  			TB_USER
-  	WHERE
-  			EMAIL = #{email}
+	  	SELECT
+	  		    USER_ID userId,
+	  		    EMAIL email
+	  	FROM
+	  			TB_USER
+	  	WHERE
+	  			EMAIL = #{email}
+	  	AND
+	  			REALNAME = #{realName}
 
   </select>
   
   <select id="selectByfindPw"
  		  parameterType="com.kh.finalproject.auth.model.dto.FindDTO"
-  		  resultType="com.kh.finalproject.auth.model.dto.FindDTO">
+  		  resultType="com.kh.finalproject.auth.model.dto.FindResponseDTO">
   
-  	SELECT
-  			USER_ID userId,
-  			EMAIL email
-  	FROM
-  			TB_USER
-  	WHERE
-  			USER_ID = #{userId}
-  	AND
-  			EMAIL = #{email}
-  
-  
+	  	SELECT
+	  			USER_ID userId,
+	  			EMAIL email
+	  	FROM
+	  			TB_USER
+	  	WHERE
+	  			USER_ID = #{userId}
+	  	AND
+	  			EMAIL = #{email}
   
   </select>
   
   
+  
+  
+   <insert id="sendEmailCode"
+  		  parameterType="com.kh.finalproject.auth.vo.EmailCodeVO">
+  
+		  INSERT
+		  INTO
+		  TB_EMAIL_VERIFY
+		  (
+			EMAIL,
+			CODE
+		  )
+		  VALUES
+		  (
+			#{email},
+			#{code}
+		  )
+  
+  </insert>
+  
+  <select id="verifyCode"
+  		  parameterType="com.kh.finalproject.auth.model.dto.EmailDTO"
+  		  resultType="com.kh.finalproject.auth.vo.EmailCodeVO">
+  
+	  SELECT
+	  		EMAIL email,
+	  		CODE code
+	  FROM
+	  		TB_EMAIL_VERIFY
+	  WHERE
+	  		EMAIL = #{email}
+	  AND
+	  		CODE = #{code}
+  
+  </select>
+
+
+  
+  <delete id="deleteEmailCode"
+ 		  parameterType="com.kh.finalproject.auth.model.dto.EmailDTO">
+  
+  	DELETE
+  	FROM
+  			TB_EMAIL_VERIFY
+  	WHERE
+  			EMAIL = #{email}
+  	AND
+  			CODE = #{code}
+  			
+  
+  </delete>
+  
+  <update id="tempPassword"
+  		  parameterType="map">
+  
+  		UPDATE
+  				TB_USER
+  		SET
+  				PASSWORD = #{encodedTempPw}
+  		WHERE
+  				USER_ID = #{userId}
+  
+  </update>
+  
+  <select id="selectEmail"
+  		parameterType="map"	
+  		resultType="com.kh.finalproject.auth.model.dto.FindResponseDTO">
+  		  
+  		SELECT
+  				EMAIL email,
+  				PASSWORD password
+  		FROM
+  				TB_USER
+		WHERE
+				USER_ID = #{userId}  
+  
+  </select>
   
   
   

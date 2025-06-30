@@ -7,62 +7,167 @@
  <mapper namespace="com.kh.finalproject.user.model.dao.UserMapper">
   
  	<select id="existsByUserId"
+ 		parameterType="string"
   		resultType="int">
-	  SELECT
-	  		COUNT(*)
-	  FROM
-	  		NW_USER
-	  WHERE
-	  		USER_ID = #{userId}
+		  SELECT
+		  		COUNT(*)
+		  FROM
+		  		TB_USER
+		  WHERE
+		  		USER_ID = #{userId}
   		
  	</select>
 	
 	<select id="existsByUserNickName"
   		resultType="int">
-	  SELECT
-	  		COUNT(*)
-	  FROM
-	  		NW_USER
-	  WHERE
-	  		NICKNAME = #{nickName}
+		  SELECT
+		  		COUNT(*)
+		  FROM
+		  		TB_USER
+		  WHERE
+		  		NICKNAME = #{nickName}
   		
  	</select>
  	
 	<select id="existsByUserEmail"
   		resultType="int">
-	  SELECT
-	  		COUNT(*)
-	  FROM
-	  		NW_USER
-	  WHERE
-	  		EMAIL = #{email}
-  		
+		  SELECT
+		  		COUNT(*)
+		  FROM
+		  		TB_USER
+		  WHERE
+		  		EMAIL = #{email}
+	  		
  	</select>
 
   
   <insert id="signUp"
   		parameterType="com.kh.finalproject.user.model.dto.UserDTO">
  
-  
-	  INSERT INTO
-	NW_USER
-	(
-		
-		USER_ID,
-		PASSOWRD,
-		EMAIL,
-		REALNAME,
-		NICKNAME
-	)
-	VALUES(
-		#{userId},
-		#{password},
-		#{email},
-		#{realName},
-		#{nickName}
-	)
+	  
+		  INSERT INTO
+		TB_USER
+		(
+			USER_NO,
+			USER_ID,
+			PASSWORD,
+			EMAIL,
+			REALNAME,
+			NICKNAME
+		)
+		VALUES(
+			SEQ_USER_NO.NEXTVAL,
+			#{userId},
+			#{password},
+			#{email},
+			#{realName},
+			#{nickName}
+		)
 	
   </insert>
+  
+  <delete id="deleteUser"
+  	      parameterType="map">
+	  
+	  	DELETE
+	  	FROM 
+	  			TB_USER 
+		WHERE 
+				USER_NO = #{userNo}
+  
+  </delete>
+  
+  <select id="findPasswordByUserNo"
+  		  parameterType="long"
+  		  resultType="string">
+  		  
+		SELECT
+				PASSWORD 
+		FROM
+				TB_USER
+		WHERE
+				USER_NO = #{userNo}
+  
+  </select>
+  
+  <update id="updateNewPw"
+  		  parameterType="com.kh.finalproject.user.model.dto.UpdatePasswordDTO">
+  
+		  UPDATE
+		  		TB_USER
+		  SET
+				PASSWORD = #{newPassword}
+		  WHERE
+		  		USER_NO = #{userNo}	  		
+  		  
+  		  
+  </update>
+  
+  <select id="selectProfile"
+  		  parameterType="long"
+  		  resultType="com.kh.finalproject.user.model.dto.UserDTO">
+  
+  		SELECT
+  				NICKNAME nickName,
+  				REALNAME realName,
+  				EMAIL email,
+  				FILE_URL fileUrl
+  		FROM
+  				TB_PROFILE P
+  		JOIN
+  				TB_USER U ON P.USER_NO = U.USER_NO
+  		WHERE
+  				USER_NO = #{userNo}
+  
+  </select>
+  
+  
+ <update id="updateNickname"
+  		  parameterType="com.kh.finalproject.user.model.dto.UserDTO">
+  
+		  UPDATE
+		  		TB_USER
+		  SET
+				NICKNAME = #{nickName}
+		  WHERE
+		  		USER_NO = #{userNo}	  		
+  </update>
+  
+   <select id="selectNickName"
+  		  parameterType="string"
+  		  resultType="int">
+  		  
+		SELECT
+				COUNT(*) 
+		FROM
+				TB_USER
+		WHERE
+				NICKNAME = #{nickName}
+  
+  </select>
+  
+  
+  <select id="selectComments"
+  		  parameterType="long"
+  		  resultType="com.kh.finalproject.user.model.dto.MypageDTO">
+  
+  		SELECT
+  				TITLE title,
+  				FIRST_IMAGE firstImage,
+  				CATEGORY category,
+  				CONTENT content,
+  				CREATED_TIME createTime,
+  				FILE_URL fileUrl
+  		FROM
+  				TB_REVIEW R
+  		JOIN
+  				TB_CONTENT C ON C.CONTENT_ID = R.CONTENT_ID
+  		JOIN
+  				TB_FAVORITE F ON R.USER_NO = F.USER_NO
+  		WHERE
+  				USER_NO = #{userNo}
+  			
+  </select>
   
  
   </mapper>

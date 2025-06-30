@@ -32,4 +32,6 @@ public class NwUserDetails  implements UserDetails {
 	public String getUsername() {
 		return userId;
 	}
+	
+	
 }
