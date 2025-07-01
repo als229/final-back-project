@@ -25,16 +25,17 @@ public class ChatController {
 	
     private final ChatService chatService;
     
-    @GetMapping("/rooms/content/{contentId}")
-    public ResponseEntity<ChatRoomDTO> getOrCreateRoom(@PathVariable Long contentId) {
-        ChatRoomDTO room = chatService.getOrCreateRoomByContentId(contentId);
+    @GetMapping("/content/{contentNo}")
+    public ResponseEntity<ChatRoomDTO> getOrCreateRoom(@PathVariable("contentNo") Long contentNo) {
+        ChatRoomDTO room = chatService.getOrCreateRoomByContentId(contentNo);
         return ResponseEntity.ok(room);
     }
     
-    @GetMapping("/rooms/{roomId}/messages")
-    public ResponseEntity<List<MessageDTO>> getMessages(@PathVariable Long roomId) {
-        List<MessageDTO> messages = chatService.getMessagesByRoomNo(roomId);
+    @GetMapping("/{roomNo}/messages")
+    public ResponseEntity<List<MessageDTO>> getMessages(@PathVariable("roomNo") Long roomNo) {
+    	List<MessageDTO> messages = chatService.getMessagesByRoomNo(roomNo);
         return ResponseEntity.ok(messages);
     }
+    
 
 }

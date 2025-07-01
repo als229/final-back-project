@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="kh.com.finalproject.chat.model.dao.ChatMapper">
+<mapper namespace="com.kh.finalproject.chat.model.dao.ChatMapper">
   
 	<select id="findRoomByContentId" 
 		parameterType="Long" 
@@ -29,7 +29,7 @@
 				)
         VALUES 
         		(
-					  SEQ_CHAT_ROOM.NEXTVAL
+					  SEQ_ROOM.NEXTVAL
 					, #{contentId}
 				)
     </insert>
@@ -47,7 +47,7 @@
             SEQ_CHAT_MESSAGE.NEXTVAL,
             #{roomNo},
             #{userNo},
-            #{messageContent},
+            #{content},
             SYSDATE
         )
     </insert>
@@ -57,19 +57,22 @@
     		resultType="MessageDTO"
     >
         SELECT 
-        	  CHAT_MESSAGE_NO as chatMessageNo
-        	, ROOM_NO as roomNo
-        	, USER_NO as userNo
-        	, MESSAGE_CONTENT as messageContent
-        	, CREATED_DATE as createdDate
+        	  CHAT_MESSAGE_NO AS chatMessageNo
+        	, ROOM_NO AS roomNo
+        	, M.USER_NO AS userNo
+        	, MESSAGE_CONTENT AS messageContent
+        	, CREATED_DATE AS createdDate
+        	, U.NICKNAME AS nickname
+        	, U.REALNAME AS realname
+        	, U.USER_ID AS userId
         FROM 
-        	TB_CHAT_MESSAGE
+        	TB_CHAT_MESSAGE M
+        LEFT JOIN 
+        		TB_USER U 
+        	ON 
+        		(M.USER_NO = U.USER_NO)
         WHERE 
         	ROOM_NO = #{roomNo}
         ORDER BY CREATED_DATE ASC
     </select>
-
-  
-  
-  
 </mapper>

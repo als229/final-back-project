@@ -13,7 +13,9 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kh.finalproject.auth.vo.NwUserDetails;
 import com.kh.finalproject.chat.model.dao.ChatMapper;
+import com.kh.finalproject.chat.model.dto.MessageDTO;
 import com.kh.finalproject.chat.model.vo.Message;
 
 import lombok.RequiredArgsConstructor;
@@ -31,7 +33,7 @@ public class WebSocketHandler extends TextWebSocketHandler  {
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		System.out.println("전화 받았습니다.");
 		System.out.println(session);
-
+		
 		String roomId = getRoomId(session);
 
 		if (!"".equals(roomId)) {
@@ -46,18 +48,17 @@ public class WebSocketHandler extends TextWebSocketHandler  {
 		String roomId = getRoomId(session);
 		if (roomId == null) return;
 		System.out.println(message.getPayload());
+		
+        NwUserDetails loginUser =
+                (NwUserDetails) session.getAttributes().get("principal");
 
-		Message chatMessage = objectMapper.readValue(message.getPayload(), Message.class);
+        MessageDTO chatMessage = objectMapper.readValue(message.getPayload(), MessageDTO.class);
 		
 		Message requestData = null;
 		
-		// 동권이 코드 받고 수정
-//		CustomUserDetails user = authService.getUserDetails();
-//		Long userNo = user.getMemberNo();
-		
 		requestData = Message.builder()
 				.roomNo(Long.parseLong(roomId))
-				.userNo(userNo)
+				.userNo(loginUser.getUserNo())
 				.messageContent(chatMessage.getMessageContent())
 				.build();
 

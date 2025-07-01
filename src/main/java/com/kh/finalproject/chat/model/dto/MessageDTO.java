@@ -18,5 +18,7 @@ public class MessageDTO {
     private Long roomNo;
     private Long userNo;
     private String messageContent;
+    private String nickname;
+    private String realname;
     private LocalDateTime createdDate;
 }
