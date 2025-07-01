@@ -20,5 +20,6 @@ public class MessageDTO {
     private String messageContent;
     private String nickname;
     private String realname;
+    private String userId;
     private LocalDateTime createdDate;
 }

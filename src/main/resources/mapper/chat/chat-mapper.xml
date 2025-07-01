@@ -47,7 +47,7 @@
             SEQ_CHAT_MESSAGE.NEXTVAL,
             #{roomNo},
             #{userNo},
-            #{content},
+            #{messageContent},
             SYSDATE
         )
     </insert>

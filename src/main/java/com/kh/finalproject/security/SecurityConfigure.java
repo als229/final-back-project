@@ -84,6 +84,7 @@ public class SecurityConfigure {
 										  "/api/diners/**").hasRole("ADMIN");
 							   
 							   request.requestMatchers(HttpMethod.GET,
+									   "/api/users/check-id",
 									   "/api/chats/**",
 									   "/api/region/**",
 									   "/api/users/comments",
