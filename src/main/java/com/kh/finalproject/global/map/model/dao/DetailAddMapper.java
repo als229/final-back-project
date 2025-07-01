@@ -14,5 +14,5 @@ public interface DetailAddMapper {
 
   void deleteByDetailAdd(Long contentId);
 
-  DetailAddDTO findByDetailAddId(Long contentId);
+  DetailAddDTO findByDetailAdd(Long contentId);
 }

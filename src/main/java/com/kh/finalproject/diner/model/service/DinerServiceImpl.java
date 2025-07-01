@@ -96,7 +96,8 @@ public class DinerServiceImpl implements DinerService {
 
   @Override
   public DinerDTO findByDinerId(Long id) {
-  DinerDTO dinerDTO = dinerMapper.findByDinerId(id);
+
+    DinerDTO dinerDTO = dinerMapper.findByDinerId(id);
     if (dinerDTO == null) { throw new NotFoundException("해당 음식점이 존재하지 않습니다."); }
     return dinerDTO;
   }

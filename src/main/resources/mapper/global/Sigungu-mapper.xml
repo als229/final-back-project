@@ -17,7 +17,7 @@
         )
     VALUES
         (
-            #{sigunguNo}
+            SEQ_SIGUNGU_NO.NEXTVAL
           , #{sidoNo}
           , #{sigunguName}
         )

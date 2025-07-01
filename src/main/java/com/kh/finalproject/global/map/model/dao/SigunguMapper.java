@@ -1,5 +1,7 @@
 package com.kh.finalproject.global.map.model.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.kh.finalproject.global.map.model.dto.SigunguDTO;
@@ -14,5 +16,5 @@ public interface SigunguMapper {
 
   void deleteBySigungu(Long sigunguNo);
 
-  SigunguDTO findBySigungu(Long sigunguNo);
+  List<SigunguDTO> findBySigungu(Long sidoNo);
 }

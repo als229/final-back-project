@@ -16,6 +16,7 @@ import com.kh.finalproject.exception.exceptions.InvaildPasswordException;
 import com.kh.finalproject.exception.exceptions.InvalidTokenException;
 import com.kh.finalproject.exception.exceptions.LoginFailedException;
 import com.kh.finalproject.exception.exceptions.NotFoundException;
+import com.kh.finalproject.exception.exceptions.NullPointException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -68,6 +69,10 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<?> handlerDuplicateNicknameException(DuplicateNicknameException e){
 		return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 	}
-	
+
+	@ExceptionHandler(NullPointException.class)
+	public ResponseEntity<?> handlerNullPointerException(NullPointException e){
+		return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+	}
 
 }

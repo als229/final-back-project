@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.finalproject.report.model.dao.ReportCategoryMapper">
+
+  <!-- 신고유형 저장 -->
+  <insert 
+    id="addByReportCategory" 
+    parameterType="com.kh.finalproject.report.model.vo.ReportCategoryVO">
+    INSERT 
+      INTO  TB_REPORT_CATEGORY 
+        (
+            CATEGORY_NO
+          , CATEGORY_NAME
+        )
+    VALUES 
+        (
+            SEQ_CATEGORY_NO.NEXTVAL
+          , #{categoryName}
+        )
+  </insert>
+
+  <!-- 신고유형 수정 -->
+  <update 
+    id="updateByReportCategory" 
+    parameterType="com.kh.finalproject.report.model.vo.ReportCategoryVO">
+    UPDATE  TB_REPORT_CATEGORY
+       SET  CATEGORY_NAME = #{categoryName}
+     WHERE  CATEGORY_NO = #{categoryNo}
+
+  </update>
+
+  <!-- 신고유형 삭제 -->
+  <delete 
+    id="removeByReportCategory" 
+    parameterType="Long">
+    DELETE  
+      FROM  TB_REPORT_CATEGORY
+     WHERE  CATEGORY_NO = #{categoryNo}
+  </delete>
+
+  <!-- 신고유형 조회 -->
+  <select 
+    id="findByReportCategory" 
+    resultType="com.kh.finalproject.report.model.dto.ReportCategoryDTO">
+    SELECT  CATEGORY_NO
+          , CATEGORY_NAME
+      FROM  TB_REPORT_CATEGORY
+  </select>
+
+</mapper>

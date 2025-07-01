@@ -16,7 +16,7 @@
         )
     VALUES
         (
-            #{sidoNo}
+            SEQ_SIDO_NO.NEXTVAL
           , #{sidoName}
         )
   </insert>

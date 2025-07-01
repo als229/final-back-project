@@ -1,5 +1,7 @@
 package com.kh.finalproject.global.map.model.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.kh.finalproject.global.map.model.dto.DongDTO;
@@ -14,5 +16,5 @@ public interface DongMapper {
 
   void deleteByDong(Long dongNo);
 
-  DongDTO findByDong(Long dongNo);
+  List<DongDTO> findByDong(Long sigunguNo);
 }
