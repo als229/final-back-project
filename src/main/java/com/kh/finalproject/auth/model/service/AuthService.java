@@ -2,6 +2,7 @@ package com.kh.finalproject.auth.model.service;
 
 
 
+import com.kh.finalproject.auth.model.dto.EmailDTO;
 import com.kh.finalproject.auth.model.dto.FindDTO;
 import com.kh.finalproject.auth.model.dto.FindResponseDTO;
 import com.kh.finalproject.auth.model.dto.LoginDTO;
@@ -16,5 +17,9 @@ public interface AuthService {
 	
 	FindResponseDTO findPw(FindDTO findDTO);
 	
-	String sendEmailCode(String email);
+	int sendEmailCode(String email);
+	
+	EmailDTO verifyCode(EmailDTO emailDTO);
+	
+	
 }
