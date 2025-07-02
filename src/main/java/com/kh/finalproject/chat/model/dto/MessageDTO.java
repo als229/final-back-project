@@ -22,6 +22,7 @@ public class MessageDTO {
     private String realname;
     private String userId;
     private String createTime;
-    private String userImg
+    private String userImg;
     private LocalDateTime createdDate;
+    private boolean mine;
 }

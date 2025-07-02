@@ -24,8 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WebSocketHandler extends TextWebSocketHandler  {
 	
-	private final Set<WebSocketSession> users = new HashSet();
-	private final Map<String, Set<WebSocketSession>> rooms = new ConcurrentHashMap();
+	private final Map<String, Map<Long, WebSocketSession>> rooms = new ConcurrentHashMap<>();
 	private final ChatMapper chatMapper;
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	
@@ -35,61 +34,86 @@ public class WebSocketHandler extends TextWebSocketHandler  {
 		System.out.println(session);
 		
 		String roomId = getRoomId(session);
+	    NwUserDetails loginUser = (NwUserDetails) session.getAttributes().get("principal");
+	    long userNo = loginUser.getUserNo();
 
-		if (!"".equals(roomId)) {
-			rooms.computeIfAbsent(roomId, k -> ConcurrentHashMap.newKeySet()).add(session);
-		}
+	    // 방별 내부 맵 가져오기 (없으면 생성)
+	    Map<Long, WebSocketSession> userSessions = rooms.computeIfAbsent(roomId, r -> new ConcurrentHashMap<>());
+
+        WebSocketSession oldSession = userSessions.put(userNo, session);
+	    
+        if (oldSession != null && oldSession.isOpen()) {
+            oldSession.close(
+              CloseStatus.POLICY_VIOLATION
+                         .withReason("새 창에서 재접속되어 이전 연결을 종료합니다.")
+            );
+        }
 	}
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		System.out.println("메시지 송신자 : " + session);
-		System.out.println("수신된 메시지 : " + message.getPayload());
-		String roomId = getRoomId(session);
-		if (roomId == null) return;
-		System.out.println(message.getPayload());
-		
-        NwUserDetails loginUser =
-                (NwUserDetails) session.getAttributes().get("principal");
+	    String roomId = getRoomId(session);
+	    if (roomId == null || roomId.isEmpty()) return;
 
-        MessageDTO chatMessage = objectMapper.readValue(message.getPayload(), MessageDTO.class);
-		
-		Message requestData = null;
-		
-		requestData = Message.builder()
-				.roomNo(Long.parseLong(roomId))
-				.userNo(loginUser.getUserNo())
-				.messageContent(chatMessage.getMessageContent())
-				.build();
+	    Map<Long, WebSocketSession> userSessions = rooms.get(roomId);
+	    if (userSessions == null) return;
 
-		// 메시지 저장
-		chatMapper.insertMessage(requestData);
+	    // 1) 메시지 보낸 사람(현재 세션)의 사용자 정보
+	    NwUserDetails loginUser = (NwUserDetails) session.getAttributes().get("principal");
+	    long realUserNo = loginUser.getUserNo();
+	    String realNickname = loginUser.getUsername();
 
-		// 나와 같은방인 친구들에게만 브로드캐스트
+	    // 2) 클라이언트가 보낸 payload 에서 content 만 꺼내기
+	    MessageDTO incoming = objectMapper.readValue(message.getPayload(), MessageDTO.class);
+	    String content = incoming.getMessageContent();
 
-		// Set<WebSocketSession> currentRoom = rooms.get(roomId);
-		TextMessage textMessage = new TextMessage(objectMapper.writeValueAsString(chatMessage));
+	    // 3) DB 저장 (userNo는 반드시 realUserNo 사용)
+	    Message requestData = Message.builder()
+	        .roomNo(Long.parseLong(roomId))
+	        .userNo(realUserNo)
+	        .messageContent(content)
+	        .build();
+	    chatMapper.insertMessage(requestData);
 
-		for (WebSocketSession user : rooms.getOrDefault(roomId, Collections.emptySet())) {
-			if (user.isOpen()) {
-				user.sendMessage(textMessage);
-			}
-		}
+	    // 4) 브로드캐스트: 각 세션마다 mine 계산해서 전송
+	    for (WebSocketSession userSess : userSessions.values()) {
+	        if (!userSess.isOpen()) continue;
+
+	        NwUserDetails receiver = (NwUserDetails) userSess.getAttributes().get("principal");
+	        long receiverUserNo = receiver.getUserNo();
+	        boolean isMineForThisClient = (receiverUserNo == realUserNo);  // 변경된 부분
+
+	        // 5) outbound DTO 구성
+	        MessageDTO outbound = new MessageDTO();
+	        outbound.setRoomNo(requestData.getRoomNo());
+	        outbound.setUserNo(realUserNo);
+	        outbound.setNickname(realNickname);
+	        outbound.setMessageContent(content);
+	        outbound.setCreateTime(incoming.getCreateTime());
+	        outbound.setMine(isMineForThisClient);
+
+	        // 6) 해당 세션에만 보내기
+	        userSess.sendMessage(new TextMessage(objectMapper.writeValueAsString(outbound)));  // 변경된 부분
+	    }
 	}
 
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		System.out.println("전화 끊었습니다.");
 		String roomId = getRoomId(session);
-		if (!"".equals(roomId)) {
-			Set<WebSocketSession> users = rooms.get(roomId);
-			if (users != null) {
-				users.remove(session);
-				if (users.isEmpty()) {
-					rooms.remove(roomId);
-				}
-			}
-		}
+	    if (roomId == null || roomId.isEmpty()) return;
+	    
+	    Map<Long, WebSocketSession> userSessions = rooms.get(roomId);
+	    if (userSessions == null) return;
+
+        long userNo = ((NwUserDetails) session.getAttributes().get("principal")).getUserNo();
+        WebSocketSession mapped = userSessions.get(userNo);
+		
+        if (mapped != null && mapped.getId().equals(session.getId())) {
+            userSessions.remove(userNo);
+            if (userSessions.isEmpty()) {
+                rooms.remove(roomId);
+            }
+        }
 
 	}
 
