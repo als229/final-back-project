@@ -17,4 +17,5 @@ public interface AuthService {
 	FindResponseDTO findPw(FindDTO findDTO);
 	
 	String sendEmailCode(String email);
+	
 }

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.kh.finalproject.exception.exceptions;
 
 public class LoginFailedException extends RuntimeException {
@@ -6,3 +7,13 @@ public class LoginFailedException extends RuntimeException {
 		super(message);
 	}
 }
+=======
+package com.kh.finalproject.exception.exceptions;
+
+public class LoginFailedException extends RuntimeException {
+	
+	public LoginFailedException(String message) {
+		super(message);
+	}
+}
+>>>>>>> 14bb0b289dfcc48286ea4423a381750433ac9468
