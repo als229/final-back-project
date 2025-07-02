@@ -93,7 +93,7 @@ public class LodgingServiceImpl implements LodgingService {
   @Override
   public List<?> findByLodging() {
 
-    List<ContentDTO> list = contentMapper.findByContent(1L);
+    List<ContentDTO> list = contentMapper.findByContent(3L);
     return list; 
   }
 

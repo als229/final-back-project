@@ -2,12 +2,12 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kh.finalproject.diner.model.dao.DinerMapper">
+<mapper namespace="com.kh.finalproject.tour.model.dao.TourMapper">
 
-  <!-- DinerDTO -->
+  <!-- TourDTO -->
   <resultMap
     id="resultMap"
-    type="com.kh.finalproject.diner.model.dto.DinerDTO">
+    type="com.kh.finalproject.tour.model.dto.TourDTO">
     <id property="contentId" column="CONTENT_ID"/>
     <result property="categoryCode" column="CATEGORY_CODE"/>
     <result property="title" column="TITLE"/>
@@ -18,15 +18,14 @@
     <result property="createdTime" column="CREATED_TIME"/>
     <result property="modifiedTime" column="MODIFIED_TIME"/>
     <result property="status" column="STATUS"/>
-    <result property="foodExp" column="FOOD_EXP"/>
-    <result property="mainMenu" column="MAIN_MENU"/>
-    <result property="menu" column="MENU"/>
+    <result property="tourExp" column="TOUR_EXP"/>
+    <result property="usetimeTour" column="USETIME_TOUR"/>
     <result property="parking" column="PARKING"/>
   </resultMap>
 
-  <!-- 맛집 상세 조회 -->
+  <!-- 관광지 상세 조회 -->
   <select
-    id="findByDinerId"
+    id="findByTourId"
     resultMap="resultMap"
     parameterType="long">
     SELECT  c.CONTENT_ID
@@ -39,12 +38,11 @@
           , c.CREATED_TIME
           , c.MODIFIED_TIME
           , c.STATUS
-          , f.FOOD_EXP
-          , f.MAIN_MENU
-          , f.MENU
-          , f.PARKING
+          , t.TOUR_EXP
+          , t.USETIME_TOUR
+          , t.PARKING
       FROM  TB_CONTENT c
-      JOIN  TB_FOOD f   ON(c.CONTENT_ID = f.CONTENT_ID)
+      JOIN  TB_TOUR t   ON(c.CONTENT_ID = t.CONTENT_ID)
      WHERE  CONTENT_ID = #{contentId}
        AND  c.STATUS = 'Y'
      ORDER
@@ -52,38 +50,35 @@
           , c.MODIFIED_TIME DESC
   </select>
 
-  <!-- 맛집 저장 -->
+  <!-- 관광지 저장 -->
   <insert
-    id="addByDiner"
-    parameterType="com.kh.finalproject.diner.model.vo.DinerVO">
+    id="addByTour"
+    parameterType="com.kh.finalproject.tour.model.vo.TourVO">
     INSERT 
-      INTO  TB_FOOD
+      INTO  TB_TOUR
         (
             CONTENT_ID
-          , FOOD_EXP
-          , MAIN_MENU
-          , MENU
+          , TOUR_EXP
+          , USETIME_TOUR
           , PARKING
         )
     VALUES
         (
             #{contentId}
-          , #{foodExp}
-          , #{mainMenu}
-          , #{menu}
+          , #{tourExp}
+          , #{usetimeTour}
           , #{parking}
         )
   </insert>
 
-  <!-- 맛집 수정 -->
+  <!-- 관광지 수정 -->
   <update
-    id="updateByDiner"
-    parameterType="com.kh.finalproject.diner.model.vo.DinerVO">
-    UPDATE  TB_FOOD
+    id="updateByTour"
+    parameterType="com.kh.finalproject.tour.model.vo.TourVO">
+    UPDATE  TB_TOUR
     <set>
-      <if test="foodExp != null">FOOD_EXP = #{foodExp},</if>
-      <if test="mainMenu != null">MAIN_MENU = #{mainMenu},</if>
-      <if test="menu != null">MENU = #{menu},</if>
+      <if test="foodExp != null">TOUR_EXP = #{tourExp},</if>
+      <if test="mainMenu != null">USETIME_TOUR = #{usetimeTour},</if>
       <if test="parking != null">PARKING = #{parking},</if>
     </set>
      WHERE  CONTENT_ID = #{contentId}
