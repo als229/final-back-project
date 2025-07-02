@@ -11,6 +11,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,11 +32,21 @@ public class PenaltyController {
   
   @GetMapping
   public ResponseEntity<ResponseData> findByPenalty() {
+
+    List<PenaltyDTO> list = penaltyService.findByPenalty();
+    if( list.isEmpty()) {
+      return ResponseEntity.ok(
+        ResponseData.builder()
+                    .code("R104")
+                    .message("페널티 조회 결과가 없습니다.")
+                    .build()
+      );
+    }
     return ResponseEntity.ok(
       ResponseData.builder()
                   .code("R100")
                   .message("페널티 조회 성공")
-                  .items(penaltyService.findByPenalty())
+                  .items(list)
                   .build()
     );
   }

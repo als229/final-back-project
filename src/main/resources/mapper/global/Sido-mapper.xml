@@ -4,6 +4,23 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.finalproject.global.map.model.dao.SidoMapper">
 
+  <!-- SidoDTO -->
+  <resultMap
+    id="resultMap"
+    type="com.kh.finalproject.global.map.model.dto.SidoDTO">
+    <id property="sidoNo" column="SIDO_NO"/>
+    <result property="sidoName" column="SIDO_NAME"/>
+  </resultMap>
+
+  <!-- 시도 조회 -->
+  <select
+    id="findBySido"
+    resultMap="resultMap">
+    SELECT  SIDO_NO
+          , SIDO_NAME
+      FROM  TB_SIDO
+  </select>
+
   <!-- 시도 저장 -->
   <insert
     id="addBySido"
@@ -40,14 +57,5 @@
       FROM  TB_SIDO
      WHERE  SIDO_NO = #{sidoNo}
   </delete>
-
-  <!-- 시도 조회 -->
-  <select
-    id="findBySido"
-    resultType="com.kh.finalproject.global.map.model.dto.SidoDTO">
-    SELECT  SIDO_NO
-          , SIDO_NAME
-      FROM  TB_SIDO
-  </select>
 
 </mapper>

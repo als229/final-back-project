@@ -4,6 +4,27 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.finalproject.global.map.model.dao.MapMapper">
 
+  <!-- MapDTO -->
+  <resultMap
+    id="resultMap"
+    type="com.kh.finalproject.global.map.model.dto.MapDTO">
+    <id property="contentId" column="CONTENT_ID"/>
+    <result property="mapX" column="MAP_X"/>
+    <result property="mapY" column="MAP_Y"/>
+  </resultMap>
+
+  <!-- 지도 조회 -->
+  <select
+    id="findByMap"
+    resultMap="resultMap"
+    parameterType="Long">
+    SELECT  CONTENT_ID
+          , MAP_X
+          , MAP_Y
+      FROM  TB_MAP
+     WHERE  CONTENT_ID = #{contentId}
+  </select>
+
   <!-- 지도 저장 -->
   <insert
     id="addByMap"
@@ -35,15 +56,4 @@
      WHERE  CONTENT_ID = #{contentId}
   </update>
 
-  <!-- 지도 조회 -->
-  <select
-    id="findByMap"
-    resultType="com.kh.finalproject.global.map.model.dto.MapDTO"
-    parameterType="Long">
-    SELECT  CONTENT_ID
-          , MAP_X
-          , MAP_Y
-      FROM  TB_MAP
-     WHERE  CONTENT_ID = #{contentId}
-  </select>
 </mapper>

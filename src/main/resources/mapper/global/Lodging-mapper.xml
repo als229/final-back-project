@@ -4,10 +4,31 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.finalproject.lodging.model.dao.LodgingMapper">
 
+  <!-- LodgingDTO -->
+  <resultMap
+    id="resultMap"
+    type="com.kh.finalproject.lodging.model.dto.LodgingDTO">
+    <id property="contentId" column="CONTENT_ID"/>
+    <result property="categoryCode" column="CATEGORY_CODE"/>
+    <result property="title" column="TITLE"/>
+    <result property="firstImage" column="FIRST_IMAGE"/>
+    <result property="tel" column="TEL"/>
+    <result property="homepage" column="HOMEPAGE"/>
+    <result property="playTime" column="PLAY_TIME"/>
+    <result property="createdTime" column="CREATED_TIME"/>
+    <result property="modifiedTime" column="MODIFIED_TIME"/>
+    <result property="status" column="STATUS"/>
+    <result property="lodgingExp" column="LODGING_EXP"/>
+    <result property="checkIn" column="CHECK_IN"/>
+    <result property="checkOut" column="CHECK_OUT"/>
+    <result property="parking" column="PARKING"/>
+    <result property="elevator" column="ELEVATOR"/>
+  </resultMap>
+
   <!-- 숙소 상세 조회 -->
   <select
     id="findByLodgingId"
-    resultType="com.kh.finalproject.lodging.model.dto.LodgingDTO"
+    resultMap="resultMap"
     parameterType="long">
     SELECT  c.CONTENT_ID
           , c.CATEGORY_CODE
@@ -25,10 +46,11 @@
           , l.PARKING
           , l.ELEVATOR
       FROM  TB_CONTENT c
-      JOIN  TB_LODGING l ON c.CONTENT_ID = l.CONTENT_ID
+      JOIN  TB_LODGING l  ON(c.CONTENT_ID = l.CONTENT_ID)
      WHERE  c.CONTENT_ID = #{contentId}
        AND  c.STATUS = 'Y'
-     ORDER BY  c.CREATED_TIME DESC
+     ORDER 
+        BY  c.CREATED_TIME DESC
           , c.MODIFIED_TIME DESC
   </select>
 

@@ -35,6 +35,14 @@ public class ReportCategoryController {
   public ResponseEntity<ResponseData> findByReportCategory() {
 
     List<ReportCategoryDTO> list = reportCategoryService.findByReportCategory();
+    if( list.isEmpty()) {
+      return ResponseEntity.ok(
+        ResponseData.builder()
+                    .code("R104")
+                    .message("카테고리 조회 결과가 없습니다.")
+                    .build()
+      );
+    }
     return ResponseEntity.ok(
       ResponseData.builder()
                   .code("R100")

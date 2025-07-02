@@ -4,6 +4,27 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.finalproject.global.map.model.dao.DongMapper">
 
+  <!-- DongDTO -->
+  <resultMap
+    id="resultMap"
+    type="com.kh.finalproject.global.map.model.dto.DongDTO">
+    <id property="dongNo" column="DONG_NO"/>
+    <result property="sigunguNo" column="SIGUNGU_NO"/>
+    <result property="dongName" column="DONG_NAME"/>
+  </resultMap>
+
+  <!-- 동 조회 -->
+  <select
+    id="findByDong"
+    resultMap="resultMap"
+    parameterType="Long">
+    SELECT  DONG_NO
+          , SIGUNGU_NO
+          , DONG_NAME
+      FROM  TB_DONG
+     WHERE  SIGUNGU_NO = #{sigunguNo}
+  </select>
+
   <!-- 동 저장 -->
   <insert
     id="addByDong"
@@ -42,18 +63,6 @@
     DELETE 
       FROM  TB_DONG
      WHERE  DONG_NO = #{dongNo}
-
   </delete>
-
-  <!-- 동 조회 -->
-  <select
-    id="findByDong"
-    resultType="com.kh.finalproject.global.map.model.dto.DongDTO">
-    SELECT  DONG_NO
-          , SIGUNGU_NO
-          , DONG_NAME
-      FROM  TB_DONG
-     WHERE  SIGUNGU_NO = #{sigunguNo}
-  </select>
 
 </mapper>

@@ -4,6 +4,23 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.finalproject.report.model.dao.ReportCategoryMapper">
 
+  <!-- ReportCategoryDTO -->
+  <resultMap
+    id="resultMap"
+    type="com.kh.finalproject.report.model.dto.ReportCategoryDTO">
+    <id property="categoryNo" column="CATEGORY_NO"/>
+    <result property="categoryName" column="CATEGORY_NAME"/>
+  </resultMap>
+
+  <!-- 신고유형 조회 -->
+  <select 
+    id="findByReportCategory" 
+    resultMap="resultMap">
+    SELECT  CATEGORY_NO
+          , CATEGORY_NAME
+      FROM  TB_REPORT_CATEGORY
+  </select>
+
   <!-- 신고유형 저장 -->
   <insert 
     id="addByReportCategory" 
@@ -39,14 +56,5 @@
       FROM  TB_REPORT_CATEGORY
      WHERE  CATEGORY_NO = #{categoryNo}
   </delete>
-
-  <!-- 신고유형 조회 -->
-  <select 
-    id="findByReportCategory" 
-    resultType="com.kh.finalproject.report.model.dto.ReportCategoryDTO">
-    SELECT  CATEGORY_NO
-          , CATEGORY_NAME
-      FROM  TB_REPORT_CATEGORY
-  </select>
 
 </mapper>

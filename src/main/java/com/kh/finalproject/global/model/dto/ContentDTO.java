@@ -20,5 +20,6 @@ public class ContentDTO {
   private String tel;
   private String homepage;
   private String playTime;
-  private String fileUrl;
+  private String createdTime;
+  private String modifiedTime;
 }

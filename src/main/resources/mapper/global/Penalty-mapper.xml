@@ -4,6 +4,23 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.finalproject.report.model.dao.PenaltyMapper">
 
+  <!-- PenaltyDTO -->
+  <resultMap
+    id="resultMap"
+    type="com.kh.finalproject.report.model.dto.PenaltyDTO">
+    <id property="penaltyNo" column="PENALTY_NO"/>
+    <result property="penaltyName" column="PENALTY_NAME"/>
+  </resultMap>
+
+  <!-- 제재유형 조회 -->
+  <select 
+    id="findByPenalty" 
+    resultMap="resultMap">
+    SELECT  PENALTY_NO
+          , PENALTY_NAME
+      FROM  TB_PENALTY
+  </select>
+  
   <!-- 제재유형 저장 -->
   <insert 
     id="addByPenalty" 
@@ -38,14 +55,5 @@
       FROM  TB_PENALTY
      WHERE  PENALTY_NO = #{penaltyNo}
   </delete>
-
-  <!-- 제재유형 조회 -->
-  <select 
-    id="findByPenalty" 
-    resultType="com.kh.finalproject.report.model.dto.PenaltyDTO">
-    SELECT  PENALTY_NO
-          , PENALTY_NAME
-      FROM  TB_PENALTY
-  </select>
 
 </mapper>

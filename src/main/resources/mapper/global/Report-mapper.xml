@@ -4,6 +4,23 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.finalproject.report.model.dao.ReportMapper">
 
+  <!-- ReportDTO -->
+  <resultMap
+    id="resultMap"
+    type="com.kh.finalproject.report.model.dto.ReportDTO">
+    <id property="reportNo" column="REPORT_NO"/>
+    <result property="reviewNo" column="REVIEW_NO"/>
+    <result property="userNo" column="USER_NO"/>
+    <result property="userName" column="USER_NAME"/>
+    <result property="penaltyNo" column="PENALTY_NO"/>
+    <result property="penaltyName" column="PENALTY_NAME"/>
+    <result property="categoryNo" column="CATEGORY_NO"/>
+    <result property="categoryName" column="CATEGORY_NAME"/>
+    <result property="reportContent" column="REPORT_CONTENT"/>
+    <result property="createdTime" column="CREATED_TIME"/>
+    <result property="status" column="STATUS"/>
+  </resultMap>
+
   <!-- 공통 컬럼 -->
   <sql id="selectByColumns">
       r.REPORT_NO
@@ -18,12 +35,12 @@
   <!-- 신고 목록 조회 -->
   <select 
     id="findByReportList" 
-    resultMap="reportMap">
+    resultMap="resultMap">
     SELECT  <include refid="selectByColumns"/>
       FROM  TB_REPORT r
-      JOIN  TB_USER u ON(r.USER_NO = u.USER_NO)
-      JOIN  TB_REPORT_CATEGORY c ON(r.CATEGORY_NO = c.CATEGORY_NO)
-      JOIN  TB_PENALTY p ON(r.PENALTY_NO = p.PENALTY_NO)
+      JOIN  TB_USER u   ON(r.USER_NO = u.USER_NO)
+      JOIN  TB_REPORT_CATEGORY c  ON(r.CATEGORY_NO = c.CATEGORY_NO)
+      JOIN  TB_PENALTY p  ON(r.PENALTY_NO = p.PENALTY_NO)
     <where>
       <if test="status == 'Y'">r.STATUS = 'Y'</if>
       <if test="status == 'D'">r.STATUS = 'D'</if>
@@ -34,14 +51,14 @@
   <!-- 신고 상세 조회 -->
   <select 
     id="findByReportId" 
-    parameterType="int" 
-    resultMap="reportMap">
+    parameterType="long" 
+    resultMap="resultMap">
     SELECT  <include refid="selectByColumns"/>
           , r.REPORT_CONTENT
       FROM  TB_REPORT r
-      JOIN  TB_USER u ON(r.USER_NO = u.USER_NO)
-      JOIN  TB_REPORT_CATEGORY c ON(r.CATEGORY_NO = c.CATEGORY_NO)
-      JOIN  TB_PENALTY p ON(r.PENALTY_NO = p.PENALTY_NO)
+      JOIN  TB_USER u   ON(r.USER_NO = u.USER_NO)
+      JOIN  TB_REPORT_CATEGORY c  ON(r.CATEGORY_NO = c.CATEGORY_NO)
+      JOIN  TB_PENALTY p  ON(r.PENALTY_NO = p.PENALTY_NO)
      WHERE  r.REPORT_NO = #{id}
   </select>
 
@@ -69,22 +86,5 @@
           , #{reportContent}
         )
   </insert>
-
-  <!-- ReportDTO -->
-  <resultMap
-    id="reportMap"
-    type="com.kh.finalproject.report.model.dto.ReportDTO">
-    <id property="reportNo" column="REPORT_NO"/>
-    <result property="reviewNo" column="REVIEW_NO"/>
-    <result property="userNo" column="USER_NO"/>
-    <result property="userName" column="USER_NAME"/>
-    <result property="penaltyNo" column="PENALTY_NO"/>
-    <result property="penaltyName" column="PENALTY_NAME"/>
-    <result property="categoryNo" column="CATEGORY_NO"/>
-    <result property="categoryName" column="CATEGORY_NAME"/>
-    <result property="reportContent" column="REPORT_CONTENT"/>
-    <result property="createdTime" column="CREATED_TIME"/>
-    <result property="status" column="STATUS"/>
-  </resultMap>
 
 </mapper>

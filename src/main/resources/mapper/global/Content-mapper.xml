@@ -4,10 +4,25 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.finalproject.global.model.dao.ContentMapper">
 
+  <!-- ContentDTO -->
+  <resultMap
+    id="resultMap"
+    type="com.kh.finalproject.global.model.dto.ContentDTO">
+    <id property="contentId" column="CONTENT_ID"/>
+    <result property="categoryCode" column="CATEGORY_CODE"/>
+    <result property="title" column="TITLE"/>
+    <result property="firstImage" column="FIRST_IMAGE"/>
+    <result property="tel" column="TEL"/>
+    <result property="homepage" column="HOMEPAGE"/>
+    <result property="playTime" column="PLAY_TIME"/>
+    <result property="createdTime" column="CREATED_TIME"/>
+    <result property="modifiedTime" column="MODIFIED_TIME"/>
+  </resultMap>
+
   <!-- 공통 컬럼 조회 -->
   <select
     id="findByContent"
-    resultType="com.kh.finalproject.global.model.dto.ContentDTO"
+    resultMap="resultMap"
     parameterType="long">
     SELECT  CONTENT_ID
           , CATEGORY_CODE
@@ -15,14 +30,14 @@
           , FIRST_IMAGE
           , TEL
           , HOMEPAGE
-          , PLAY_TIME
+          , PLAY_TIME 
           , CREATED_TIME
           , MODIFIED_TIME
-          , STATUS
       FROM  TB_CONTENT
      WHERE  STATUS = 'Y'
        AND  CATEGORY_CODE = #{categoryCode}
-     ORDER BY  CREATED_TIME DESC
+     ORDER 
+        BY  CREATED_TIME DESC
           , MODIFIED_TIME DESC
   </select>
 
