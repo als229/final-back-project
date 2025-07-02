@@ -13,7 +13,9 @@ public interface UserService {
 
 	void signUp(UserDTO userDTO);
 	
-	void delete(Long userNo, String refreshToken);
+	int checkUserId(String userId);
+	
+	void delete(Long userNo, String refreshToken, String passowrd);
 
 	void updatePw(UpdatePasswordDTO updatePasswordDTO);
 	
