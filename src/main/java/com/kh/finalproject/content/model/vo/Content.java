@@ -13,7 +13,7 @@ public class Content {
 	
 	private Long categoryCode;
 	private String title;
-	private MultipartFile firstImage;
+	private String firstImageUrl;
 	private String tel;
 	private String homepage;
 	private String playtime;

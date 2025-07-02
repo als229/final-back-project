@@ -40,9 +40,10 @@ public class ContentController {
 	
 	@PostMapping("/")
 	// @PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Void> insertContent(@RequestBody ContentDTO contentDTO) {
+	public ResponseEntity<Void> insertContent(@RequestBody ContentDTO contentDTO ) {
 		
 		Long contentId = contentService.insertContent(contentDTO);
+		
 
 		CoordinateDTO coordinateDTO = contentDTO.getCoordinateDTO();
 		if (coordinateDTO != null) {
