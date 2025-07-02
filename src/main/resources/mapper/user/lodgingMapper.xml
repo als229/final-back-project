@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.finalproject.content.model.mapper.LodgingMapper">
+
+  <insert id="insertLodging"
+  		  parameterType="com.kh.finalproject.content.model.vo.Lodging">
+    INSERT INTO TB_LODGING (
+      CONTENT_ID,
+      LODGING_EXP,
+      CHECK_IN,
+      CHECK_OUT,
+      PARKING,
+      ELEVATOR
+    ) VALUES (
+      #{contentId},
+      #{lodgingExp},
+      #{checkIn},
+      #{checkOut},
+      #{parking},
+      #{elevator}
+    )
+  </insert>
+
+</mapper>
