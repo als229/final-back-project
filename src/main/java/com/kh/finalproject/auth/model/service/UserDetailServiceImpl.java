@@ -24,10 +24,10 @@ public class UserDetailServiceImpl implements UserDetailsService {
 	
 	
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException{
-		
+		System.out.println(userId);
 	UserDTO userDTO = authMapper.loadUserByUserId(userId);
 		
-	
+	System.out.println(userDTO);
 		return NwUserDetails.builder()
 							.userNo(userDTO.getUserNo())
 							.userId(userDTO.getUserId())

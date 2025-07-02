@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.kh.finalproject.exception.exceptions;
 
 public class InvaildFindPwException extends RuntimeException{
@@ -7,13 +6,3 @@ public class InvaildFindPwException extends RuntimeException{
 		super(message);
 	}
 }
-=======
-package com.kh.finalproject.exception.exceptions;
-
-public class InvaildFindPwException extends RuntimeException{
-	
-	public InvaildFindPwException(String message) {
-		super(message);
-	}
-}
->>>>>>> 14bb0b289dfcc48286ea4423a381750433ac9468

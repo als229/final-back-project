@@ -31,7 +31,8 @@ public class AuthController {
 	private final TokenService tokenService;
 	
 	@PostMapping("/auth/tokens")
-	public ResponseEntity<ResponseData> login(@RequestBody @Valid LoginDTO loginDTO) {
+	public ResponseEntity<ResponseData> login(@RequestBody  LoginDTO loginDTO) {
+
 		
 		LoginResponseDTO loginResponse = authService.login(loginDTO);
 		

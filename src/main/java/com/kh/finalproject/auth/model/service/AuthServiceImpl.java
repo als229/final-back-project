@@ -38,9 +38,11 @@ public class AuthServiceImpl implements AuthService {
 	public LoginResponseDTO login(LoginDTO loginDTO) {
 	    String userId = loginDTO.getUserId();
 	    String password = loginDTO.getPassword();
-
+	    System.out.println(authMapper.loadUserByUserId(userId));
 	    Authentication authentication = null;
 	    try {
+	    	System.out.print("userId : " + userId);
+	    	System.out.print("password : " + password);
 	        authentication = authenticationManager.authenticate(
 	            new UsernamePasswordAuthenticationToken(userId, password)  
 	        );
