@@ -49,12 +49,33 @@ public class UserController {
 		return ResponseEntity.ok(responseData);
 	}
 	
+	
+	@GetMapping("/users/check-id")
+	public ResponseEntity<ResponseData> checkUserId(@RequestParam("userId") String userId ){
+		
+		System.out.println("123123");
+		int checkId = userService.checkUserId(userId);
+		System.out.println("멍멍 : "  +checkId);
+		ResponseData responseData = ResponseData.builder()
+												.code("A100")
+												.items(checkId)
+												.message("아이디 중복확인")
+												.build();
+		
+		return ResponseEntity.ok(responseData);
+		
+	}
+	
+	
+	
 	@DeleteMapping("/users/delete")
-	public ResponseEntity<ResponseData> delete(@AuthenticationPrincipal NwUserDetails user, @RequestBody Map<String, String> refreshToken){
+	public ResponseEntity<ResponseData> delete(@AuthenticationPrincipal NwUserDetails user, @RequestBody Map<String, String> deleteInfo){
 		
-		String delRefrshToken = refreshToken.get("refreshToken");
 		
-		userService.delete(user.getUserNo(),delRefrshToken);
+		String refreshToken = deleteInfo.get("refreshToken");
+		String password =deleteInfo.get("password");
+		
+		userService.delete(user.getUserNo(),refreshToken,password);
 		
 		ResponseData responseData = ResponseData.builder()
 												.code("A100")
@@ -68,8 +89,8 @@ public class UserController {
 	@PutMapping("/users/update-pw")
 	public ResponseEntity<ResponseData> updatePw(@AuthenticationPrincipal NwUserDetails user, @RequestBody UpdatePasswordDTO updatePasswordDTO){
 		
-		updatePasswordDTO.setUserNo(user.getUserNo());
 		
+		updatePasswordDTO.setUserNo(user.getUserNo());
 		userService.updatePw(updatePasswordDTO);
 		
 		ResponseData responseData = ResponseData.builder()
@@ -81,17 +102,16 @@ public class UserController {
 		
 	}
 	
-	/// S3 버킷만들어야함
 	@GetMapping("/users/select-profile")
 	public ResponseEntity<ResponseData> selectProfile(@AuthenticationPrincipal NwUserDetails user){
 		
 		
 		
-		UserDTO response = userService.selectProfile(user.getUserNo());
+		UserDTO profileInfo = userService.selectProfile(user.getUserNo());
 		
 		ResponseData responseData = ResponseData.builder()
 												.code("A100")
-												.items(response)
+												.items(profileInfo)
 												.message("프로필 조회 성공")
 												.build();
 		return ResponseEntity.ok(responseData);
@@ -102,6 +122,8 @@ public class UserController {
 	@PutMapping("/users/update-profile")
 	public ResponseEntity<ResponseData> updateProfile(@AuthenticationPrincipal NwUserDetails user,
 													  @RequestParam("file") MultipartFile file){
+		
+		
 		
 		
 		userService.updateProfile(user.getUserNo(), file);

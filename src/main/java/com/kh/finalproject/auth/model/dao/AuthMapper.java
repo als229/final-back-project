@@ -18,11 +18,16 @@ public interface AuthMapper {
 	
 	FindResponseDTO selectByfindId(FindDTO findDTO);
 	
+	
+	
 	void tempPassword (Map<String, String>  tempInfo);
 	
 	FindResponseDTO selectEmail (FindDTO findDTO);
 	
 	FindResponseDTO selectByfindPw(FindDTO findDTO);
+	
+	
+	
 	
 	int sendEmailCode(EmailCodeVO emailCodeInfo);
 	
@@ -30,7 +35,7 @@ public interface AuthMapper {
 	
 	int deleteEmailCode(EmailDTO emailDTO);
 	
-	void delete(Map<String, Object> deleteInfo);
+	//void delete(Map<String, Object> deleteInfo);
 	
 	
 	

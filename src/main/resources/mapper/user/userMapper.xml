@@ -67,7 +67,7 @@
   </insert>
   
   <delete id="deleteUser"
-  	      parameterType="map">
+  	      parameterType="long">
 	  
 	  	DELETE
 	  	FROM 
@@ -100,7 +100,6 @@
 		  WHERE
 		  		USER_NO = #{userNo}	  		
   		  
-  		  
   </update>
   
   <select id="selectProfile"
@@ -108,16 +107,16 @@
   		  resultType="com.kh.finalproject.user.model.dto.UserDTO">
   
   		SELECT
-  				NICKNAME nickName,
-  				REALNAME realName,
-  				EMAIL email,
-  				FILE_URL fileUrl
+  				U.NICKNAME nickName,
+  				U.REALNAME realName,
+  				U.EMAIL email,
+  				P.FILE_URL fileUrl
   		FROM
-  				TB_PROFILE P
-  		JOIN
-  				TB_USER U ON P.USER_NO = U.USER_NO
+  				TB_USER U
+  	LEFT JOIN
+  				TB_PROFILE P ON U.USER_NO = P.USER_NO
   		WHERE
-  				USER_NO = #{userNo}
+  				U.USER_NO = #{userNo}
   
   </select>
   
@@ -152,12 +151,12 @@
   		  resultType="com.kh.finalproject.user.model.dto.MypageDTO">
   
   		SELECT
-  				TITLE title,
-  				FIRST_IMAGE firstImage,
-  				CATEGORY category,
-  				CONTENT content,
-  				CREATED_TIME createTime,
-  				FILE_URL fileUrl
+  				C.TITLE title,
+  				C.FIRST_IMAGE firstImage,
+  				C.CATEGORY_CODE category,
+  				R.CONTENT content,
+  				R.CREATED_TIME createTime,
+  				F.FILE_URL fileUrl
   		FROM
   				TB_REVIEW R
   		JOIN

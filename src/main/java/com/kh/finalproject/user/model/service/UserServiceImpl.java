@@ -56,19 +56,33 @@ public class UserServiceImpl implements UserService {
 		
 		userMapper.signUp(userDTO); 
 		
+		
+		
 	}
+	@Override
+	public int checkUserId(String userId) {
+		
+		return userMapper.existsByUserId(userId);
+		
+	
+	}
+	
+	
 
 	@Override
-	public void delete(Long userNo, String refreshToken) {
+	public void delete(Long userNo, String refreshToken, String password) {
 		
-		Map<String, Object> deleteInfo = new HashMap();
-		deleteInfo.put("userNo", userNo);
-		deleteInfo.put("refreshToken", refreshToken);
-				
-		 userMapper.deleteUser(deleteInfo);
-		 tokenMapper.deleteUserToken(deleteInfo);
+			String realPassword = userMapper.findPasswordByUserNo(userNo);
+		
+		
+		if(!passwordEncoder.matches(password,realPassword)){
+			throw new InvaildPasswordException ("비밀번호가 일치하지 않습니다");
+			}
+		 userMapper.deleteUser(userNo);
+		 tokenMapper.deleteUserToken(userNo);	
 			
-	}
+}
+
 
 	@Override
 	public void updatePw(UpdatePasswordDTO updatePasswordDTO) {
@@ -137,6 +151,11 @@ public class UserServiceImpl implements UserService {
 		
 		return favorite;
 	}
+
+
+
+
+	
 
 	
 
