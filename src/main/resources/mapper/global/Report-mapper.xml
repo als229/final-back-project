@@ -11,7 +11,7 @@
     <id property="reportNo" column="REPORT_NO"/>
     <result property="reviewNo" column="REVIEW_NO"/>
     <result property="userNo" column="USER_NO"/>
-    <result property="userName" column="USER_NAME"/>
+    <result property="nickname" column="NICKNAME"/>
     <result property="penaltyNo" column="PENALTY_NO"/>
     <result property="penaltyName" column="PENALTY_NAME"/>
     <result property="categoryNo" column="CATEGORY_NO"/>
@@ -25,7 +25,7 @@
   <sql id="selectByColumns">
       r.REPORT_NO
     , r.REVIEW_NO
-    , u.USER_NAME
+    , u.NICKNAME
     , p.PENALTY_NAME
     , c.CATEGORY_NAME
     , r.CREATED_TIME

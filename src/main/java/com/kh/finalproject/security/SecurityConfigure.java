@@ -49,11 +49,15 @@ public class SecurityConfigure {
 									   "/api/favorite/",
 									   "/api/favorite/**",
 									   "/api/favoriteList",
-									   "/api/festivals/**").permitAll();
+									   "/api/festivals/**",
+										 "/api/systm/reports"
+										 ).permitAll();
 							   request.requestMatchers(HttpMethod.POST,
 									   "/api/region",
 									   "/api/festivals",
-									   "/api/systm/**").hasRole("ADMIN");
+									   "/api/systm/penaltys",
+									   "/api/systm/reportCategorys"
+										 ).hasRole("ADMIN");
 							  
 							   request.requestMatchers(HttpMethod.DELETE,
 									  "/api/auth/**").permitAll();
@@ -67,7 +71,9 @@ public class SecurityConfigure {
 									  "/api/festivals",
 									  "/api/festivals/**",
 									  "/api/lodgings",
-									  "/api/diners").hasRole("ADMIN");
+									  "/api/diners",
+										"/api/systm/**"
+										).hasRole("ADMIN");
 							  
 							   
 							   request.requestMatchers(HttpMethod.PUT, 
@@ -80,7 +86,9 @@ public class SecurityConfigure {
 										  "/api/lodgings",
 										  "/api/lodgings/**",
 										  "/api/diners",
-										  "/api/diners/**").hasRole("ADMIN");
+										  "/api/diners/**",
+											"/api/systm/**"
+											).hasRole("ADMIN");
 							   
 							   request.requestMatchers(HttpMethod.GET,
 									   "/api/users/check-id",
@@ -89,11 +97,18 @@ public class SecurityConfigure {
 									   "/api/users/festivals",
 									   "/api/lodgings",
 									   "/api/diners",
-									   "/api/diners/**").permitAll();
+									   "/api/diners/**",
+										 "/api/systm/reportCategorys"
+										 ).permitAll();
 							   request.requestMatchers(HttpMethod.GET,
 									   "/api/users/comments",
 										  "/api/users/**"
 										).authenticated();
+							   request.requestMatchers(HttpMethod.GET,
+									   "/api/systm/penaltys",
+										 "/api/systm/reports"
+										).hasRole("ADMIN");
+
 							   
 	                       })
 	                       
@@ -127,7 +142,7 @@ public class SecurityConfigure {
 		configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
 		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));	
-		//configuration.setAllowCredentials(true);
+		configuration.setAllowCredentials(true);
 		
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		
