@@ -2,8 +2,10 @@ package com.kh.finalproject.auth.model.service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
 
-
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -11,11 +13,15 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.kh.finalproject.auth.model.dao.AuthMapper;
+import com.kh.finalproject.auth.model.dto.EmailDTO;
 import com.kh.finalproject.auth.model.dto.FindDTO;
 import com.kh.finalproject.auth.model.dto.FindResponseDTO;
 import com.kh.finalproject.auth.model.dto.LoginDTO;
 import com.kh.finalproject.auth.model.dto.LoginResponseDTO;
+import com.kh.finalproject.auth.util.emailUtil.EmailUtil;
+import com.kh.finalproject.auth.vo.EmailCodeVO;
 import com.kh.finalproject.auth.vo.NwUserDetails;
+import com.kh.finalproject.exception.exceptions.EmailCodeException;
 import com.kh.finalproject.exception.exceptions.InvaildFindIdException;
 import com.kh.finalproject.exception.exceptions.InvaildFindPwException;
 import com.kh.finalproject.exception.exceptions.LoginFailedException;
@@ -31,18 +37,17 @@ public class AuthServiceImpl implements AuthService {
 	private final PasswordEncoder passwordEncoder;
 	private final AuthenticationManager authenticationManager;
 	private final TokenService tokenService;
+	private final EmailUtil emailUtil;
 	
 	
-
+	
 	@Override
 	public LoginResponseDTO login(LoginDTO loginDTO) {
 	    String userId = loginDTO.getUserId();
 	    String password = loginDTO.getPassword();
-	    System.out.println(authMapper.loadUserByUserId(userId));
+
 	    Authentication authentication = null;
 	    try {
-	    	System.out.print("userId : " + userId);
-	    	System.out.print("password : " + password);
 	        authentication = authenticationManager.authenticate(
 	            new UsernamePasswordAuthenticationToken(userId, password)  
 	        );
@@ -52,7 +57,7 @@ public class AuthServiceImpl implements AuthService {
 		
 		NwUserDetails nwUserDetails = (NwUserDetails) authentication.getPrincipal();
 		
-		String acceessToken = tokenService.generateAccessToken(userId);
+		String accessToken = tokenService.generateAccessToken(userId);
 		String refreshToken = tokenService.generateRefreshToken(nwUserDetails.getUserNo(),userId);
 		
 	
@@ -61,7 +66,7 @@ public class AuthServiceImpl implements AuthService {
 							   .realName(nwUserDetails.getRealName())
 							   .nickName(nwUserDetails.getNickName())
 							   .email(nwUserDetails.getEmail())
-							   .accessToken(acceessToken)
+							   .accessToken(accessToken)
 							   .refreshToekn(refreshToken)
 							   .build();
 	}
@@ -75,7 +80,14 @@ public class AuthServiceImpl implements AuthService {
 			throw new InvaildFindIdException("존재하지 않는 아이디입니다");
 		}
 		
+		String findId = selectByfindId.getUserId();
 		
+		SimpleMailMessage messageId = new SimpleMailMessage();
+		messageId.setTo(selectByfindId.getEmail());
+		messageId.setSubject("아이디 안내");
+		messageId.setText("가입하신 아이디는 [" + findId + "]입니다 ");
+		
+		emailUtil.sendMailId(messageId);
 		return selectByfindId;
 	}
 
@@ -86,17 +98,65 @@ public class AuthServiceImpl implements AuthService {
 		if(selsectByPw == null) {
 			throw new InvaildFindPwException("존재하지 않는 아이디 입니다");
 		}
+		String tempPassword = UUID.randomUUID().toString().replace("-", "").substring(0,10);
+		String encodedTempPw = passwordEncoder.encode(tempPassword);
 		
-		
-		return selsectByPw;
+		 Map<String, String> tempInfo = new HashMap<>();
+		 tempInfo.put("userId", findDTO.getUserId());
+		 tempInfo.put("encodedTempPw", encodedTempPw);
+		 
+		 authMapper.tempPassword(tempInfo);
+
+		 FindResponseDTO modifyInfo = authMapper.selectEmail(findDTO);
+		 
+		  SimpleMailMessage messagePw = new SimpleMailMessage();
+		  messagePw.setTo(modifyInfo.getEmail());
+		  messagePw.setSubject("임시 비밀번호 안내");
+		  messagePw.setText("임시 비밀번호는 ["+ tempPassword + "]\n로그인 후 반드시 변경해주세요");
+		 
+		  emailUtil.sendMailPw(messagePw);
+		 return modifyInfo;
 	}
 
 
 	@Override
-	public String sendEmailCode(String email) {
+	public int sendEmailCode(String email) {
 		
 		
-		return null;
+		
+		String code = String.format("%06d", new Random().nextInt(999999));
+		
+		EmailCodeVO emailCodeInfo = new EmailCodeVO();
+		emailCodeInfo.setCode(code);
+		emailCodeInfo.setEmail(email);
+		
+		int response = authMapper.sendEmailCode(emailCodeInfo);
+		
+		// 이메일 보내기 시작
+		
+		SimpleMailMessage message = new SimpleMailMessage();
+		System.out.println(email);
+		message.setTo(email);
+		message.setSubject("이메일 인증번호 안내");
+		message.setText("인증번호는 ["+ code +"] 입니다. ");
+		
+		emailUtil.sendMail(message);
+		
+		return response;
+	}
+
+	@Override
+	public EmailDTO verifyCode(EmailDTO emailDTO) {
+		
+		EmailCodeVO emailCodeInfoVO = authMapper.verifyCode(emailDTO);
+		
+		if(emailCodeInfoVO == null) {
+			throw new EmailCodeException("이메일 또는 인증번호가 잘못되었습니다.");
+		}
+		
+		authMapper.deleteEmailCode(emailDTO);
+		
+		return emailDTO;
 	}
 
 	

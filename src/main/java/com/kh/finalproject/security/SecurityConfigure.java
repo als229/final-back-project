@@ -42,6 +42,7 @@ public class SecurityConfigure {
 							   request.requestMatchers("/admin/**").hasRole("ADMIN");
 							  
 							   request.requestMatchers(HttpMethod.POST,
+									   "/api/auth/tokens",
 									   "/api/users",
 									   "/api/users/**",
 									   "/api/auth/**",
@@ -57,8 +58,9 @@ public class SecurityConfigure {
 							   request.requestMatchers(HttpMethod.DELETE,
 									  "/api/auth/**").permitAll();
 							   
-							   request.requestMatchers(HttpMethod.DELETE, 
+							   request.requestMatchers(HttpMethod.DELETE,
 									   "/api/users",
+									   "/api/users/delete",
 									   "/api/commnet/**").authenticated();
 							   request.requestMatchers(HttpMethod.DELETE,
 									  "/api/region/**",
@@ -67,9 +69,10 @@ public class SecurityConfigure {
 									  "/api/lodgings",
 									  "/api/diners").hasRole("ADMIN");
 							  
-							   request.requestMatchers(HttpMethod.PUT,
-										 "/api/comment").permitAll();
+							   
 							   request.requestMatchers(HttpMethod.PUT, 
+									   "/api/users/update-nickname",
+									   "/api/users/update-pw",
 										  "/api/users/**").authenticated();
 							   request.requestMatchers(HttpMethod.PUT,
 										  "/api/region/**",
@@ -80,13 +83,15 @@ public class SecurityConfigure {
 										  "/api/diners/**").hasRole("ADMIN");
 							   
 							   request.requestMatchers(HttpMethod.GET,
+									   "/api/users/check-id",
 									   "/api/region/**",
-									   "/api/commnet/**",
-									   "/api/festivals",
+									   "/api/users/comments",
+									   "/api/users/festivals",
 									   "/api/lodgings",
 									   "/api/diners",
 									   "/api/diners/**").permitAll();
-							   request.requestMatchers(HttpMethod.GET, 
+							   request.requestMatchers(HttpMethod.GET,
+									   "/api/users/comments",
 										  "/api/users/**"
 										).authenticated();
 							   

@@ -20,14 +20,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserDetailServiceImpl implements UserDetailsService {
 
-	private AuthMapper authMapper;
+	private final AuthMapper authMapper;
 	
 	
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException{
-		System.out.println(userId);
+		
 	UserDTO userDTO = authMapper.loadUserByUserId(userId);
 		
-	System.out.println(userDTO);
+	
 		return NwUserDetails.builder()
 							.userNo(userDTO.getUserNo())
 							.userId(userDTO.getUserId())

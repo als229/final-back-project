@@ -59,11 +59,10 @@ public class JwtFilter extends OncePerRequestFilter{
 		 } catch (JwtException e) {
 			 log.warn("유효하지 않은 토큰입니다: {} ", e.getMessage());
 		 }
-	
-	
+			
+			filterChain.doFilter(request, response);
 	}
 
-	
 	
 	
 	

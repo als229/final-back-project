@@ -22,7 +22,6 @@ public class ContentServiceImpl implements ContentService{
 		Content requestData = Content.builder()
 				.categoryCode(content.getCategoryCode())
 				.title(content.getTitle())
-				.firstImage(content.getFirstImage())
 				.tel(content.getTel())
 				.homepage(content.getHomepage())
 				.playtime(content.getPlaytime())
