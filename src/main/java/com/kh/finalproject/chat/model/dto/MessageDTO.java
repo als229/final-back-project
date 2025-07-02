@@ -21,5 +21,7 @@ public class MessageDTO {
     private String nickname;
     private String realname;
     private String userId;
+    private String createTime;
+    private String userImg
     private LocalDateTime createdDate;
 }

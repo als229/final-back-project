@@ -44,7 +44,7 @@ public class WebSocketHandler extends TextWebSocketHandler  {
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		System.out.println("메시지 송신자 : " + session);
-		System.out.println("수신된 메시지 : " + message);
+		System.out.println("수신된 메시지 : " + message.getPayload());
 		String roomId = getRoomId(session);
 		if (roomId == null) return;
 		System.out.println(message.getPayload());

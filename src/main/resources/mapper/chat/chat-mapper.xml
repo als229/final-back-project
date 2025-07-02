@@ -61,6 +61,7 @@
         	, ROOM_NO AS roomNo
         	, M.USER_NO AS userNo
         	, MESSAGE_CONTENT AS messageContent
+        	, TO_CHAR(CREATED_DATE, 'HH24:MI') AS createTime
         	, CREATED_DATE AS createdDate
         	, U.NICKNAME AS nickname
         	, U.REALNAME AS realname
