@@ -14,6 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class MypageDTO {
 
+	
 	private String title;
 	private String firstImage;
 	private String category;

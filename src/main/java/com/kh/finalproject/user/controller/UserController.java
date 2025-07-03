@@ -153,7 +153,6 @@ public class UserController {
 	public ResponseEntity<ResponseData> selectComments(@AuthenticationPrincipal NwUserDetails user){
 		
 		List<MypageDTO> response = userService.selectComments(user.getUserNo());
-		
 		ResponseData responseData = ResponseData.builder()
 												.code("A100")
 												.items(response)
@@ -169,6 +168,7 @@ public class UserController {
 		
 		List<MypageDTO> response = userService.selectFavorite(user.getUserNo());
 		
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@" +response);
 		ResponseData responseData = ResponseData.builder()
 												.code("A100")
 												.items(response)
