@@ -28,7 +28,7 @@ public class DinerServiceImpl implements DinerService {
 
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void addByDiner(DinerDTO dinerDTO, List<MultipartFile> files) {
 
     ContentVO contentVO = ContentVO.builder()
@@ -55,7 +55,7 @@ public class DinerServiceImpl implements DinerService {
 
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void updateByDiner(DinerDTO dinerDTO, List<MultipartFile> files) {
 
     contentMapper.updateByContent(
@@ -82,7 +82,7 @@ public class DinerServiceImpl implements DinerService {
 
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void deleteByDiner(Long Id) {
     contentMapper.deleteByContent(Id);
   }

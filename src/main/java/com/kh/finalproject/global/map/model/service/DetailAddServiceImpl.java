@@ -21,7 +21,7 @@ public class DetailAddServiceImpl implements DetailAddService {
 
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void addByDetailAdd(DetailAddDTO detailAddDTO) {
 
     detailAddMapper.addByDetailAdd(
@@ -36,7 +36,7 @@ public class DetailAddServiceImpl implements DetailAddService {
 
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void updateByDetailAdd(DetailAddDTO detailAddDTO) {
 
     detailAddMapper.updateByDetailAdd(
@@ -52,7 +52,7 @@ public class DetailAddServiceImpl implements DetailAddService {
 
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void deleteByDetailAdd(Long detailAddNo) {
 
     if(detailAddNo == null) { throw new NullPointException("세부주소 번호는 필수입니다."); }

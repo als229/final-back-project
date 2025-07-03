@@ -23,7 +23,7 @@ public class SidoServiceImpl implements SidoService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN')")
     public void addBySido(SidoDTO sidoDTO) {
       
       sidoMapper.addBySido(
@@ -35,7 +35,7 @@ public class SidoServiceImpl implements SidoService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN')")
     public void updateBySido(SidoDTO sidoDTO) {
 
       sidoMapper.updateBySido(
@@ -48,7 +48,7 @@ public class SidoServiceImpl implements SidoService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN')")
     public void deleteBySido(Long sidoNo) {
 
       if(sidoNo == null) { throw new NullPointException("시도 번호는 필수입니다."); }

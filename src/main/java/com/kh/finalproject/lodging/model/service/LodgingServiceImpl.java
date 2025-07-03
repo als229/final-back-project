@@ -28,7 +28,7 @@ public class LodgingServiceImpl implements LodgingService {
 
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void addByLodging(LodgingDTO lodgingDTO, List<MultipartFile> files) {
 
     ContentVO contentVO = ContentVO.builder()
@@ -56,7 +56,7 @@ public class LodgingServiceImpl implements LodgingService {
 
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void updateByLodging(LodgingDTO lodgingDTO, List<MultipartFile> files) {
 
     contentMapper.updateByContent(
@@ -84,7 +84,7 @@ public class LodgingServiceImpl implements LodgingService {
 
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void deleteByLodging(Long id) {
 
     contentMapper.deleteByContent(id);

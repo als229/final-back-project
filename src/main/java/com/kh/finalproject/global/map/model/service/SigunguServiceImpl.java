@@ -23,7 +23,7 @@ public class SigunguServiceImpl implements SigunguService {
   
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void addBySigungu(SigunguDTO sigunguDTO) {
 
     sigunguMapper.addBySigungu(
@@ -35,7 +35,7 @@ public class SigunguServiceImpl implements SigunguService {
 
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void updateBySigungu(SigunguDTO sigunguDTO) {
 
     sigunguMapper.updateBySigungu(
@@ -48,7 +48,7 @@ public class SigunguServiceImpl implements SigunguService {
 
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void deleteBySigungu(Long sigunguNo) {
 
     if(sigunguNo == null) { throw new NullPointException("시군구 번호는 필수입니다."); }

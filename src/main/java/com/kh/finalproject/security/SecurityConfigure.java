@@ -102,14 +102,12 @@ public class SecurityConfigure {
 										 ).permitAll();
 							   request.requestMatchers(HttpMethod.GET,
 									   "/api/users/comments",
-										  "/api/users/**"
+										  "/api/users/**",
+											"/api/systm/reports"
 										).authenticated();
 							   request.requestMatchers(HttpMethod.GET,
-									   "/api/systm/penaltys",
-										 "/api/systm/reports"
+									   "/api/systm/penaltys"
 										).hasRole("ADMIN");
-
-							   
 	                       })
 	                       
 	                      .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -142,7 +140,7 @@ public class SecurityConfigure {
 		configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
 		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));	
-		configuration.setAllowCredentials(true);
+		//configuration.setAllowCredentials(true);
 		
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		

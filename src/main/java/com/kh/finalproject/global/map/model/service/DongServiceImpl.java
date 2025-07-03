@@ -2,7 +2,9 @@ package com.kh.finalproject.global.map.model.service;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.finalproject.exception.exceptions.NullPointException;
 import com.kh.finalproject.global.map.model.dao.DongMapper;
@@ -20,6 +22,8 @@ public class DongServiceImpl implements DongService {
     private final DongMapper dongMapper;
 
     @Override
+    @Transactional
+    //@PreAuthorize("hasRole('ADMIN')")
     public void addByDong(DongDTO dongDTO) {
 
       dongMapper.addByDong(
@@ -31,6 +35,8 @@ public class DongServiceImpl implements DongService {
     }
 
     @Override
+    @Transactional
+    // @PreAuthorize("hasRole('ADMIN')")
     public void updateByDong(DongDTO dongDTO) {
 
       dongMapper.updateByDong(
@@ -43,6 +49,8 @@ public class DongServiceImpl implements DongService {
     }
 
     @Override
+    @Transactional
+    // @PreAuthorize("hasRole('ADMIN')")
     public void deleteByDong(Long dongNo) {
 
       if(dongNo == null) { throw new NullPointException("동 번호는 필수입니다."); }

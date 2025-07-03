@@ -34,7 +34,7 @@
   
   <!-- 신고 목록 조회 -->
   <select 
-    id="findByReportList" 
+    id="findByReport" 
     resultMap="resultMap">
     SELECT  <include refid="selectByColumns"/>
       FROM  TB_REPORT r

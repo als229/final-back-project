@@ -23,7 +23,7 @@ public class PenaltyServiceImpl implements PenaltyService {
 
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void addByPenalty(PenaltyDTO penaltyDTO) {
 
     penaltyMapper.addByPenalty(
@@ -35,7 +35,7 @@ public class PenaltyServiceImpl implements PenaltyService {
 
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void updateByPenalty(PenaltyDTO penaltyDTO) {
 
     penaltyMapper.updateByPenalty(
@@ -48,7 +48,7 @@ public class PenaltyServiceImpl implements PenaltyService {
 
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void deleteByPenalty(Long penaltyNo) {
 
     if(penaltyNo == null) { throw new NullPointException("패널티 번호는 필수입니다."); }

@@ -20,7 +20,7 @@ public class MapServiceImpl implements MapService {
   
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void addByMap(MapDTO mapDTO) {
     
     mapMapper.addByMap(
@@ -34,7 +34,7 @@ public class MapServiceImpl implements MapService {
 
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void updateByMap(MapDTO mapDTO) {
     
     mapMapper.updateByMap(

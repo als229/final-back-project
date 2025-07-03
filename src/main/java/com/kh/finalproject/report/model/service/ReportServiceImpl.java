@@ -38,7 +38,7 @@ public class ReportServiceImpl implements ReportService {
   }
 
   @Override
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public List<ReportDTO> findByReport(String status) {
 
     List<ReportDTO> list = reportMapper.findByReport(status);
@@ -46,7 +46,7 @@ public class ReportServiceImpl implements ReportService {
   }
 
   @Override
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public ReportDTO findByReportId(Long id) {
 
     ReportDTO reportDTO = reportMapper.findByReportId(id);

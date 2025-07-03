@@ -28,7 +28,7 @@ public class TourServiceImpl implements TourService {
 
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void addByTour(TourDTO tourDTO, List<MultipartFile> files) {
 
     ContentVO contentVO = ContentVO.builder()
@@ -54,7 +54,7 @@ public class TourServiceImpl implements TourService {
 
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void updateByTour(TourDTO tourDTO, List<MultipartFile> files) {
 
     contentMapper.updateByContent(
@@ -80,7 +80,7 @@ public class TourServiceImpl implements TourService {
 
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void deleteByTour(Long id) {
 
     contentMapper.deleteByContent(id);

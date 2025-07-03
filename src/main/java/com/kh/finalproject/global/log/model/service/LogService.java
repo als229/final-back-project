@@ -46,6 +46,12 @@ public class LogService {
     addByUserLog(userLogDTO);
   }
 
+  /**
+   * 회원 로그 조회.
+   * 
+   * @param userNo  회원 번호 - !조회 필수
+   * @return        회원 로그 리스트
+   */
   public List<UserLogDTO> findByUserLog(Long userNo) {
     
     List<UserLogDTO> list = logMapper.findByUserLog(userNo);

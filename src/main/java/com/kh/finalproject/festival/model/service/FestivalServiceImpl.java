@@ -28,7 +28,7 @@ public class FestivalServiceImpl implements FestivalService {
 
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void addByFestival(FestivalDTO festivalDTO, List<MultipartFile> files) {
 
     ContentVO contentVO = ContentVO.builder()
@@ -57,7 +57,7 @@ public class FestivalServiceImpl implements FestivalService {
 
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void updateByFestival(FestivalDTO festivalDTO, List<MultipartFile> files) {
 
     contentMapper.updateByContent(
@@ -86,7 +86,7 @@ public class FestivalServiceImpl implements FestivalService {
 
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void deleteByFestival(Long id) {
 
     contentMapper.deleteByContent(id);

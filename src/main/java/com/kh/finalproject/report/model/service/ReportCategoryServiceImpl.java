@@ -23,7 +23,7 @@ public class ReportCategoryServiceImpl implements ReportCategoryService {
 
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void addByReportCategory(ReportCategoryDTO reportCategoryDTO) {
 
     reportCategoryMapper.addByReportCategory(
@@ -35,7 +35,7 @@ public class ReportCategoryServiceImpl implements ReportCategoryService {
 
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void updateByReportCategory(ReportCategoryDTO reportCategoryDTO) {
 
     reportCategoryMapper.updateByReportCategory(
@@ -48,7 +48,7 @@ public class ReportCategoryServiceImpl implements ReportCategoryService {
 
   @Override
   @Transactional
-  @PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   public void deleteByReportCategory(Long categoryNo) {
 
     if(categoryNo == null) { throw new NullPointException("카테고리 번호는 필수입니다."); }
