@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.finalproject.common.S3Util;
 import com.kh.finalproject.exception.exceptions.DuplicateNicknameException;
 import com.kh.finalproject.exception.exceptions.DuplicateUserEmailException;
 import com.kh.finalproject.exception.exceptions.DuplicateUserIdException;
@@ -30,6 +31,7 @@ public class UserServiceImpl implements UserService {
 	private final UserMapper userMapper;
 	private final PasswordEncoder passwordEncoder;
 	private final TokenMapper tokenMapper;
+	private final S3Util s3Util;
 	
 	
 	@Override
@@ -110,9 +112,30 @@ public class UserServiceImpl implements UserService {
 	public UserDTO updateProfile(Long userNo, MultipartFile file) {
 		
 		
-		return null;
+		
+		String fileUrl = s3Util.upLoadFiles(file);
+		userMapper.updateProfile(userNo, fileUrl);	
+		
+		return userMapper.selectProfile(userNo);
 	}
 
+	
+	@Override
+	public void deleteProfile(Long userNo) {
+		
+		
+		UserDTO user = userMapper.selectProfile(userNo);
+		String fileUrl = user.getFileUrl();
+		
+		if(fileUrl!= null && fileUrl.isEmpty()) {
+			s3Util.deleteFiles(fileUrl);
+		}
+		
+		
+		userMapper.deleteProfile(userNo);
+		
+	}
+	
 	
 	@Override
 	public void updateNickname(UserDTO userDTO) {
@@ -151,6 +174,7 @@ public class UserServiceImpl implements UserService {
 		
 		return favorite;
 	}
+	
 
 
 

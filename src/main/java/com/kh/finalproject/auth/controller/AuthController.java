@@ -35,7 +35,7 @@ public class AuthController {
 	
 	@PostMapping("/auth/tokens")
 	public ResponseEntity<ResponseData> login(@RequestBody @Valid LoginDTO loginDTO) {
-		System.out.println("나오나");
+		
 		LoginResponseDTO loginResponse = authService.login(loginDTO);
 		
 		ResponseData responseData = ResponseData.builder()

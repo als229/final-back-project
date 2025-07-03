@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.kh.finalproject.auth.model.dao.AuthMapper;
@@ -29,6 +30,8 @@ import com.kh.finalproject.exception.exceptions.LoginFailedException;
 import com.kh.finalproject.token.model.service.TokenService;
 import com.kh.finalproject.user.model.dao.UserMapper;
 
+
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -41,8 +44,6 @@ public class AuthServiceImpl implements AuthService {
 	private final AuthenticationManager authenticationManager;
 	private final TokenService tokenService;
 	private final EmailUtil emailUtil;
-	
-	
 	
 	@Override
 	public LoginResponseDTO login(LoginDTO loginDTO) {
@@ -166,9 +167,13 @@ public class AuthServiceImpl implements AuthService {
 		
 		return emailDTO;
 	}
+	
+	
+	@Override
+	public NwUserDetails getUserDetails() {
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    NwUserDetails user = (NwUserDetails) authentication.getPrincipal();
+	    return user;
+	}
 
-	
-	
-	
-	
 }

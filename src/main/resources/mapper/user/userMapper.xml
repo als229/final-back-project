@@ -121,6 +121,34 @@
   </select>
   
   
+
+  	<update id="updateProfile">
+ 		
+ 		UPDATE
+ 				TB_PROFILE
+ 		SET
+ 				
+ 				FILE_URL = #{fileUrl}
+ 		WHERE
+ 				USER_NO = #{userNo}
+
+    </update>
+  
+  <delete id="deleteProfile"
+  		parameterType="long">
+  	
+  		UPDATE
+  				TB_PROFILE
+  		SET
+  				FILE_URL = 'https://final-nw-bucket.s3.ap-northeast-2.amazonaws.com/f62ed12c-abe9-439f-b822-e0e2c1441be9_KakaoTalk_20250630_205959345.jpg'
+  		WHERE
+  				USER_NO = #{userNo}
+  			
+  </delete>
+  
+  
+  
+  
  <update id="updateNickname"
   		  parameterType="com.kh.finalproject.user.model.dto.UserDTO">
   
@@ -186,6 +214,6 @@
 				F.USER_NO = #{userNo}  				
   		
   </select>
+ </mapper>
  
  
-  </mapper>

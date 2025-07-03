@@ -39,6 +39,7 @@ public class SecurityConfigure {
 	                       .csrf(AbstractHttpConfigurer::disable)
 	                       .cors(Customizer.withDefaults())
 	                       .authorizeHttpRequests(request -> {
+	                    	   request.requestMatchers("/ws/**").permitAll(); 
 							   request.requestMatchers("/admin/**").hasRole("ADMIN");
 							  
 							   request.requestMatchers(HttpMethod.POST,
@@ -58,9 +59,9 @@ public class SecurityConfigure {
 							   request.requestMatchers(HttpMethod.DELETE,
 									  "/api/auth/**").permitAll();
 							   
-							   request.requestMatchers(HttpMethod.DELETE,
+							   request.requestMatchers(HttpMethod.DELETE, 
 									   "/api/users",
-									   "/api/users/delete",
+									   "/api/users/**",
 									   "/api/commnet/**").authenticated();
 							   request.requestMatchers(HttpMethod.DELETE,
 									  "/api/region/**",
@@ -84,6 +85,7 @@ public class SecurityConfigure {
 							   
 							   request.requestMatchers(HttpMethod.GET,
 									   "/api/users/check-id",
+									   "/api/chats/**",
 									   "/api/region/**",
 									   "/api/users/comments",
 									   "/api/users/festivals",
@@ -135,11 +137,4 @@ public class SecurityConfigure {
 		
 		return source;
 	}
-	
-	
-	
-	
-	
-	
-	
 }
