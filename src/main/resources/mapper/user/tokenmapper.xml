@@ -1,74 +1,3 @@
-<<<<<<< HEAD
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
-  
-  <mapper namespace="com.kh.finalproject.token.model.dao.TokenMapper">
-  
-   <select id="existingToken"
-   		   resultType="com.kh.finalproject.token.model.dao.RefreshTokenVO">
-   
-   SELECT
-   		 USER_NO userNo,
-   		 TOKEN token,
-   		 EXPIRATION_TIME expirationTime
-   FROM
-   		 TB_TOKEN
-   WHERE
-   		 USER_NO = #{userNo}
-   
-   </select>
-  
-  
-  	<insert id="insertRefreshToken"
-  			parameterType="com.kh.finalproject.token.model.dao.RefreshTokenVO"
-  	>
-  	INSERT
-  	INTO
-  	TB_TOKEN (
-		USER_NO,
-		TOKEN,
-		EXPIRATION_TIME
-	)
-	VALUES(
-		#{userNo},
-		#{token},
-		#{expirationTime}
-	)
-  	
-  	</insert>
-  
-  
-  <delete id="deleteTokenByUserNo"
-  		  parameterType="long">
-  
-  DELETE
-  FROM
-  		TB_TOKEN
-  WHERE
- 		USER_NO = #{userNo}		
-  
-  </delete>
-  
- 
-  <delete id="deleteToken"
-  		parameterType="com.kh.finalproject.auth.model.dao.LogoutDTO">
-  
-  DELETE
-  FROM
-  		TB_TOKEN
-  WHERE
-  		TOKEN= #{token}
-  
-  
-  </delete>
-  
-  
-  
-  
-=======
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
@@ -147,5 +76,4 @@
   </delete>
   
   
->>>>>>> fe24cad428866b4b489ae2209c9bcbe6aa3b3a38
   </mapper>

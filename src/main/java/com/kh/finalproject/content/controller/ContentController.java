@@ -1,25 +1,30 @@
 package com.kh.finalproject.content.controller;
 
+import java.util.List;
+
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.finalproject.content.model.dto.ContentDTO;
 import com.kh.finalproject.content.model.dto.CoordinateDTO;
+import com.kh.finalproject.content.model.dto.FestivalDTO;
+import com.kh.finalproject.content.model.dto.FoodDTO;
 import com.kh.finalproject.content.model.dto.LodgingDTO;
 import com.kh.finalproject.content.model.dto.TourDTO;
-import com.kh.finalproject.content.model.dto.FoodDTO;
-import com.kh.finalproject.content.model.dto.FestivalDTO;
+import com.kh.finalproject.content.model.service.ContentImgService;
 import com.kh.finalproject.content.model.service.ContentService;
 import com.kh.finalproject.content.model.service.CoordinateService;
+import com.kh.finalproject.content.model.service.FestivalService;
+import com.kh.finalproject.content.model.service.FoodService;
 import com.kh.finalproject.content.model.service.LodgingService;
 import com.kh.finalproject.content.model.service.TourService;
-import com.kh.finalproject.content.model.service.FoodService;
-import com.kh.finalproject.content.model.service.FestivalService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,13 +42,26 @@ public class ContentController {
 	private final TourService tourService;
 	private final FoodService foodService;
 	private final FestivalService festivalService;
+	private final ContentImgService contentImgService;
 	
-	@PostMapping("/")
+	@PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
 	// @PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Void> insertContent(@RequestBody ContentDTO contentDTO ) {
+	public ResponseEntity<Void> insertContent(
+			@RequestPart("contentDTO") ContentDTO contentDTO,
+			@RequestPart(value = "firstImage", required = false) MultipartFile firstImage,
+			@RequestPart(value = "images", required = false) List<MultipartFile> images
+	) {
 		
-		Long contentId = contentService.insertContent(contentDTO);
-		
+		Long contentId = contentService.insertContent(contentDTO, null);
+
+	    if (firstImage != null && !firstImage.isEmpty()) {
+	        String fileUrl = contentImgService.uploadImageOnly(firstImage);
+	        contentService.updateFirstImage(contentId, fileUrl);
+	    }
+	    
+	    if (images != null && !images.isEmpty()) {
+	        contentImgService.uploadAndInsertImages(images, contentId);
+	    }
 
 		CoordinateDTO coordinateDTO = contentDTO.getCoordinateDTO();
 		if (coordinateDTO != null) {

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.kh.finalproject.content.model.dao.ContentImgMapper">
+	
+	<insert id="insertContentImg" parameterType="com.kh.finalproject.content.model.vo.ContentImg">
+    	<selectKey keyProperty="contentImgNo" resultType="long" order="BEFORE">
+    	    SELECT SEQ_CONTENT_IMG_NO.NEXTVAL FROM DUAL
+ 	   </selectKey>
+ 	   INSERT INTO TB_CONTENT_IMG (
+ 	       CONTENT_IMG_NO,
+ 	       CONTENT_ID,
+	       FILE_URL
+	    ) VALUES (
+	       #{contentImgNo},
+ 	       #{contentId},
+ 	       #{fileUrl}
+	    )
+	</insert>
+
+</mapper>

@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.kh.finalproject.content.model.mapper.FoodMapper">
+<mapper namespace="com.kh.finalproject.content.model.dao.FoodMapper">
 
   <insert id="insertFood" parameterType="com.kh.finalproject.content.model.vo.Food">
     INSERT INTO TB_FOOD (

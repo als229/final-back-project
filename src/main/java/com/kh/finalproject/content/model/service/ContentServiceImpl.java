@@ -17,11 +17,12 @@ public class ContentServiceImpl implements ContentService{
 	private final ContentMapper contentMapper;
 
 	@Override
-	public Long insertContent(ContentDTO content) {
+	public Long insertContent(ContentDTO content, String fileUrl) {
 		
 		Content requestData = Content.builder()
 				.categoryCode(content.getCategoryCode())
 				.title(content.getTitle())
+				.firstImageUrl("557575")
 				.tel(content.getTel())
 				.homepage(content.getHomepage())
 				.playtime(content.getPlaytime())
@@ -29,8 +30,26 @@ public class ContentServiceImpl implements ContentService{
 		
 		contentMapper.insertContent(requestData);
 		
-		return requestData.getContentId();
+		Long contentId = requestData.getContentId();
+		System.out.println(requestData);
+		return contentId;
 	}
+	
+	@Override
+	public void updateFirstImage(Long contentId, String fileUrl) {
+	    contentMapper.updateFirstImage(contentId, fileUrl);
+	}
+	
+	/*
+	@Override
+	public void updateContentImage(Long contentId, String fileUrl) {
+	    Content content = Content.builder()
+	            .contentId(contentId)
+	            .firstImageUrl(fileUrl)
+	            .build();
+	    contentMapper.updateContentImage(content);
+	}
+	*/
 	
 	
 

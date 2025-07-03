@@ -1,7 +1,5 @@
 package com.kh.finalproject.content.model.dto;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,8 +11,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ContentImageDTO {
+public class ContentImgDTO {
 	
+	private Long contentImgNo;
 	private Long contentId;
 	private String fileUrl;
+	
 }

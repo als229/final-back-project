@@ -17,12 +17,10 @@ public class ContentDTO {
 	
 	private Long categoryCode;
 	private String title;
-	private MultipartFile firstImage;
 	private String tel;
 	private String homepage;
 	private String playtime;
 
-	// 상세 정보 DTO 추가
 	private CoordinateDTO coordinateDTO;
 	private LodgingDTO lodgingDTO;
 	private TourDTO tourDTO;

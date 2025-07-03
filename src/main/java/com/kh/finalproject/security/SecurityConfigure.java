@@ -95,6 +95,9 @@ public class SecurityConfigure {
 										  "/api/users/**"
 										).authenticated();
 							   
+							   request.requestMatchers(HttpMethod.POST,
+									   "/content/**").authenticated();
+							   
 	                       })
 	                       
 	                      .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

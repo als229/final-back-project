@@ -1,12 +1,12 @@
 package com.kh.finalproject.content.model.vo;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import lombok.Builder;
+import lombok.ToString;
 import lombok.Value;
 
 @Value
 @Builder
+@ToString
 public class Content {
 	
 	private Long contentId;
