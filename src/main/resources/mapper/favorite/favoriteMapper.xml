@@ -67,6 +67,16 @@
 	  	AND CATEGORY = #{category}
 	  	
 	</select>
-  
+	
+	<select id="selectFavoriteFlags" parameterType="FavoriteDTO" resultType="FavoriteDTO">
+	  SELECT
+	    MAX(CASE WHEN category = 1 THEN 1 ELSE 0 END) AS likeFlag,
+	    MAX(CASE WHEN category = 2 THEN 1 ELSE 0 END) AS bookmarkFlag
+	  FROM 
+	  	TB_FAVORITE
+	  WHERE 1=1 
+	  	AND user_no = #{userNo} 
+	  	AND content_id = #{contentId}
+	</select>
   
   </mapper>

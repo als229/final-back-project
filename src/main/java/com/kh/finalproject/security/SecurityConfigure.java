@@ -52,6 +52,7 @@ public class SecurityConfigure {
 									   "/api/favoriteList",
 									   "/api/festivals/**").permitAll();
 							   request.requestMatchers(HttpMethod.POST, 
+									   "/api/reviews/**",
 									   "/api/favorites/**").authenticated();
 							   request.requestMatchers(HttpMethod.POST,
 									   "/api/region",
@@ -86,6 +87,7 @@ public class SecurityConfigure {
 										  "/api/diners/**").hasRole("ADMIN");
 							   
 							   request.requestMatchers(HttpMethod.GET,
+									   "/api/reviews/**",
 									   "/api/favorites/**",
 									   "/api/users/check-id",
 									   "/api/chats/**",

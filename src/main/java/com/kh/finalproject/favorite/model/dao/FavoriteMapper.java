@@ -15,6 +15,8 @@ public interface FavoriteMapper {
 	
 	FavoriteDTO selectFavorite(FavoriteDTO favorite);
 	
-	List<FavoriteDTO> selectFavoriteByUserNo(FavoriteDTO userNo);
+	List<FavoriteDTO> selectFavoriteByUserNo(FavoriteDTO favorite);
+	
+	FavoriteDTO  selectFavoriteFlags(FavoriteDTO favorite);
 	
 }

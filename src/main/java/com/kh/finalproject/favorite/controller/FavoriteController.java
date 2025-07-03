@@ -27,20 +27,28 @@ public class FavoriteController {
 	@PostMapping
 	public ResponseEntity<ResponseData> addOrDeleteFavorite(@RequestBody FavoriteDTO favorite) {
 		
+		String responseMessage = "";
+		
 		log.info("FavoriteController addFavorite : FavoriteDTO 값 확인 {}", favorite );
 		
-		eventService.addOrDeleteFavorite(favorite);
+		boolean flag = eventService.addOrDeleteFavorite(favorite);
+		
+		if(flag) {
+			responseMessage = "등록 완료.";
+		}else {
+			responseMessage = "취소 완료.";
+		}
 		
 		ResponseData responseData = ResponseData.builder()
 				.code("A100")
-				.message("좋아요 등록 완료.")
+				.message(responseMessage)
 				.build();
 		
 		return ResponseEntity.ok(responseData);
 	}
 	
 	@GetMapping
-	public ResponseEntity<ResponseData> selectFavoriteListByUserNo(@RequestBody FavoriteDTO favorite){
+	public ResponseEntity<ResponseData> selectFavoriteListByUserNo(FavoriteDTO favorite){
 		
 		log.info("FavoriteController selectFavoriteListByUserNo : FavoriteDTO 값 확인 {}", favorite );
 		
@@ -50,6 +58,22 @@ public class FavoriteController {
 				.code("A100")
 				.items(favorites)
 				.message("리스트 조회 완료.")
+				.build();
+		
+		return ResponseEntity.ok(responseData);
+	};
+	
+	@GetMapping("/favoriteSet")
+	public ResponseEntity<ResponseData> selectFavoriteFlags(FavoriteDTO favorite){
+		
+		log.info("FavoriteController selectFavoriteFlags : FavoriteDTO 값 확인 {}", favorite );
+		
+		FavoriteDTO favorites = eventService.selectFavoriteFlags(favorite);
+		
+		ResponseData responseData = ResponseData.builder()
+				.code("A100")
+				.items(favorites)
+				.message("조회 완료.")
 				.build();
 		
 		return ResponseEntity.ok(responseData);

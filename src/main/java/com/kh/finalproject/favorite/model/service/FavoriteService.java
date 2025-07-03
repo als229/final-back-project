@@ -6,7 +6,9 @@ import com.kh.finalproject.favorite.model.dto.FavoriteDTO;
 
 public interface FavoriteService {
 
-	void addOrDeleteFavorite(FavoriteDTO favorite);
+	boolean addOrDeleteFavorite(FavoriteDTO favorite);
 	
 	List<FavoriteDTO> selectFavoriteListByUserNo(FavoriteDTO favorite);
+	
+	FavoriteDTO selectFavoriteFlags(FavoriteDTO favorite);
 }

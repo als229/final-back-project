@@ -24,6 +24,7 @@ public class ReviewReqDTO {
     @NotBlank(message = "댓글 내용은 비어 있을 수 없습니다.")
     @Size(max = 300, message = "댓글 내용은 최대 300자까지 가능합니다.")
     private String content;
+    private Double point;
     
     private List<MultipartFile> images;
 }

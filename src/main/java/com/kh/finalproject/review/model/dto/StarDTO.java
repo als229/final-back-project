@@ -1,4 +1,8 @@
-package com.kh.finalproject.favorite.model.dto;
+package com.kh.finalproject.review.model.dto;
+
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,16 +12,11 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class FavoriteDTO {
-
+@ToString
+public class StarDTO {
 	private Long userNo;
 	private Long contentId;
-	private int category;
-	private boolean flag;
-    private boolean likeFlag;
-    private boolean bookmarkFlag;
-
+	private Double point;
 }

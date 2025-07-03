@@ -23,5 +23,7 @@ public class ReviewResDTO {
     private Date createdTime;
     private Date modifiedTime;
     private String status;
+    private Double average;
+    private int totalCount;
     private List<String> images;
 }

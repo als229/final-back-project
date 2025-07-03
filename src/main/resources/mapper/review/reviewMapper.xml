@@ -5,7 +5,192 @@
   
   
   <mapper namespace="com.kh.finalproject.review.model.dao.ReviewMapper">
+  	<sql id="reviewColumn">
+  	    SELECT 
+	        REVIEW_NO AS reviewNo,
+	        USER_NO AS userNo,
+	        CONTENT_ID AS contentId,
+	        CONTENT AS content,
+	        CREATED_TIME AS createdTime,
+	        MODIFIED_TIME AS modifiedTime,
+	        STATUS AS status
+  	</sql>
+  	
+	<resultMap id="reviewResultMap" type="ReviewResDTO">
+	    <id property="reviewNo" column="REVIEW_NO"/>
+	    <result property="userNo" column="USER_NO"/>
+	    <result property="contentId" column="CONTENT_ID"/>
+	    <result property="content" column="CONTENT"/>
+	    <result property="createdTime" column="CREATED_TIME"/>
+	    <result property="modifiedTime" column="MODIFIED_TIME"/>
+	    <result property="status" column="STATUS"/>
+	    <result property="average" column="AVERAGE"/>
+	     
+	    <collection property="images" ofType="string">
+	        <result column="FILE_URL"/>
+	    </collection>
+	</resultMap>
+
+	<insert id="addReview"
+		parameterType="Review"
+	>
+	    INSERT INTO TB_REVIEW (
+	        REVIEW_NO,
+	        USER_NO,
+	        CONTENT_ID,
+	        CONTENT,
+	        CREATED_TIME,
+	        MODIFIED_TIME,
+	        STATUS
+	    ) VALUES (
+	        SEQ_REVIEW.NEXTVAL,
+	        #{userNo},
+	        #{contentId},
+	        #{content},
+	        SYSDATE,
+	        SYSDATE,
+	        'Y'
+	    )
+	</insert>
+	
+	<select id="selectReviewByContentNo" parameterType="Long" resultType="ReviewResDTO">
+
+		<include refid="reviewColumn" />
+	    FROM TB_REVIEW
+	    WHERE 1=1
+	     	AND CONTENT_ID = #{contentId}
+	      	AND STATUS = 'Y'
+	</select>
+	
+	<update id="updateReview" parameterType="Review">
+	    UPDATE TB_REVIEW
+	    SET 
+	        CONTENT = #{content},
+	        MODIFIED_TIME = SYSDATE
+	    WHERE REVIEW_NO = #{reviewNo}
+	</update>
   
+	<update id="deleteReview" parameterType="Long">
+	    UPDATE TB_REVIEW
+	    SET STATUS = 'N',
+	        MODIFIED_TIME = SYSDATE
+	    WHERE REVIEW_NO = #{reviewNo}
+	</update>
+	
+	<!-- 리뷰 이미지 관련  -->
+
+	<insert id="addReviewImg" parameterType="String">
+	    INSERT INTO TB_REVIEW_IMG (
+	        REVIEW_IMG_NO,
+	        REVIEW_NO,
+	        FILE_URL
+	    ) VALUES (
+	        SEQ_REVIEW_IMG.NEXTVAL,
+	        SEQ_REVIEW.CURRVAL,
+	        #{fileUrl}
+	    )
+	</insert>
+	
+	<select id="selectAllReviewImgs" resultType="String">
+		  SELECT 
+		    RI.FILE_URL
+		  FROM 
+		    TB_REVIEW R
+		  JOIN 
+		    TB_REVIEW_IMG RI ON R.REVIEW_NO = RI.REVIEW_NO
+		  WHERE 
+		    R.CONTENT_ID = #{contentId}
+		    AND R.STATUS = 'Y'
+		  ORDER BY 
+		    R.REVIEW_NO
+	</select>
+	
+	<select id="selectReviewImgsByReviewNo" resultType="String">
+	    SELECT 
+	    	  REVIEW_IMG_NO
+	    	, REVIEW_NO
+	    	, FILE_URL
+	    FROM 
+	    	TB_REVIEW_IMG
+	    WHERE 
+	    	REVIEW_NO = #{reviewNo}
+	</select>
+	
+	<select id="selectReviewsWithImages" resultMap="reviewResultMap">
+	    SELECT
+	        R.REVIEW_NO,
+	        R.USER_NO,
+	        R.CONTENT_ID,
+	        R.CONTENT,
+	        R.CREATED_TIME,
+	        R.MODIFIED_TIME,
+	        R.STATUS,
+	        I.FILE_URL,
+	        S.POINT AS AVERAGE  
+	    FROM
+	        TB_REVIEW R
+	    LEFT JOIN
+	        TB_REVIEW_IMG I ON R.REVIEW_NO = I.REVIEW_NO
+	    LEFT JOIN
+	        TB_STAR S ON R.USER_NO = S.USER_NO AND R.CONTENT_ID = S.CONTENT_ID
+	    WHERE
+	        R.STATUS = 'Y'
+	        AND R.CONTENT_ID = #{contentId}
+	</select>
+	
+	<delete id="deleteReviewImgsByReviewNo">
+	    DELETE FROM TB_REVIEW_IMG
+	    WHERE REVIEW_NO = #{reviewNo}
+	</delete>
+	
+	<!-- 별점 관련 -->
+	<insert id="addStar" parameterType="ReviewReqDTO">
+	    INSERT INTO TB_STAR (
+	        USER_NO,
+	        CONTENT_ID,
+	        POINT
+	    ) VALUES (
+	        #{userNo},
+	        #{contentId},
+	        #{point}
+	    )
+	</insert>
+	
+	<update id="updateStar" parameterType="StarDTO">
+	    UPDATE 
+	    	TB_STAR
+	    SET 
+	    	POINT = #{point}
+	    WHERE 1=1
+	    	AND USER_NO = #{userNo}
+	      	AND CONTENT_ID = #{contentId}
+	</update>
+	
+	<select id="selectStar" resultType="StarDTO">
+	    SELECT 
+	        USER_NO,
+	        CONTENT_ID,
+	        POINT
+	    FROM TB_STAR
+	    WHERE USER_NO = #{userNo}
+	      AND CONTENT_ID = #{contentId}
+	</select>
+	
+	<select id="selectAverageStarByContentId" resultType="double">
+	    SELECT 
+	    	NVL(AVG(POINT), 0)
+	    FROM 
+	    	TB_STAR
+	    WHERE CONTENT_ID = #{contentId}
+	</select>
+	
+	<select id="selectAllReviewCount" resultType="int">
+	    SELECT 
+			COUNT(*)   	
+	    FROM 
+	    	TB_REVIEW
+	    WHERE CONTENT_ID = #{contentId}
+	</select>
   
   
   </mapper>
