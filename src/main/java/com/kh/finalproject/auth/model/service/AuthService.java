@@ -1,7 +1,5 @@
 package com.kh.finalproject.auth.model.service;
 
-
-
 import com.kh.finalproject.auth.model.dto.EmailDTO;
 import com.kh.finalproject.auth.model.dto.FindDTO;
 import com.kh.finalproject.auth.model.dto.FindResponseDTO;

@@ -19,6 +19,6 @@ public interface TokenMapper {
 	
 	int deleteToken(LogoutDTO logoutDTO);
 	
-	int deleteUserToken(Map<String,Object> deleteInfo);
+	int deleteUserToken(Long userNo);
 	
 }

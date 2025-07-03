@@ -41,8 +41,6 @@ public class AuthServiceImpl implements AuthService {
 	private final TokenService tokenService;
 	private final EmailUtil emailUtil;
 	
-	
-	
 	@Override
 	public LoginResponseDTO login(LoginDTO loginDTO) {
 	    String userId = loginDTO.getUserId();
@@ -169,8 +167,4 @@ public class AuthServiceImpl implements AuthService {
 	    return user;
 	}
 
-	
-	
-	
-	
 }

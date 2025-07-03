@@ -137,11 +137,4 @@ public class SecurityConfigure {
 		
 		return source;
 	}
-	
-	
-	
-	
-	
-	
-	
 }

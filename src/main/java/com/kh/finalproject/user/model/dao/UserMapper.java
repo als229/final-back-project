@@ -23,7 +23,7 @@ public interface UserMapper {
 	
 	
 	
-	int deleteUser(Map<String, Object> deleteInfo);
+	int deleteUser(Long userNo);
 	
 	String findPasswordByUserNo(Long userNo);
 	
@@ -34,6 +34,9 @@ public interface UserMapper {
 	int updateNickname(UserDTO userDTO);
 	
 	int selectNickName(String nickName);
+	
+	
+	
 	
 	
 	List<MypageDTO> selectComments(Long userNo);
