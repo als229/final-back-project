@@ -54,7 +54,7 @@ public class ContentController {
 		
 		Long contentId = contentService.insertContent(contentDTO, null);
 
-	    if (firstImage != null && !firstImage.isEmpty()) {
+	    if (firstImage != null && !firstImage.isEmpty()) { 
 	        String fileUrl = contentImgService.uploadImageOnly(firstImage);
 	        contentService.updateFirstImage(contentId, fileUrl);
 	    }
