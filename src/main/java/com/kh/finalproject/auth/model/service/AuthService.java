@@ -7,6 +7,7 @@ import com.kh.finalproject.auth.model.dto.FindDTO;
 import com.kh.finalproject.auth.model.dto.FindResponseDTO;
 import com.kh.finalproject.auth.model.dto.LoginDTO;
 import com.kh.finalproject.auth.model.dto.LoginResponseDTO;
+import com.kh.finalproject.auth.vo.NwUserDetails;
 
 public interface AuthService {
 
@@ -20,6 +21,8 @@ public interface AuthService {
 	int sendEmailCode(String email);
 	
 	EmailDTO verifyCode(EmailDTO emailDTO);
+
+	NwUserDetails getUserDetails();
 	
 	
 }
