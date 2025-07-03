@@ -18,14 +18,14 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/favorites")
 public class FavoriteController {
 
-	private final FavoriteService eventService;
+	//private final FavoriteService eventService;
 	
 	@PostMapping
 	public ResponseEntity<ResponseData> addFavorite(FavoriteDTO favorite) {
 		
 		log.info("FavoriteController insertFavorite : FavoriteDTO 값 확인 {}", favorite );
 		
-		eventService.insertFavorite(favorite);
+		//eventService.insertFavorite(favorite);
 		
 		ResponseData responseData = ResponseData.builder()
 				.code("A100")
