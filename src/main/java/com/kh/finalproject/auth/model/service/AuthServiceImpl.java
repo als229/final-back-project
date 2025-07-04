@@ -13,7 +13,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.kh.finalproject.auth.model.dao.AuthMapper;
 import com.kh.finalproject.auth.model.dto.EmailDTO;
 import com.kh.finalproject.auth.model.dto.FindDTO;
@@ -23,11 +22,15 @@ import com.kh.finalproject.auth.model.dto.LoginResponseDTO;
 import com.kh.finalproject.auth.util.emailUtil.EmailUtil;
 import com.kh.finalproject.auth.vo.EmailCodeVO;
 import com.kh.finalproject.auth.vo.NwUserDetails;
+import com.kh.finalproject.exception.exceptions.DuplicateUserEmailException;
 import com.kh.finalproject.exception.exceptions.EmailCodeException;
 import com.kh.finalproject.exception.exceptions.InvaildFindIdException;
 import com.kh.finalproject.exception.exceptions.InvaildFindPwException;
 import com.kh.finalproject.exception.exceptions.LoginFailedException;
 import com.kh.finalproject.token.model.service.TokenService;
+import com.kh.finalproject.user.model.dao.UserMapper;
+
+
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,6 +39,7 @@ import lombok.RequiredArgsConstructor;
 public class AuthServiceImpl implements AuthService {
 	
 	private final AuthMapper authMapper;
+	private final UserMapper userMapper;
 	private final PasswordEncoder passwordEncoder;
 	private final AuthenticationManager authenticationManager;
 	private final TokenService tokenService;
@@ -77,7 +81,7 @@ public class AuthServiceImpl implements AuthService {
 		
 		FindResponseDTO selectByfindId =  authMapper.selectByfindId(findIdDTO);
 		if(selectByfindId == null) {
-			throw new InvaildFindIdException("존재하지 않는 아이디입니다");
+			throw new InvaildFindIdException("해당 정보와 일치하는 아이디가 없습니다. 다시 확인해 주세요.");
 		}
 		
 		String findId = selectByfindId.getUserId();
@@ -96,7 +100,7 @@ public class AuthServiceImpl implements AuthService {
 		
 		FindResponseDTO selsectByPw = authMapper.selectByfindPw(findDTO);
 		if(selsectByPw == null) {
-			throw new InvaildFindPwException("존재하지 않는 아이디 입니다");
+			throw new InvaildFindPwException("입력하신 정보와 일치하는 계정이 없습니다. 다시 확인해 주세요.");
 		}
 		String tempPassword = UUID.randomUUID().toString().replace("-", "").substring(0,10);
 		String encodedTempPw = passwordEncoder.encode(tempPassword);
@@ -130,6 +134,11 @@ public class AuthServiceImpl implements AuthService {
 		emailCodeInfo.setCode(code);
 		emailCodeInfo.setEmail(email);
 		
+		if(userMapper.existsByUserEmail(email) > 0 ) {
+			throw new DuplicateUserEmailException("이미 사용중인 이메일 입니다");
+		}
+		
+			
 		int response = authMapper.sendEmailCode(emailCodeInfo);
 		
 		// 이메일 보내기 시작

@@ -16,7 +16,7 @@ import lombok.Setter;
 public class LoginDTO {
 
 	@Size(min = 4, max = 20, message = "아이디 길이는 4~20자 사이여야 합니다.")
-	@Pattern(regexp = "^[a-z][a-z0-9]{2,18}[0-9]$", message = "잘못된 아이디 형식입니다.")
+	@Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9]{3,19}$", message = "아이디는 영문자로 시작하며, 영문자와 숫자로 이루어진 4~20자여야 합니다.")
 	@NotBlank(message = "아이디는 비어있거나 공백이 포함될 수 없습니다.") 
 	private String userId;
 	@Size(min = 8, max = 30, message = "비밀번호 길이는 8~30자 사이여야 합니다.")

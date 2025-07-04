@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kh.finalproject.favorite.model.dto.FavoriteDTO;
 
+
 public interface FavoriteService {
 
 	boolean addOrDeleteFavorite(FavoriteDTO favorite);

@@ -1,5 +1,4 @@
 package com.kh.finalproject.favorite.model.service;
-
 import java.util.List;
 
 import org.springframework.stereotype.Service;

@@ -126,11 +126,29 @@ public class UserController {
 		
 		
 		
-		userService.updateProfile(user.getUserNo(), file);
+		 UserDTO updateProfile =  userService.updateProfile(user.getUserNo(), file);
+		ResponseData responseData = ResponseData.builder()
+												.code("A100")
+												.items(updateProfile)
+												.message("프로필 사진변경 성공")
+												.build();
 		
-		
-		return null;
+		return ResponseEntity.ok(responseData);
 	}
+	
+	
+	@DeleteMapping("/users/delete-profile")
+	public ResponseEntity<ResponseData> deleteProfile(@AuthenticationPrincipal NwUserDetails user){
+
+	
+			userService.deleteProfile(user.getUserNo());
+			ResponseData responseData = ResponseData.builder()
+													.code("A100")
+													.message("프로필 사진삭제 성공")
+													.build();
+		return ResponseEntity.ok(responseData);
+	}
+	
 	
 	@PutMapping("/users/update-nickname")
 	public ResponseEntity<ResponseData> updateNickname(@AuthenticationPrincipal NwUserDetails user,@RequestBody UserDTO userDTO){
@@ -153,7 +171,6 @@ public class UserController {
 	public ResponseEntity<ResponseData> selectComments(@AuthenticationPrincipal NwUserDetails user){
 		
 		List<MypageDTO> response = userService.selectComments(user.getUserNo());
-		
 		ResponseData responseData = ResponseData.builder()
 												.code("A100")
 												.items(response)
@@ -169,6 +186,7 @@ public class UserController {
 		
 		List<MypageDTO> response = userService.selectFavorite(user.getUserNo());
 		
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@" +response);
 		ResponseData responseData = ResponseData.builder()
 												.code("A100")
 												.items(response)

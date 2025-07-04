@@ -26,6 +26,9 @@ public interface UserService {
 	void updateNickname(UserDTO userDTO);
 	
 	
+	void deleteProfile(Long userNo);
+	
+	
 	List<MypageDTO> selectComments(Long userNo);
 	
 	List<MypageDTO> selectFavorite(Long userNo);
