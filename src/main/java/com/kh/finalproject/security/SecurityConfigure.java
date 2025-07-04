@@ -63,6 +63,7 @@ public class SecurityConfigure {
 									  "/api/auth/**").permitAll();
 							   
 							   request.requestMatchers(HttpMethod.DELETE, 
+									   "/api/reviews/**",
 									   "/api/users",
 									   "/api/users/**",
 									   "/api/commnet/**").authenticated();
@@ -75,6 +76,7 @@ public class SecurityConfigure {
 							  
 							   
 							   request.requestMatchers(HttpMethod.PUT, 
+									   "/api/reviews/**",
 									   "/api/users/update-nickname",
 									   "/api/users/update-pw",
 										  "/api/users/**").authenticated();

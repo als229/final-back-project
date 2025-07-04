@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -74,21 +76,40 @@ public class ReviewController {
 	    return ResponseEntity.ok(responseData);
 	}
 	
-//	@PutMapping("/{reviewNo}")
-//	public ResponseEntity<ReviewReqDTO> updateReview(ReviewDTO review,@PathVariable("reviewNo") Long reviewNo, @RequestParam(name="file", required = false) MultipartFile file){
-//		review.setReviewNo(reviewNo);
-//		 
-//		log.info("ReviewController updateReview : review : {} , file : {}", review,file);
-//		reviewService.updateReview(review, file);
-//		
-//	    return ResponseEntity.noContent().build();
-//	}
-//	
-//	@DeleteMapping("/{reviewNo}")
-//	public ResponseEntity<?> deleteByReviewNo(@PathVariable(name = "reviewNo") Long reviewNo){
-//		
-//		reviewService.deleteByReviewNo(reviewNo);
-//		return ResponseEntity.noContent().build();
-//	}
+	@PutMapping("/{reviewNo}")
+	public ResponseEntity<?> updateReview(
+	    @PathVariable("reviewNo") Long reviewNo,
+	    @ModelAttribute ReviewReqDTO review,
+	    @RequestParam(name = "file", required = false) List<MultipartFile> files
+	) {
+	    log.info("ReviewController updateReview : reviewNo = {}, ReviewReqDTO = {}, files = {}", reviewNo, review, files);
+
+	    // 리뷰 번호 설정
+	    review.setReviewNo(reviewNo);
+
+	    // 서비스 호출
+	    reviewService.updateReview(review, files);
+
+	    ResponseData responseData = ResponseData.builder()
+	            .code("A200")
+	            .message("리뷰 수정 성공")
+	            .build();
+
+	    return ResponseEntity.ok(responseData);
+	}
+	
+	@DeleteMapping("/{reviewNo}")
+	public ResponseEntity<?> deleteByReviewNo(@PathVariable(name = "reviewNo") Long reviewNo){
+		
+		reviewService.deleteByReviewNo(reviewNo);
+		
+	    ResponseData responseData = ResponseData.builder()
+	            .code("A200")
+	            .message("리뷰 삭제 성공")
+	            .build();
+
+		
+	    return ResponseEntity.ok(responseData);
+	}
 
 }

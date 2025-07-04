@@ -24,6 +24,9 @@ public class ReviewResDTO {
     private Date modifiedTime;
     private String status;
     private Double average;
+    private String userId;
+    private String nickname;
     private int totalCount;
+    private Double point;
     private List<String> images;
 }

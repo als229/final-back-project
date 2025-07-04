@@ -24,7 +24,10 @@
 	    <result property="createdTime" column="CREATED_TIME"/>
 	    <result property="modifiedTime" column="MODIFIED_TIME"/>
 	    <result property="status" column="STATUS"/>
+	    <result property="point" column="POINT"/>
 	    <result property="average" column="AVERAGE"/>
+	    <result property="userId" column="USER_ID"/>
+	    <result property="nickname" column="NICKNAME"/>
 	     
 	    <collection property="images" ofType="string">
 	        <result column="FILE_URL"/>
@@ -41,6 +44,7 @@
 	        CONTENT,
 	        CREATED_TIME,
 	        MODIFIED_TIME,
+	        POINT,
 	        STATUS
 	    ) VALUES (
 	        SEQ_REVIEW.NEXTVAL,
@@ -49,6 +53,7 @@
 	        #{content},
 	        SYSDATE,
 	        SYSDATE,
+	        #{point},
 	        'Y'
 	    )
 	</insert>
@@ -66,14 +71,13 @@
 	    UPDATE TB_REVIEW
 	    SET 
 	        CONTENT = #{content},
+	        POINT = #{point},
 	        MODIFIED_TIME = SYSDATE
 	    WHERE REVIEW_NO = #{reviewNo}
 	</update>
   
 	<update id="deleteReview" parameterType="Long">
-	    UPDATE TB_REVIEW
-	    SET STATUS = 'N',
-	        MODIFIED_TIME = SYSDATE
+	    DELETE TB_REVIEW
 	    WHERE REVIEW_NO = #{reviewNo}
 	</update>
 	
@@ -86,7 +90,19 @@
 	        FILE_URL
 	    ) VALUES (
 	        SEQ_REVIEW_IMG.NEXTVAL,
-	        SEQ_REVIEW.CURRVAL,
+	        SEQ_REVIEW.NEXTVAL,
+	        #{fileUrl}
+	    )
+	</insert>
+
+	<insert id="addReviewImgUpdateVer" parameterType="map">
+	    INSERT INTO TB_REVIEW_IMG (
+	        REVIEW_IMG_NO,
+	        REVIEW_NO,
+	        FILE_URL
+	    ) VALUES (
+	        SEQ_REVIEW_IMG.NEXTVAL,
+	        #{reviewNo},
 	        #{fileUrl}
 	    )
 	</insert>
@@ -105,11 +121,9 @@
 		    R.REVIEW_NO
 	</select>
 	
-	<select id="selectReviewImgsByReviewNo" resultType="String">
+	<select id="selectReviewImgsByReviewNo">
 	    SELECT 
-	    	  REVIEW_IMG_NO
-	    	, REVIEW_NO
-	    	, FILE_URL
+	    	FILE_URL
 	    FROM 
 	    	TB_REVIEW_IMG
 	    WHERE 
@@ -125,26 +139,57 @@
 	        R.CREATED_TIME,
 	        R.MODIFIED_TIME,
 	        R.STATUS,
+	        R.POINT,
 	        I.FILE_URL,
-	        S.POINT AS AVERAGE  
+	        U.USER_ID,
+	        U.NICKNAME
 	    FROM
 	        TB_REVIEW R
 	    LEFT JOIN
 	        TB_REVIEW_IMG I ON R.REVIEW_NO = I.REVIEW_NO
 	    LEFT JOIN
-	        TB_STAR S ON R.USER_NO = S.USER_NO AND R.CONTENT_ID = S.CONTENT_ID
+	    	TB_USER U ON R.USER_NO = U.USER_NO
 	    WHERE
 	        R.STATUS = 'Y'
 	        AND R.CONTENT_ID = #{contentId}
 	</select>
 	
-	<delete id="deleteReviewImgsByReviewNo">
+	<select id="selectReviewsByReviewNo" resultMap="reviewResultMap">
+	    SELECT
+	        R.REVIEW_NO,
+	        R.USER_NO,
+	        R.CONTENT_ID,
+	        R.CONTENT,
+	        R.CREATED_TIME,
+	        R.MODIFIED_TIME,
+	        R.STATUS,
+	        R.POINT,
+	        I.FILE_URL,
+	        U.USER_ID,
+	        U.NICKNAME
+	    FROM
+	        TB_REVIEW R
+	    LEFT JOIN
+	        TB_REVIEW_IMG I ON R.REVIEW_NO = I.REVIEW_NO
+	    LEFT JOIN
+	    	TB_USER U ON R.USER_NO = U.USER_NO
+	    WHERE
+	        R.STATUS = 'Y'
+	        AND R.REVIEW_NO = #{reviewNo}
+	</select>
+	
+	<delete id="deleteReviewImgs">
 	    DELETE FROM TB_REVIEW_IMG
 	    WHERE REVIEW_NO = #{reviewNo}
 	</delete>
 	
+	<delete id="deleteReviewImgsByfileUrl">
+	    DELETE FROM TB_REVIEW_IMG
+	    WHERE FILE_URL = #{fileUrl}
+	</delete>
+	
 	<!-- 별점 관련 -->
-	<insert id="addStar" parameterType="ReviewReqDTO">
+<!--	<insert id="addStar" parameterType="ReviewReqDTO">
 	    INSERT INTO TB_STAR (
 	        USER_NO,
 	        CONTENT_ID,
@@ -174,13 +219,13 @@
 	    FROM TB_STAR
 	    WHERE USER_NO = #{userNo}
 	      AND CONTENT_ID = #{contentId}
-	</select>
+	</select>-->
 	
 	<select id="selectAverageStarByContentId" resultType="double">
 	    SELECT 
 	    	NVL(AVG(POINT), 0)
 	    FROM 
-	    	TB_STAR
+	    	TB_REVIEW
 	    WHERE CONTENT_ID = #{contentId}
 	</select>
 	

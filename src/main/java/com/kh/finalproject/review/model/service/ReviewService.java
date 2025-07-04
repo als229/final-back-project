@@ -13,6 +13,10 @@ public interface ReviewService {
 	
 	List<ReviewResDTO> getCommentsByContentId(Long contentId);
 	
+	void updateReview(ReviewReqDTO dto, List<MultipartFile> imags);
+	
+	void deleteByReviewNo(Long reviewNo);
+	
 	ReviewResDTO selectStarSummary(Long contentId);
 
 }
