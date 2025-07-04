@@ -12,6 +12,7 @@ import com.kh.finalproject.chat.handshakeInterceptor.AuthHandshakeInterceptor;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
+@EnableWebSocket 
 @EnableWebSocketSecurity
 @RequiredArgsConstructor
 public class WebSocketConfig implements WebSocketConfigurer{
@@ -21,7 +22,7 @@ public class WebSocketConfig implements WebSocketConfigurer{
 	
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(chatHandler, "ws/chat/{roomId}")
+		registry.addHandler(chatHandler, "/ws/chat/{roomId}")
 				.addInterceptors(authInterceptor) 
 			 	.setAllowedOrigins("http://localhost:5173");
 	}
