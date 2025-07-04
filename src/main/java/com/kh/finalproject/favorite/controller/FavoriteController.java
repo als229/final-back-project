@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/favorites")
 public class FavoriteController {
 
-	//private final FavoriteService eventService;
+	private final FavoriteService eventService;
 	
 	@PostMapping
 	public ResponseEntity<ResponseData> addOrDeleteFavorite(@RequestBody FavoriteDTO favorite) {

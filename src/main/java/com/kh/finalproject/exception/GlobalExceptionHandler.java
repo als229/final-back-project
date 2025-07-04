@@ -33,7 +33,6 @@ public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(DuplicateUserNickameException.class)
 	public ResponseEntity<?> handlerDuplicateUserNickameException(DuplicateUserNickameException e){
-		return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		
 		Map<String,String> error = new HashMap<>();
 		error.put("code", "E400_DUPLICATION_NICKNAME");

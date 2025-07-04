@@ -2,9 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
-  
-  <mapper namespace="com.kh.finalproject.auth.model.dao.AuthMapper">
+<mapper namespace="com.kh.finalproject.auth.model.dao.AuthMapper">
   	
   
   <select id="loadUserByUserId"
@@ -138,6 +136,4 @@
   </select>
   
   </mapper>
-  
-  
-  </mapper>
+	
