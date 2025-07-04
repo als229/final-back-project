@@ -30,5 +30,20 @@ public class FoodServiceImpl implements FoodService{
 		foodMapper.insertFood(requestData);
 		
 	}
+	
+	@Override
+	public void updateFood(FoodDTO food, Long contentId) {
+		
+		Food requestData = Food.builder()
+				.contentId(contentId)
+				.foodExp(food.getFoodExp())
+				.mainMenu(food.getMainMenu())
+				.menu(food.getMenu())
+				.parking(food.getParking())
+				.build();
+		
+		foodMapper.updateFood(requestData);
+		
+	}
 
 }

@@ -8,5 +8,6 @@ import com.kh.finalproject.content.model.vo.Tour;
 public interface TourMapper {
 	
 	void insertTour(Tour tour);
+	void updateTour(Tour tour);
 
 }

@@ -31,5 +31,21 @@ public class LodgingServiceImpl implements LodgingService{
 		lodgingMapper.insertLodging(requestData);
 		
 	}
+	
+	@Override
+	public void updateLodging(LodgingDTO lodging, Long contentId) {
+		
+		Lodging requestData = Lodging.builder()
+				.contentId(contentId)
+				.lodgingExp(lodging.getLodgingExp())
+				.checkIn(lodging.getCheckIn())
+				.checkOut(lodging.getCheckOut())
+				.parking(lodging.getParking())
+				.elevator(lodging.getElevator())
+				.build();
+		
+		lodgingMapper.updateLodging(requestData);
+		
+	}
 
 }

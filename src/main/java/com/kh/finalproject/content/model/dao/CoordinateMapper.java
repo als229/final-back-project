@@ -8,5 +8,6 @@ import com.kh.finalproject.content.model.vo.Coordinate;
 public interface CoordinateMapper {
 	
 	void insertCoordinate(Coordinate coordinate);
+	void updateCoordinate(Coordinate coordinate);
 
 }

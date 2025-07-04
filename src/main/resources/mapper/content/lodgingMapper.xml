@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.kh.finalproject.content.model.mapper.LodgingMapper">
+<mapper namespace="com.kh.finalproject.content.model.dao.LodgingMapper">
 
   <insert id="insertLodging"
   		  parameterType="com.kh.finalproject.content.model.vo.Lodging">
@@ -23,5 +23,16 @@
       #{elevator}
     )
   </insert>
+  
+  <update id="updateLodging"
+        parameterType="com.kh.finalproject.content.model.vo.Lodging">
+    UPDATE TB_LODGING 
+    SET LODGING_EXP = #{lodgingExp},
+        CHECK_IN = #{checkIn},
+        CHECK_OUT = #{checkOut},
+        PARKING = #{parking},
+        ELEVATOR = #{elevator}
+    WHERE CONTENT_ID = #{contentId}
+  </update>
 
 </mapper>

@@ -1,7 +1,5 @@
 package com.kh.finalproject.content.model.dto;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +11,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ContentDTO {
+public class UpdateContentDTO {
+	
+	private Long contentId;
 	
 	private Long categoryCode;
 	private String title;
@@ -26,4 +26,6 @@ public class ContentDTO {
 	private TourDTO tourDTO;
 	private FoodDTO foodDTO;
 	private FestivalDTO festivalDTO;
+	
+
 }

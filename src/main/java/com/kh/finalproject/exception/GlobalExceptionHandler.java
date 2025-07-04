@@ -13,6 +13,7 @@ import com.kh.finalproject.exception.exceptions.DuplicateUserEmailException;
 import com.kh.finalproject.exception.exceptions.DuplicateUserIdException;
 import com.kh.finalproject.exception.exceptions.DuplicateUserNickameException;
 import com.kh.finalproject.exception.exceptions.EmailCodeException;
+import com.kh.finalproject.exception.exceptions.FileUploadException;
 import com.kh.finalproject.exception.exceptions.InvaildFindIdException;
 import com.kh.finalproject.exception.exceptions.InvaildFindPwException;
 import com.kh.finalproject.exception.exceptions.InvaildPasswordException;
@@ -67,6 +68,10 @@ public class GlobalExceptionHandler {
 	}
 	@ExceptionHandler(DuplicateNicknameException.class)
 	public ResponseEntity<?> handlerDuplicateNicknameException(DuplicateNicknameException e){
+		return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+	}
+	@ExceptionHandler(FileUploadException.class)
+	public ResponseEntity<?> handlerFileUploadException(FileUploadException e){
 		return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 	}
 	

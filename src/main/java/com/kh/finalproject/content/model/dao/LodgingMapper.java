@@ -8,5 +8,6 @@ import com.kh.finalproject.content.model.vo.Lodging;
 public interface LodgingMapper {
 	
 	void insertLodging(Lodging lodging);
+	void updateLodging(Lodging lodging);
 
 }

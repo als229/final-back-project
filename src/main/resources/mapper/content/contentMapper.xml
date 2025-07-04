@@ -6,21 +6,76 @@
 	
 	<insert id="insertContent"
 			parameterType="com.kh.finalproject.content.model.vo.Content">
-		INSERT INTO TB_CONTENT (
-   			CATEGORY_CODE,
-     		TITLE,
-   		   FIRST_IMAGE,
-  		    TEL,
-  		    HOMEPAGE,
-  		    PLAYTIME
- 		   ) VALUES (
-   		   #{categoryCode},
-   		   #{title},
-   		   #{firstImage},
-  		   #{tel},
-  		   #{homepage},
-  		   #{playtime}
+		<selectKey keyProperty="contentId" resultType="long" order="BEFORE">
+        	SELECT SEQ_CONTENT_ID.NEXTVAL FROM DUAL
+    	</selectKey>
+			INSERT INTO TB_CONTENT (
+				CONTENT_ID,
+   				CATEGORY_CODE,
+     			TITLE,
+   		 	    FIRST_IMAGE,
+  			    TEL,
+  			    HOMEPAGE,
+  			    PLAY_TIME
+ 			   ) VALUES (
+			   #{contentId},
+   			   #{categoryCode},
+   			   #{title},
+   			   #{firstImageUrl},
+  			   #{tel},
+  			   #{homepage},
+  			   #{playtime}
     )
 	</insert>
+	
+	<update id="updateFirstImage">
+    	UPDATE TB_CONTENT
+    	SET FIRST_IMAGE = #{fileUrl}
+    	WHERE CONTENT_ID = #{contentId}
+	</update>
+	
+	<update id="updateContentImage">
+    	UPDATE TB_CONTENT
+    	SET FIRST_IMAGE = #{firstImageUrl}
+   		WHERE CONTENT_ID = #{contentId}
+	</update>
+	
+	<select id="selectContentList"
+			resultType="com.kh.finalproject.content.model.dto.ContentCardDTO">
+  	  SELECT
+  	  	CONTENT_ID,
+  	  	CATEGORY_CODE,
+  	  	TITLE,
+  	  	FIRST_IMAGE
+  	  FROM
+  	  	TB_CONTENT
+  	    <where>
+  	      STATUS = 'Y'
+          <if test="categoryCode != null">
+            CATEGORY_CODE = #{categoryCode}
+          </if>
+        </where>
+ 	  ORDER BY CONTENT_ID DESC
+	</select>
+	
+	<update id="updateContent" 
+        	parameterType="com.kh.finalproject.content.model.vo.Content">
+    	UPDATE TB_CONTENT 
+    	SET CATEGORY_CODE = #{categoryCode},
+        TITLE = #{title},
+        FIRST_IMAGE = #{firstImageUrl},
+        TEL = #{tel},
+        HOMEPAGE = #{homepage},
+        PLAY_TIME = #{playtime}
+    	WHERE CONTENT_ID = #{contentId}
+	</update>
+	
+	<update id="deleteContent">
+    	UPDATE TB_CONTENT
+  	    SET STATUS = 'N'
+  	    WHERE CONTENT_ID = #{contentId}
+    </update>
+	
+	
 
 </mapper>

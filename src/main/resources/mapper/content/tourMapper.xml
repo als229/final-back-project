@@ -3,9 +3,8 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.kh.finalproject.content.model.mapper.TourMapper">
+<mapper namespace="com.kh.finalproject.content.model.dao.TourMapper">
 
-  <!-- TB_TOUR insert -->
   <insert id="insertTour" parameterType="com.kh.finalproject.content.model.vo.Tour">
     INSERT INTO TB_TOUR (
       CONTENT_ID,
@@ -19,5 +18,14 @@
       #{parking}
     )
   </insert>
+  
+  <update id="updateTour" 
+        parameterType="com.kh.finalproject.content.model.vo.Tour">
+    UPDATE TB_TOUR 
+    SET TOUR_EXP = #{tourExp},
+        USETIME_TOUR = #{usetimeTour},
+        PARKING = #{parking}
+    WHERE CONTENT_ID = #{contentId}
+  </update>
 
 </mapper>
