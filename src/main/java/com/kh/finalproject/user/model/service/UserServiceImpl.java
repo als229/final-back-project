@@ -56,6 +56,7 @@ public class UserServiceImpl implements UserService {
 		String encodedPassword = passwordEncoder.encode(password);
 		userDTO.setPassword(encodedPassword);
 		
+		userDTO.setRole("USER");
 		userMapper.signUp(userDTO); 
 		
 		

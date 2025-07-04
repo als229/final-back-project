@@ -53,7 +53,8 @@
 			PASSWORD,
 			EMAIL,
 			REALNAME,
-			NICKNAME
+			NICKNAME,
+			ROLE
 		)
 		VALUES(
 			SEQ_USER_NO.NEXTVAL,
@@ -61,7 +62,8 @@
 			#{password},
 			#{email},
 			#{realName},
-			#{nickName}
+			#{nickName},
+			#{role}
 		)
 	
   </insert>
