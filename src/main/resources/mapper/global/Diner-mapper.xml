@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.finalproject.diner.model.dao.DinerMapper">
+
+  <!-- DinerDTO -->
+  <resultMap
+    id="resultMap"
+    type="com.kh.finalproject.diner.model.dto.DinerDTO">
+    <id property="contentId" column="CONTENT_ID"/>
+    <result property="categoryCode" column="CATEGORY_CODE"/>
+    <result property="title" column="TITLE"/>
+    <result property="firstImage" column="FIRST_IMAGE"/>
+    <result property="tel" column="TEL"/>
+    <result property="homepage" column="HOMEPAGE"/>
+    <result property="playTime" column="PLAY_TIME"/>
+    <result property="createdTime" column="CREATED_TIME"/>
+    <result property="modifiedTime" column="MODIFIED_TIME"/>
+    <result property="status" column="STATUS"/>
+    <result property="foodExp" column="FOOD_EXP"/>
+    <result property="mainMenu" column="MAIN_MENU"/>
+    <result property="menu" column="MENU"/>
+    <result property="parking" column="PARKING"/>
+  </resultMap>
+
+  <!-- 맛집 상세 조회 -->
+  <select
+    id="findByDinerId"
+    resultMap="resultMap"
+    parameterType="long">
+    SELECT  c.CONTENT_ID
+          , c.CATEGORY_CODE
+          , c.TITLE
+          , c.FIRST_IMAGE
+          , c.TEL
+          , c.HOMEPAGE
+          , c.PLAY_TIME
+          , c.CREATED_TIME
+          , c.MODIFIED_TIME
+          , c.STATUS
+          , f.FOOD_EXP
+          , f.MAIN_MENU
+          , f.MENU
+          , f.PARKING
+      FROM  TB_CONTENT c
+      JOIN  TB_FOOD f   ON(c.CONTENT_ID = f.CONTENT_ID)
+     WHERE  CONTENT_ID = #{contentId}
+       AND  c.STATUS = 'Y'
+     ORDER
+        BY  c.CREATED_TIME DESC
+          , c.MODIFIED_TIME DESC
+  </select>
+
+  <!-- 맛집 저장 -->
+  <insert
+    id="addByDiner"
+    parameterType="com.kh.finalproject.diner.model.vo.DinerVO">
+    INSERT 
+      INTO  TB_FOOD
+        (
+            CONTENT_ID
+          , FOOD_EXP
+          , MAIN_MENU
+          , MENU
+          , PARKING
+        )
+    VALUES
+        (
+            #{contentId}
+          , #{foodExp}
+          , #{mainMenu}
+          , #{menu}
+          , #{parking}
+        )
+  </insert>
+
+  <!-- 맛집 수정 -->
+  <update
+    id="updateByDiner"
+    parameterType="com.kh.finalproject.diner.model.vo.DinerVO">
+    UPDATE  TB_FOOD
+    <set>
+      <if test="foodExp != null">FOOD_EXP = #{foodExp},</if>
+      <if test="mainMenu != null">MAIN_MENU = #{mainMenu},</if>
+      <if test="menu != null">MENU = #{menu},</if>
+      <if test="parking != null">PARKING = #{parking},</if>
+    </set>
+     WHERE  CONTENT_ID = #{contentId}
+  </update>
+
+</mapper>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.finalproject.global.map.model.dao.SigunguMapper">
+
+  <!-- SigunguDTO -->
+  <resultMap
+    id="resultMap"
+    type="com.kh.finalproject.global.map.model.dto.SigunguDTO">
+    <id property="sigunguNo" column="SIGUNGU_NO"/>
+    <result property="sidoNo" column="SIDO_NO"/>
+    <result property="sigunguName" column="SIGUNGU_NAME"/>
+  </resultMap>
+
+  <!-- 시군구 조회 -->
+  <select
+    id="findBySigungu"
+    resultMap="resultMap"
+    parameterType="Long">
+    SELECT  SIGUNGU_NO
+          , SIDO_NO
+          , SIGUNGU_NAME
+      FROM  TB_SIGUNGU
+     WHERE  SIDO_NO = #{sidoNo}
+  </select>
+
+  <!-- 시군구 저장 -->
+  <insert
+    id="addBySigungu"
+    parameterType="com.kh.finalproject.global.map.model.vo.SigunguVO">
+    INSERT 
+      INTO  TB_SIGUNGU
+        (
+            SIGUNGU_NO
+          , SIDO_NO
+          , SIGUNGU_NAME
+        )
+    VALUES
+        (
+            SEQ_SIGUNGU_NO.NEXTVAL
+          , #{sidoNo}
+          , #{sigunguName}
+        )
+  </insert>
+
+  <!-- 시군구 수정 -->
+  <update
+    id="updateBySigungu"
+    parameterType="com.kh.finalproject.global.map.model.vo.SigunguVO">
+    UPDATE  TB_SIGUNGU
+    <set>
+      <if test="sidoNo != null">SIDO_NO = #{sidoNo},</if>
+      <if test="sidoName != null">SIDO_NAME = #{sidoName},</if>
+    </set>
+     WHERE  SIGUNGU_NO = #{sigunguNo}
+  </update>
+
+  <!-- 시군구 삭제 -->
+  <delete
+    id="deleteBySigungu"
+    parameterType="Long">
+    DELETE 
+      FROM  TB_SIGUNGU
+     WHERE  SIGUNGU_NO = #{sigunguNo}
+  </delete>
+
+</mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.finalproject.report.model.dao.PenaltyMapper">
+
+  <!-- PenaltyDTO -->
+  <resultMap
+    id="resultMap"
+    type="com.kh.finalproject.report.model.dto.PenaltyDTO">
+    <id property="penaltyNo" column="PENALTY_NO"/>
+    <result property="penaltyName" column="PENALTY_NAME"/>
+  </resultMap>
+
+  <!-- 제재유형 조회 -->
+  <select 
+    id="findByPenalty" 
+    resultMap="resultMap">
+    SELECT  PENALTY_NO
+          , PENALTY_NAME
+      FROM  TB_PENALTY
+  </select>
+  
+  <!-- 제재유형 저장 -->
+  <insert 
+    id="addByPenalty" 
+    parameterType="com.kh.finalproject.report.model.vo.PenaltyVO">
+    INSERT 
+      INTO  TB_PENALTY 
+        (
+            PENALTY_NO
+          , PENALTY_NAME
+        )
+    VALUES 
+        (
+            SEQ_PENALTY_NO.NEXTVAL
+          , #{penaltyName}
+        )
+  </insert>
+
+  <!-- 제재유형 수정 -->
+  <update 
+    id="updateByPenalty" 
+    parameterType="com.kh.finalproject.report.model.vo.PenaltyVO">
+    UPDATE  TB_PENALTY
+       SET  PENALTY_NAME = #{penaltyName}
+     WHERE  PENALTY_NO = #{penaltyNo}
+  </update>
+
+  <!-- 제재유형 삭제 -->
+  <delete 
+    id="deleteByPenalty" 
+    parameterType="Long">
+    DELETE  
+      FROM  TB_PENALTY
+     WHERE  PENALTY_NO = #{penaltyNo}
+  </delete>
+
+</mapper>

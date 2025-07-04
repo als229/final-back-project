@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.finalproject.tour.model.dao.TourMapper">
+
+  <!-- TourDTO -->
+  <resultMap
+    id="resultMap"
+    type="com.kh.finalproject.tour.model.dto.TourDTO">
+    <id property="contentId" column="CONTENT_ID"/>
+    <result property="categoryCode" column="CATEGORY_CODE"/>
+    <result property="title" column="TITLE"/>
+    <result property="firstImage" column="FIRST_IMAGE"/>
+    <result property="tel" column="TEL"/>
+    <result property="homepage" column="HOMEPAGE"/>
+    <result property="playTime" column="PLAY_TIME"/>
+    <result property="createdTime" column="CREATED_TIME"/>
+    <result property="modifiedTime" column="MODIFIED_TIME"/>
+    <result property="status" column="STATUS"/>
+    <result property="tourExp" column="TOUR_EXP"/>
+    <result property="usetimeTour" column="USETIME_TOUR"/>
+    <result property="parking" column="PARKING"/>
+  </resultMap>
+
+  <!-- 관광지 상세 조회 -->
+  <select
+    id="findByTourId"
+    resultMap="resultMap"
+    parameterType="long">
+    SELECT  c.CONTENT_ID
+          , c.CATEGORY_CODE
+          , c.TITLE
+          , c.FIRST_IMAGE
+          , c.TEL
+          , c.HOMEPAGE
+          , c.PLAY_TIME
+          , c.CREATED_TIME
+          , c.MODIFIED_TIME
+          , c.STATUS
+          , t.TOUR_EXP
+          , t.USETIME_TOUR
+          , t.PARKING
+      FROM  TB_CONTENT c
+      JOIN  TB_TOUR t   ON(c.CONTENT_ID = t.CONTENT_ID)
+     WHERE  CONTENT_ID = #{contentId}
+       AND  c.STATUS = 'Y'
+     ORDER
+        BY  c.CREATED_TIME DESC
+          , c.MODIFIED_TIME DESC
+  </select>
+
+  <!-- 관광지 저장 -->
+  <insert
+    id="addByTour"
+    parameterType="com.kh.finalproject.tour.model.vo.TourVO">
+    INSERT 
+      INTO  TB_TOUR
+        (
+            CONTENT_ID
+          , TOUR_EXP
+          , USETIME_TOUR
+          , PARKING
+        )
+    VALUES
+        (
+            #{contentId}
+          , #{tourExp}
+          , #{usetimeTour}
+          , #{parking}
+        )
+  </insert>
+
+  <!-- 관광지 수정 -->
+  <update
+    id="updateByTour"
+    parameterType="com.kh.finalproject.tour.model.vo.TourVO">
+    UPDATE  TB_TOUR
+    <set>
+      <if test="foodExp != null">TOUR_EXP = #{tourExp},</if>
+      <if test="mainMenu != null">USETIME_TOUR = #{usetimeTour},</if>
+      <if test="parking != null">PARKING = #{parking},</if>
+    </set>
+     WHERE  CONTENT_ID = #{contentId}
+  </update>
+
+</mapper>

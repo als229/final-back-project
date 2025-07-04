@@ -19,6 +19,8 @@ import com.kh.finalproject.exception.exceptions.InvaildFindPwException;
 import com.kh.finalproject.exception.exceptions.InvaildPasswordException;
 import com.kh.finalproject.exception.exceptions.InvalidTokenException;
 import com.kh.finalproject.exception.exceptions.LoginFailedException;
+import com.kh.finalproject.exception.exceptions.NotFoundException;
+import com.kh.finalproject.exception.exceptions.NullPointException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

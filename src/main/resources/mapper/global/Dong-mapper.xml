@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.finalproject.global.map.model.dao.DongMapper">
+
+  <!-- DongDTO -->
+  <resultMap
+    id="resultMap"
+    type="com.kh.finalproject.global.map.model.dto.DongDTO">
+    <id property="dongNo" column="DONG_NO"/>
+    <result property="sigunguNo" column="SIGUNGU_NO"/>
+    <result property="dongName" column="DONG_NAME"/>
+  </resultMap>
+
+  <!-- 동 조회 -->
+  <select
+    id="findByDong"
+    resultMap="resultMap"
+    parameterType="Long">
+    SELECT  DONG_NO
+          , SIGUNGU_NO
+          , DONG_NAME
+      FROM  TB_DONG
+     WHERE  SIGUNGU_NO = #{sigunguNo}
+  </select>
+
+  <!-- 동 저장 -->
+  <insert
+    id="addByDong"
+    parameterType="com.kh.finalproject.global.map.model.vo.DongVO">
+    INSERT 
+      INTO  TB_DONG
+        (
+            DONG_NO
+          , SIGUNGU_NO
+          , DONG_NAME
+        )
+    VALUES
+        (
+            SEQ_DONG_NO.NEXTVAL
+          , #{sigunguNo}
+          , #{dongName}
+        )
+  </insert>
+
+  <!-- 동 수정 -->
+  <update
+    id="updateByDong"
+    parameterType="com.kh.finalproject.global.map.model.vo.DongVO">
+    UPDATE  TB_DONG
+    <set>
+      <if test="sigunguNo != null">SIGUNGU_NO = #{sigunguNo},</if>
+      <if test="dongName != null">DONG_NAME = #{dongName}</if>
+    </set>
+     WHERE  DONG_NO = #{dongNo}
+  </update>
+
+  <!-- 동 삭제 -->
+  <delete
+    id="deleteByDong"
+    parameterType="Long">
+    DELETE 
+      FROM  TB_DONG
+     WHERE  DONG_NO = #{dongNo}
+  </delete>
+
+</mapper>
