@@ -90,7 +90,7 @@
 	        FILE_URL
 	    ) VALUES (
 	        SEQ_REVIEW_IMG.NEXTVAL,
-	        SEQ_REVIEW.NEXTVAL,
+	        SEQ_REVIEW.CURRVAL,
 	        #{fileUrl}
 	    )
 	</insert>
