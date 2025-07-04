@@ -31,5 +31,21 @@ public class FestivalServiceImpl implements FestivalService{
 		
 		fetivalMapper.insertFestival(requestData);
 	}
+	
+	@Override
+	public void updateFestival(FestivalDTO festival, Long contentId) {
+		
+		Festival requestData = Festival.builder()
+				.contentId(contentId)
+				.program(festival.getProgram())
+				.eventExp(festival.getEventExp())
+				.sponsor(festival.getSponsor())
+				.usetimeFestival(festival.getUsetimeFestival())
+				.eventStartDate(festival.getEventStartDate())
+				.eventEndDate(festival.getEventEndDate())
+				.build();
+		
+		fetivalMapper.updateFestival(requestData);
+	}
 
 }

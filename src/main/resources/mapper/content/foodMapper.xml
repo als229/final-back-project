@@ -20,5 +20,15 @@
       #{parking}
     )
   </insert>
+  
+  <update id="updateFood" 
+        parameterType="com.kh.finalproject.content.model.vo.Food">
+   	 UPDATE TB_FOOD 
+   	 SET FOOD_EXP = #{foodExp},
+         MAIN_MENU = #{mainMenu},
+         MENU = #{menu},
+         PARKING = #{parking}
+   WHERE CONTENT_ID = #{contentId}
+  </update>
 
 </mapper>

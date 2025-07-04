@@ -17,5 +17,13 @@
       #{mapY}
     )
   </insert>
+  
+  <update id="updateCoordinate"
+      	  parameterType="com.kh.finalproject.content.model.vo.Coordinate">
+  	  UPDATE TB_MAP 
+  	  SET MAP_X = #{mapX},
+  	      MAP_Y = #{mapY}
+    WHERE CONTENT_ID = #{contentId}
+  </update>
 
 </mapper>

@@ -23,5 +23,16 @@
       #{elevator}
     )
   </insert>
+  
+  <update id="updateLodging"
+        parameterType="com.kh.finalproject.content.model.vo.Lodging">
+    UPDATE TB_LODGING 
+    SET LODGING_EXP = #{lodgingExp},
+        CHECK_IN = #{checkIn},
+        CHECK_OUT = #{checkOut},
+        PARKING = #{parking},
+        ELEVATOR = #{elevator}
+    WHERE CONTENT_ID = #{contentId}
+  </update>
 
 </mapper>

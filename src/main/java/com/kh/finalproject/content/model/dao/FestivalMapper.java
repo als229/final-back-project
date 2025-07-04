@@ -8,5 +8,6 @@ import com.kh.finalproject.content.model.vo.Festival;
 public interface FestivalMapper {
 	
 	void insertFestival(Festival festival);
+	void updateFestival(Festival festival);
 
 }

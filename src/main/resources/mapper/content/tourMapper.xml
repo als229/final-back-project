@@ -18,5 +18,14 @@
       #{parking}
     )
   </insert>
+  
+  <update id="updateTour" 
+        parameterType="com.kh.finalproject.content.model.vo.Tour">
+    UPDATE TB_TOUR 
+    SET TOUR_EXP = #{tourExp},
+        USETIME_TOUR = #{usetimeTour},
+        PARKING = #{parking}
+    WHERE CONTENT_ID = #{contentId}
+  </update>
 
 </mapper>

@@ -29,5 +29,19 @@ public class TourServiceImpl implements TourService {
 		tourMapper.insertTour(requestData);
 		
 	}
+	
+	@Override
+	public void updateTour(TourDTO tour, Long contentId) {
+		
+		Tour requestData = Tour.builder()
+				.contentId(contentId)
+				.tourExp(tour.getTourExp())
+				.usetimeTour(tour.getUsetimeTour())
+				.parking(tour.getParking())
+				.build();
+		
+		tourMapper.updateTour(requestData);
+		
+	}
 
 }

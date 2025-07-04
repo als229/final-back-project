@@ -26,5 +26,18 @@ public class CoordinateServiceImpl implements CoordinateService{
 		coordinateMapper.insertCoordinate(requestData);
 		
 	}
+	
+	@Override
+	public void updateCoordinate(CoordinateDTO coordinate, Long contentId) {
+		
+		Coordinate requestData = Coordinate.builder()
+				.contentId(contentId)
+				.mapX(coordinate.getMapX())
+				.mapY(coordinate.getMapY())
+				.build();
+		
+		coordinateMapper.updateCoordinate(requestData);
+		
+	}
 
 }

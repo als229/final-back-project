@@ -24,5 +24,17 @@
       #{eventEndDate}
     )
   </insert>
+  
+  <update id="updateFestival" 
+        parameterType="com.kh.finalproject.content.model.vo.Festival">
+    	UPDATE TB_FESTIVAL 
+    	SET PROGRAM = #{program},
+        	EVENT_EXP = #{eventExp},
+      	    SPONSOR = #{sponsor},
+            USETIME_FESTIVAL = #{usetimeFestival},
+      		EVENT_START_DATE = #{eventStartDate},
+     	    EVENT_END_DATE = #{eventEndDate}
+ 	  WHERE CONTENT_ID = #{contentId}
+  </update>
 
 </mapper>
