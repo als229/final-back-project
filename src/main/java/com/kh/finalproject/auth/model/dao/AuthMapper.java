@@ -28,7 +28,6 @@ public interface AuthMapper {
 	
 	
 	
-	
 	int sendEmailCode(EmailCodeVO emailCodeInfo);
 	
 	EmailCodeVO verifyCode(EmailDTO emailDTO);

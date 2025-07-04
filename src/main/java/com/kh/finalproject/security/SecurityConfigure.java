@@ -53,6 +53,9 @@ public class SecurityConfigure {
 									   "/api/festivals/**",
 										 "/api/systm/reports"
 										 ).permitAll();
+							   request.requestMatchers(HttpMethod.POST, 
+									   "/api/reviews/**",
+									   "/api/favorites/**").authenticated();
 							   request.requestMatchers(HttpMethod.POST,
 									   "/api/region",
 									   "/api/festivals",
@@ -64,6 +67,7 @@ public class SecurityConfigure {
 									  "/api/auth/**").permitAll();
 							   
 							   request.requestMatchers(HttpMethod.DELETE, 
+									   "/api/reviews/**",
 									   "/api/users",
 									   "/api/users/**",
 									   "/api/commnet/**").authenticated();
@@ -81,6 +85,7 @@ public class SecurityConfigure {
 							  
 							   
 							   request.requestMatchers(HttpMethod.PUT, 
+									   "/api/reviews/**",
 									   "/api/users/update-nickname",
 									   "/api/users/update-pw",
 										  "/api/users/**").authenticated();
@@ -102,6 +107,8 @@ public class SecurityConfigure {
 											).hasRole("ADMIN");
 							   
 							   request.requestMatchers(HttpMethod.GET,
+									   "/api/reviews/**",
+									   "/api/favorites/**",
 									   "/api/users/check-id",
 									   "/api/chats/**",
 									   "/api/region/**",

@@ -1,6 +1,7 @@
 package com.kh.finalproject.chat.socketconfiguration;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.socket.EnableWebSocketSecurity;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
@@ -11,7 +12,7 @@ import com.kh.finalproject.chat.handshakeInterceptor.AuthHandshakeInterceptor;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
-@EnableWebSocket
+@EnableWebSocketSecurity
 @RequiredArgsConstructor
 public class WebSocketConfig implements WebSocketConfigurer{
 	

@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
@@ -53,7 +54,8 @@
 			PASSWORD,
 			EMAIL,
 			REALNAME,
-			NICKNAME
+			NICKNAME,
+			ROLE
 		)
 		VALUES(
 			SEQ_USER_NO.NEXTVAL,
@@ -61,7 +63,8 @@
 			#{password},
 			#{email},
 			#{realName},
-			#{nickName}
+			#{nickName},
+			#{role}
 		)
 	
   </insert>
@@ -121,6 +124,34 @@
   </select>
   
   
+
+  	<update id="updateProfile">
+ 		
+ 		UPDATE
+ 				TB_PROFILE
+ 		SET
+ 				
+ 				FILE_URL = #{fileUrl}
+ 		WHERE
+ 				USER_NO = #{userNo}
+
+    </update>
+  
+  <delete id="deleteProfile"
+  		parameterType="long">
+  	
+  		UPDATE
+  				TB_PROFILE
+  		SET
+  				FILE_URL = 'https://final-nw-bucket.s3.ap-northeast-2.amazonaws.com/f62ed12c-abe9-439f-b822-e0e2c1441be9_KakaoTalk_20250630_205959345.jpg'
+  		WHERE
+  				USER_NO = #{userNo}
+  			
+  </delete>
+  
+  
+  
+  
  <update id="updateNickname"
   		  parameterType="com.kh.finalproject.user.model.dto.UserDTO">
   
@@ -156,17 +187,36 @@
   				C.CATEGORY_CODE category,
   				R.CONTENT content,
   				R.CREATED_TIME createTime,
-  				F.FILE_URL fileUrl
+  				I.FILE_URL fileUrl
   		FROM
   				TB_REVIEW R
   		JOIN
   				TB_CONTENT C ON C.CONTENT_ID = R.CONTENT_ID
-  		JOIN
-  				TB_FAVORITE F ON R.USER_NO = F.USER_NO
+  	LEFT JOIN
+  				TB_CONTENT_IMG I ON C.CONTENT_ID = I.CONTENT_ID
   		WHERE
-  				USER_NO = #{userNo}
+  				R.USER_NO = #{userNo}
   			
   </select>
   
  
-  </mapper>
+ 
+ 
+  <select id="selectFavorite"
+  		  parameterType="long"
+  		  resultType="com.kh.finalproject.user.model.dto.MypageDTO">
+  
+  		SELECT
+  				C.TITLE title,
+  				C.FIRST_IMAGE firstImage
+  		FROM
+  				TB_FAVORITE F
+  	LEFT JOIN
+  				TB_CONTENT C ON F.CONTENT_ID = C.CONTENT_ID 
+		WHERE
+				F.USER_NO = #{userNo}  				
+  		
+  </select>
+ </mapper>
+ 
+ 

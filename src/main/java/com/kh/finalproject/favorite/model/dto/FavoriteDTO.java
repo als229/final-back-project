@@ -16,4 +16,8 @@ public class FavoriteDTO {
 	private Long userNo;
 	private Long contentId;
 	private int category;
+	private boolean flag;
+    private boolean likeFlag;
+    private boolean bookmarkFlag;
+
 }

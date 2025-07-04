@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.kh.finalproject.user.model.dto.MypageDTO;
 import com.kh.finalproject.user.model.dto.UpdatePasswordDTO;
@@ -36,8 +37,9 @@ public interface UserMapper {
 	int selectNickName(String nickName);
 	
 	
+	void updateProfile(@Param("userNo") Long userNo, @Param("fileUrl") String fileUrl);
 	
-	
+	int deleteProfile(Long userNo);
 	
 	List<MypageDTO> selectComments(Long userNo);
 	
