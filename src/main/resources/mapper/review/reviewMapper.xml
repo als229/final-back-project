@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+  <mapper namespace="com.kh.finalproject.review.model.dao.ReviewMapper">
+  	<sql id="reviewColumn">
+  	    SELECT 
+	        REVIEW_NO AS reviewNo,
+	        USER_NO AS userNo,
+	        CONTENT_ID AS contentId,
+	        CONTENT AS content,
+	        CREATED_TIME AS createdTime,
+	        MODIFIED_TIME AS modifiedTime,
+	        STATUS AS status
+  	</sql>
+  	
+	<resultMap id="reviewResultMap" type="ReviewResDTO">
+	    <id property="reviewNo" column="REVIEW_NO"/>
+	    <result property="userNo" column="USER_NO"/>
+	    <result property="contentId" column="CONTENT_ID"/>
+	    <result property="content" column="CONTENT"/>
+	    <result property="createdTime" column="CREATED_TIME"/>
+	    <result property="modifiedTime" column="MODIFIED_TIME"/>
+	    <result property="status" column="STATUS"/>
+	    <result property="point" column="POINT"/>
+	    <result property="average" column="AVERAGE"/>
+	    <result property="userId" column="USER_ID"/>
+	    <result property="nickname" column="NICKNAME"/>
+	     
+	    <collection property="images" ofType="string">
+	        <result column="FILE_URL"/>
+	    </collection>
+	</resultMap>
+
+	<insert id="addReview"
+		parameterType="Review"
+	>
+	    INSERT INTO TB_REVIEW (
+	        REVIEW_NO,
+	        USER_NO,
+	        CONTENT_ID,
+	        CONTENT,
+	        CREATED_TIME,
+	        MODIFIED_TIME,
+	        POINT,
+	        STATUS
+	    ) VALUES (
+	        SEQ_REVIEW.NEXTVAL,
+	        #{userNo},
+	        #{contentId},
+	        #{content},
+	        SYSDATE,
+	        SYSDATE,
+	        #{point},
+	        'Y'
+	    )
+	</insert>
+	
+	<select id="selectReviewByContentNo" parameterType="Long" resultType="ReviewResDTO">
+
+		<include refid="reviewColumn" />
+	    FROM TB_REVIEW
+	    WHERE 1=1
+	     	AND CONTENT_ID = #{contentId}
+	      	AND STATUS = 'Y'
+	</select>
+	
+	<update id="updateReview" parameterType="Review">
+	    UPDATE TB_REVIEW
+	    SET 
+	        CONTENT = #{content},
+	        POINT = #{point},
+	        MODIFIED_TIME = SYSDATE
+	    WHERE REVIEW_NO = #{reviewNo}
+	</update>
+  
+	<update id="deleteReview" parameterType="Long">
+	    DELETE TB_REVIEW
+	    WHERE REVIEW_NO = #{reviewNo}
+	</update>
+	
+	<!-- 리뷰 이미지 관련  -->
+
+	<insert id="addReviewImg" parameterType="String">
+	    INSERT INTO TB_REVIEW_IMG (
+	        REVIEW_IMG_NO,
+	        REVIEW_NO,
+	        FILE_URL
+	    ) VALUES (
+	        SEQ_REVIEW_IMG.NEXTVAL,
+	        SEQ_REVIEW.CURRVAL,
+	        #{fileUrl}
+	    )
+	</insert>
+
+	<insert id="addReviewImgUpdateVer" parameterType="map">
+	    INSERT INTO TB_REVIEW_IMG (
+	        REVIEW_IMG_NO,
+	        REVIEW_NO,
+	        FILE_URL
+	    ) VALUES (
+	        SEQ_REVIEW_IMG.NEXTVAL,
+	        #{reviewNo},
+	        #{fileUrl}
+	    )
+	</insert>
+	
+	<select id="selectAllReviewImgs" resultType="String">
+		  SELECT 
+		    RI.FILE_URL
+		  FROM 
+		    TB_REVIEW R
+		  JOIN 
+		    TB_REVIEW_IMG RI ON R.REVIEW_NO = RI.REVIEW_NO
+		  WHERE 
+		    R.CONTENT_ID = #{contentId}
+		    AND R.STATUS = 'Y'
+		  ORDER BY 
+		    R.REVIEW_NO
+	</select>
+	
+	<select id="selectReviewImgsByReviewNo">
+	    SELECT 
+	    	FILE_URL
+	    FROM 
+	    	TB_REVIEW_IMG
+	    WHERE 
+	    	REVIEW_NO = #{reviewNo}
+	</select>
+	
+	<select id="selectReviewsWithImages" resultMap="reviewResultMap">
+	    SELECT
+	        R.REVIEW_NO,
+	        R.USER_NO,
+	        R.CONTENT_ID,
+	        R.CONTENT,
+	        R.CREATED_TIME,
+	        R.MODIFIED_TIME,
+	        R.STATUS,
+	        R.POINT,
+	        I.FILE_URL,
+	        U.USER_ID,
+	        U.NICKNAME
+	    FROM
+	        TB_REVIEW R
+	    LEFT JOIN
+	        TB_REVIEW_IMG I ON R.REVIEW_NO = I.REVIEW_NO
+	    LEFT JOIN
+	    	TB_USER U ON R.USER_NO = U.USER_NO
+	    WHERE
+	        R.STATUS = 'Y'
+	        AND R.CONTENT_ID = #{contentId}
+	</select>
+	
+	<select id="selectReviewsByReviewNo" resultMap="reviewResultMap">
+	    SELECT
+	        R.REVIEW_NO,
+	        R.USER_NO,
+	        R.CONTENT_ID,
+	        R.CONTENT,
+	        R.CREATED_TIME,
+	        R.MODIFIED_TIME,
+	        R.STATUS,
+	        R.POINT,
+	        I.FILE_URL,
+	        U.USER_ID,
+	        U.NICKNAME
+	    FROM
+	        TB_REVIEW R
+	    LEFT JOIN
+	        TB_REVIEW_IMG I ON R.REVIEW_NO = I.REVIEW_NO
+	    LEFT JOIN
+	    	TB_USER U ON R.USER_NO = U.USER_NO
+	    WHERE
+	        R.STATUS = 'Y'
+	        AND R.REVIEW_NO = #{reviewNo}
+	</select>
+	
+	<delete id="deleteReviewImgs">
+	    DELETE FROM TB_REVIEW_IMG
+	    WHERE REVIEW_NO = #{reviewNo}
+	</delete>
+	
+	<delete id="deleteReviewImgsByfileUrl">
+	    DELETE FROM TB_REVIEW_IMG
+	    WHERE FILE_URL = #{fileUrl}
+	</delete>
+	
+	<!-- 별점 관련 -->
+<!--	<insert id="addStar" parameterType="ReviewReqDTO">
+	    INSERT INTO TB_STAR (
+	        USER_NO,
+	        CONTENT_ID,
+	        POINT
+	    ) VALUES (
+	        #{userNo},
+	        #{contentId},
+	        #{point}
+	    )
+	</insert>
+	
+	<update id="updateStar" parameterType="StarDTO">
+	    UPDATE 
+	    	TB_STAR
+	    SET 
+	    	POINT = #{point}
+	    WHERE 1=1
+	    	AND USER_NO = #{userNo}
+	      	AND CONTENT_ID = #{contentId}
+	</update>
+	
+	<select id="selectStar" resultType="StarDTO">
+	    SELECT 
+	        USER_NO,
+	        CONTENT_ID,
+	        POINT
+	    FROM TB_STAR
+	    WHERE USER_NO = #{userNo}
+	      AND CONTENT_ID = #{contentId}
+	</select>-->
+	
+	<select id="selectAverageStarByContentId" resultType="double">
+	    SELECT 
+	    	NVL(AVG(POINT), 0)
+	    FROM 
+	    	TB_REVIEW
+	    WHERE CONTENT_ID = #{contentId}
+	</select>
+	
+	<select id="selectAllReviewCount" resultType="int">
+	    SELECT 
+			COUNT(*)   	
+	    FROM 
+	    	TB_REVIEW
+	    WHERE CONTENT_ID = #{contentId}
+	</select>
+  
+  
+  </mapper>
