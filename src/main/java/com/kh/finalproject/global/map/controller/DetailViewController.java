@@ -3,8 +3,8 @@ package com.kh.finalproject.global.map.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kh.finalproject.global.map.model.dto.DetailAddDTO;
-import com.kh.finalproject.global.map.model.service.DetailAddService;
+import com.kh.finalproject.global.map.model.dto.DetailViewDTO;
+import com.kh.finalproject.global.map.model.service.DetailViewService;
 import com.kh.finalproject.util.model.dto.ResponseData;
 
 import jakarta.validation.Valid;
@@ -24,27 +24,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/systm/detail")
-public class DetailAddController {
+public class DetailViewController {
   
-  private final DetailAddService detailAddService;
+  private final DetailViewService detailViewService;
 
   @GetMapping
-  public ResponseEntity<ResponseData> findByDetailAdd(Long contentId) {
+  public ResponseEntity<ResponseData> findByDetailView(Long contentId) {
 
-    DetailAddDTO detailAddDTO = detailAddService.findByDetailAdd(contentId);
+    DetailViewDTO detailViewDTO = detailViewService.findByDetailView(contentId);
     return ResponseEntity.ok(
       ResponseData.builder()
                   .code("M100")
                   .message("세부사항 정보 조회 성공")
-                  .items(detailAddDTO)
+                  .items(detailViewDTO)
                   .build()
     );
   }
 
   @PostMapping
-  public ResponseEntity<ResponseData> addByDetailAdd(@Valid @RequestBody DetailAddDTO detailAddDTO) {
+  public ResponseEntity<ResponseData> addByDetailAView(@Valid @RequestBody DetailViewDTO detailViewDTO) {
 
-    detailAddService.addByDetailAdd(detailAddDTO);
+    detailViewService.addByDetailView(detailViewDTO);
     return ResponseEntity.ok(
       ResponseData.builder()
                   .code("M101")
@@ -54,9 +54,9 @@ public class DetailAddController {
   }
 
   @PutMapping
-  public ResponseEntity<ResponseData> updateByDetailAdd(@Valid @RequestBody DetailAddDTO detailAddDTO) {
+  public ResponseEntity<ResponseData> updateByDetailView(@Valid @RequestBody DetailViewDTO detailViewDTO) {
     
-    detailAddService.updateByDetailAdd(detailAddDTO);
+    detailViewService.updateByDetailView(detailViewDTO);
     return ResponseEntity.ok(
       ResponseData.builder()
                   .code("M100")
@@ -66,9 +66,9 @@ public class DetailAddController {
   }
 
   @DeleteMapping
-  public ResponseEntity<ResponseData> deleteByDetailAdd(@PathVariable Long detailAddNo) {
+  public ResponseEntity<ResponseData> deleteByDetailView(@PathVariable Long detailViewNo) {
 
-    detailAddService.deleteByDetailAdd(detailAddNo);
+    detailViewService.deleteByDetailView(detailViewNo);
     return ResponseEntity.ok(
       ResponseData.builder()
                   .code("M104")

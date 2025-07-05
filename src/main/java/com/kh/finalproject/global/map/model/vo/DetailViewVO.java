@@ -9,7 +9,7 @@ import lombok.Value;
 @Getter
 @Builder
 @AllArgsConstructor
-public class DetailAddVO {
+public class DetailViewVO {
   
   private Long contentId;
   private Long detailNo;

@@ -2,12 +2,12 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kh.finalproject.global.map.model.dao.DetailAddMapper">
+<mapper namespace="com.kh.finalproject.global.map.model.dao.DetailViewMapper">
 
-  <!-- DetailAddDTO -->
+  <!-- DetailViewDTO -->
   <resultMap 
     id="resultMap"
-    type="com.kh.finalproject.global.map.model.dto.DetailAddDTO">
+    type="com.kh.finalproject.global.map.model.dto.DetailViewDTO">
     <id property="detailNo" column="DETAIL_NO"/>
     <result property="contentId" column="CONTENT_ID"/>
     <result property="dongNo" column="DONG_NO"/>
@@ -17,7 +17,7 @@
 
   <!-- 세부사항 조회 -->
   <select
-    id="findByDetailAdd"
+    id="findByDetailView"
     resultMap="resultMap">
     SELECT  DETAIL_NO
           , CONTENT_ID
@@ -30,9 +30,8 @@
 
   <!-- 세부사항 저장 -->
   <insert
-    id="addByDetailAdd"
-    parameterType="com.kh.finalproject.global.map.model.vo.DetailAddVO">
-    INSERT 
+    id="addByDetailView"
+    parameterType="com.kh.finalproject.global.map.model.vo.DetailViewVO">
       INTO  TB_DETAIL_ADD
         (
             DETAIL_NO
@@ -53,8 +52,8 @@
 
   <!-- 세부사항 수정 -->
   <update
-    id="updateByDetailAdd"
-    parameterType="com.kh.finalproject.global.map.model.vo.DetailAddVO">
+    id="updateByDetailView"
+    parameterType="com.kh.finalproject.global.map.model.vo.DetailViewVO">
     UPDATE  TB_DETAIL_ADD
     <set>
       <if test="dongNo != null">DONG_NO = #{dongNo},</if>
@@ -66,7 +65,7 @@
 
   <!-- 세부사항 삭제 -->
   <delete
-    id="deleteByDetailAdd"
+    id="deleteByDetailView"
     parameterType="Long">
     DELETE 
       FROM  TB_DETAIL_ADD
