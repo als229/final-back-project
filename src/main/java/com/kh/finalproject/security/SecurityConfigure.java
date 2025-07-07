@@ -37,7 +37,7 @@ public class SecurityConfigure {
 		return httpSecurity.formLogin(AbstractHttpConfigurer::disable)
 	              		   .httpBasic(AbstractHttpConfigurer::disable)
 	                       .csrf(AbstractHttpConfigurer::disable)
-	                       .cors(Customizer.withDefaults())
+	                       .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 	                       .authorizeHttpRequests(request -> {
 	                    	   request.requestMatchers("/ws/**").permitAll(); 
 							   request.requestMatchers("/admin/**").hasRole("ADMIN");
@@ -160,10 +160,10 @@ public class SecurityConfigure {
 		
 		CorsConfiguration configuration = new CorsConfiguration();
 		
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
-		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));	
-		//configuration.setAllowCredentials(true);
+		configuration.setAllowedOrigins(Arrays.asList("https://nollerway.store"));
+		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+		configuration.setAllowedHeaders(Arrays.asList("*"));	
+		configuration.setAllowCredentials(true);
 		
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		
