@@ -19,7 +19,7 @@
     )
   </insert>
   
-  <update id="updateTour" 
+  <update id="updateTour"  
         parameterType="com.kh.finalproject.content.model.vo.Tour">
     UPDATE TB_TOUR 
     SET TOUR_EXP = #{tourExp},
