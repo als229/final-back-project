@@ -107,6 +107,7 @@ public class SecurityConfigure {
 											).hasRole("ADMIN");
 							   
 							   request.requestMatchers(HttpMethod.GET,
+									   "api/home",
 									   "/api/reviews/**",
 									   "/api/favorites/**",
 									   "/api/users/check-id",
@@ -160,7 +161,8 @@ public class SecurityConfigure {
 		
 		CorsConfiguration configuration = new CorsConfiguration();
 		
-		configuration.setAllowedOrigins(Arrays.asList("https://nollerway.store"));
+		//configuration.setAllowedOrigins(Arrays.asList("https://nollerway.store"));
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 		configuration.setAllowedHeaders(Arrays.asList("*"));	
 		configuration.setAllowCredentials(true);
