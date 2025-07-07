@@ -1,6 +1,7 @@
 package com.kh.finalproject.global.map.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.finalproject.global.map.model.dto.DongDTO;
@@ -31,7 +32,7 @@ public class DongController {
   private final DongService dongService;
 
   @GetMapping
-  public ResponseEntity<ResponseData> findByDong(Long sigunguNo) {
+  public ResponseEntity<ResponseData> findByDong(@RequestParam Long sigunguNo) {
 
     List<DongDTO> list = dongService.findByDong(sigunguNo);
     return ResponseEntity.ok(
@@ -55,9 +56,13 @@ public class DongController {
     );
   }
 
-  @PutMapping
-  public ResponseEntity<ResponseData> updateByDong(@Valid @RequestBody DongDTO dongDTO) {
+  @PutMapping("/{dongNo}")
+  public ResponseEntity<ResponseData> updateByDong(
+    @PathVariable Long dongNo,
+    @Valid @RequestBody DongDTO dongDTO
+    ) {
     
+    dongDTO.setDongNo(dongNo);
     dongService.updateByDong(dongDTO);
     return ResponseEntity.ok(
       ResponseData.builder()
@@ -67,7 +72,7 @@ public class DongController {
     );
   }
 
-  @DeleteMapping
+  @DeleteMapping("/{dongNo}")
   public ResponseEntity<ResponseData> deleteByDong(@PathVariable Long dongNo) {
 
     dongService.deleteByDong(dongNo);
