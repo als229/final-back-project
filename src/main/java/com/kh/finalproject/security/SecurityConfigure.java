@@ -62,6 +62,8 @@ public class SecurityConfigure {
 									   "/api/systm/penaltys",
 									   "/api/systm/reportCategorys"
 										 ).hasRole("ADMIN");
+						       request.requestMatchers(HttpMethod.POST,
+						    		   "/content/**").authenticated();
 							  
 							   request.requestMatchers(HttpMethod.DELETE,
 									  "/api/auth/**").permitAll();
@@ -82,13 +84,17 @@ public class SecurityConfigure {
 										"/api/systm/dong",
 										"/api/systm/detail"
 										).hasRole("ADMIN");
+							   request.requestMatchers(HttpMethod.DELETE, 
+									   "/content/**").authenticated();
 							  
 							   
 							   request.requestMatchers(HttpMethod.PUT, 
 									   "/api/reviews/**",
 									   "/api/users/update-nickname",
 									   "/api/users/update-pw",
-										  "/api/users/**").authenticated();
+										  "/api/users/**",
+										  "/api/content/**"  
+									   ).authenticated();
 							   request.requestMatchers(HttpMethod.PUT,
 										  "/api/region/**",
 										  "/api/festivals",
@@ -103,7 +109,8 @@ public class SecurityConfigure {
 											"/api/systm/sido",
 											"/api/systm/sigungu",
 											"/api/systm/dong",
-											"/api/systm/detail"
+											"/api/systm/detail",
+											"/api/content/**"
 											).hasRole("ADMIN");
 							   
 							   request.requestMatchers(HttpMethod.GET,
@@ -117,7 +124,9 @@ public class SecurityConfigure {
 									   "/api/lodgings",
 									   "/api/diners",
 									   "/api/diners/**",
-										 "/api/systm/reportCategorys"
+										 "/api/systm/reportCategorys",
+										 "/api/content/update/**",
+									   "/api/content/**"
 										 ).permitAll();
 							   request.requestMatchers(HttpMethod.GET,
 									   "/api/users/comments",
@@ -126,10 +135,12 @@ public class SecurityConfigure {
 											"/api/systm/sido",
 											"/api/systm/sigungu",
 											"/api/systm/dong",
-											"/api/systm/detail"
+											"/api/systm/detail",
+											"/api/content/**"
 										).authenticated();
 							   request.requestMatchers(HttpMethod.GET,
-									   "/api/systm/penaltys"
+									   "/api/systm/penaltys",
+									   "/api/content/**"
 										).hasRole("ADMIN");
 	                       })
 	                       
@@ -157,18 +168,15 @@ public class SecurityConfigure {
 	
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
-		
-		CorsConfiguration configuration = new CorsConfiguration();
-		
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
-		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));	
-		//configuration.setAllowCredentials(true);
-		
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		
-		source.registerCorsConfiguration("/**", configuration);
-		
-		return source;
+	    CorsConfiguration configuration = new CorsConfiguration();
+	    configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+	    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+	    configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+	    configuration.setAllowCredentials(true);
+
+	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	    source.registerCorsConfiguration("/**", configuration);
+
+	    return source;
 	}
 }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.finalproject.content.model.dao.FoodMapper">
+
+  <insert id="insertFood" parameterType="com.kh.finalproject.content.model.vo.Food">
+    INSERT INTO TB_FOOD (
+      CONTENT_ID,
+      FOOD_EXP,
+      MAIN_MENU,
+      MENU,
+      PARKING
+    ) VALUES (
+      #{contentId},
+      #{foodExp},
+      #{mainMenu},
+      #{menu},
+      #{parking}
+    )
+  </insert>
+  
+  <update id="updateFood" 
+        parameterType="com.kh.finalproject.content.model.vo.Food">
+   	 UPDATE TB_FOOD 
+   	 SET FOOD_EXP = #{foodExp},
+         MAIN_MENU = #{mainMenu},
+         MENU = #{menu},
+         PARKING = #{parking}
+   WHERE CONTENT_ID = #{contentId}
+  </update>
+  
+  <select id="findByContentId" resultType="com.kh.finalproject.content.model.dto.FoodDTO">
+  	SELECT 
+   	  CONTENT_ID AS contentId,
+  	  FOOD_EXP AS foodExp,
+  	  MAIN_MENU AS mainMenu,
+  	  MENU AS menu,
+     PARKING AS parking
+ 	FROM TB_FOOD
+  	WHERE CONTENT_ID = #{contentId}
+  </select>
+
+</mapper>

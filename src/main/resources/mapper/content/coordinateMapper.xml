@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.finalproject.content.model.dao.CoordinateMapper">
+
+  <insert id="insertCoordinate"
+  		  parameterType="com.kh.finalproject.content.model.vo.Coordinate">
+    INSERT INTO TB_MAP (
+      CONTENT_ID,
+      MAP_X,
+      MAP_Y
+    ) VALUES (
+      #{contentId},
+      #{mapX},
+      #{mapY}
+    )
+  </insert>
+  
+  <update id="updateCoordinate"
+      	  parameterType="com.kh.finalproject.content.model.vo.Coordinate">
+  	  UPDATE TB_MAP 
+  	  SET MAP_X = #{mapX},
+  	      MAP_Y = #{mapY}
+    WHERE CONTENT_ID = #{contentId}
+  </update>
+  
+  <select id="findByContentId" resultType="com.kh.finalproject.content.model.dto.CoordinateDTO">
+ 	 SELECT 
+  	  CONTENT_ID AS contentId,
+  	  MAP_X AS mapX,
+ 	  MAP_Y AS mapY
+ 	 FROM TB_MAP
+ 	 WHERE CONTENT_ID = #{contentId}
+  </select>
+
+</mapper>

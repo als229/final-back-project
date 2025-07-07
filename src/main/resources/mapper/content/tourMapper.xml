@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.finalproject.content.model.dao.TourMapper">
+
+  <insert id="insertTour" parameterType="com.kh.finalproject.content.model.vo.Tour">
+    INSERT INTO TB_TOUR (
+      CONTENT_ID,
+      TOUR_EXP,
+      USETIME_TOUR,
+      PARKING
+    ) VALUES (
+      #{contentId},
+      #{tourExp},
+      #{usetimeTour},
+      #{parking}
+    )
+  </insert>
+  
+  <update id="updateTour" 
+        parameterType="com.kh.finalproject.content.model.vo.Tour">
+    UPDATE TB_TOUR 
+    SET TOUR_EXP = #{tourExp},
+        USETIME_TOUR = #{usetimeTour},
+        PARKING = #{parking}
+    WHERE CONTENT_ID = #{contentId}
+  </update>
+  
+  <select id="findByContentId" resultType="com.kh.finalproject.content.model.dto.TourDTO">
+ 	SELECT 
+ 	  CONTENT_ID AS contentId,
+  	  TOUR_EXP AS tourExp,
+ 	  USETIME_TOUR AS usetimeTour,
+ 	  PARKING AS parking
+  	FROM TB_TOUR
+ 	WHERE CONTENT_ID = #{contentId}
+  </select>
+
+</mapper>
