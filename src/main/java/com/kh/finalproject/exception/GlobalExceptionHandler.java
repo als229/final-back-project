@@ -21,6 +21,7 @@ import com.kh.finalproject.exception.exceptions.InvalidTokenException;
 import com.kh.finalproject.exception.exceptions.LoginFailedException;
 import com.kh.finalproject.exception.exceptions.NotFoundException;
 import com.kh.finalproject.exception.exceptions.NullPointException;
+import com.kh.finalproject.exception.exceptions.ContentException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -99,6 +100,16 @@ public class GlobalExceptionHandler {
 		Map<String,String> error = new HashMap<>();
 		error.put("code", "E400_DUPLICATION_NICKNAME");
 		error.put("message", e.getMessage());
+		return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+	}
+	
+	@ExceptionHandler(ContentException.class)
+	public ResponseEntity<?> ContentException(ContentException e){
+		
+		Map<String,String> error = new HashMap<>();
+		error.put("code", "E400_DUPLICATION_NICKNAME");
+		error.put("message", e.getMessage());
+		
 		return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
 	
