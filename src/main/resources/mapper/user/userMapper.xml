@@ -186,7 +186,9 @@
   				C.CATEGORY_CODE category,
   				R.CONTENT content,
   				R.CREATED_TIME createTime,
-  				I.FILE_URL fileUrl
+  				I.FILE_URL fileUrl,
+  				C.CONTENT_ID contentId,
+  				C.CATEGORY_CODE category
   		FROM
   				TB_REVIEW R
   		JOIN
@@ -207,7 +209,9 @@
   
   		SELECT
   				C.TITLE title,
-  				C.FIRST_IMAGE firstImage
+  				C.FIRST_IMAGE firstImage,
+  				C.CONTENT_ID contentId,
+  				C.CATEGORY_CODE category
   		FROM
   				TB_FAVORITE F
   	LEFT JOIN
