@@ -12,7 +12,7 @@ import lombok.ToString;
 public class RefreshTokenVO {
 
 	private Long userNo;
-	private String token;
+	private String refreshToken;
 	private Long expirationTime;
 	
 }

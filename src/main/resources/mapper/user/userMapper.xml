@@ -2,67 +2,218 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
-  
  <mapper namespace="com.kh.finalproject.user.model.dao.UserMapper">
   
  	<select id="existsByUserId"
+ 		parameterType="string"
   		resultType="int">
-	  SELECT
-	  		COUNT(*)
-	  FROM
-	  		NW_USER
-	  WHERE
-	  		USER_ID = #{userId}
+		  SELECT
+		  		COUNT(*)
+		  FROM
+		  		TB_USER
+		  WHERE
+		  		USER_ID = #{userId}
   		
  	</select>
 	
 	<select id="existsByUserNickName"
   		resultType="int">
-	  SELECT
-	  		COUNT(*)
-	  FROM
-	  		NW_USER
-	  WHERE
-	  		NICKNAME = #{nickName}
+		  SELECT
+		  		COUNT(*)
+		  FROM
+		  		TB_USER
+		  WHERE
+		  		NICKNAME = #{nickName}
   		
  	</select>
  	
 	<select id="existsByUserEmail"
   		resultType="int">
-	  SELECT
-	  		COUNT(*)
-	  FROM
-	  		NW_USER
-	  WHERE
-	  		EMAIL = #{email}
-  		
+		  SELECT
+		  		COUNT(*)
+		  FROM
+		  		TB_USER
+		  WHERE
+		  		EMAIL = #{email}
+	  		
  	</select>
 
   
   <insert id="signUp"
-  		parameterType="com.kh.finalproject.user.model.UserDTO">
+  		parameterType="com.kh.finalproject.user.model.dto.UserDTO">
  
-  
-	  INSERT INTO
-	NW_USER
-	(
-		
-		USER_ID,
-		PASSOWRD,
-		EMAIL,
-		REALNAME,
-		NICKNAME
-	)
-	VALUES(
-		#{userId},
-		#{password},
-		#{email},
-		#{realName},
-		#{nickName}
-	)
+	  
+		  INSERT INTO
+		TB_USER
+		(
+			USER_NO,
+			USER_ID,
+			PASSWORD,
+			EMAIL,
+			REALNAME,
+			NICKNAME,
+			ROLE
+		)
+		VALUES(
+			SEQ_USER_NO.NEXTVAL,
+			#{userId},
+			#{password},
+			#{email},
+			#{realName},
+			#{nickName},
+			#{role}
+		)
 	
   </insert>
   
+  <delete id="deleteUser"
+  	      parameterType="long">
+	  
+	  	DELETE
+	  	FROM 
+	  			TB_USER 
+		WHERE 
+				USER_NO = #{userNo}
+  
+  </delete>
+  
+  <select id="findPasswordByUserNo"
+  		  parameterType="long"
+  		  resultType="string">
+  		  
+		SELECT
+				PASSWORD 
+		FROM
+				TB_USER
+		WHERE
+				USER_NO = #{userNo}
+  
+  </select>
+  
+  <update id="updateNewPw"
+  		  parameterType="com.kh.finalproject.user.model.dto.UpdatePasswordDTO">
+  
+		  UPDATE
+		  		TB_USER
+		  SET
+				PASSWORD = #{newPassword}
+		  WHERE
+		  		USER_NO = #{userNo}	  		
+  		  
+  </update>
+  
+  <select id="selectProfile"
+  		  parameterType="long"
+  		  resultType="com.kh.finalproject.user.model.dto.UserDTO">
+  
+  		SELECT
+  				U.NICKNAME nickName,
+  				U.REALNAME realName,
+  				U.EMAIL email,
+  				P.FILE_URL fileUrl
+  		FROM
+  				TB_USER U
+  	LEFT JOIN
+  				TB_PROFILE P ON U.USER_NO = P.USER_NO
+  		WHERE
+  				U.USER_NO = #{userNo}
+  
+  </select>
+  
+  
+
+  	<update id="updateProfile">
+ 		
+ 		UPDATE
+ 				TB_PROFILE
+ 		SET
+ 				
+ 				FILE_URL = #{fileUrl}
+ 		WHERE
+ 				USER_NO = #{userNo}
+
+    </update>
+  
+  <delete id="deleteProfile"
+  		parameterType="long">
+  	
+  		UPDATE
+  				TB_PROFILE
+  		SET
+  				FILE_URL = 'https://final-nw-bucket.s3.ap-northeast-2.amazonaws.com/f62ed12c-abe9-439f-b822-e0e2c1441be9_KakaoTalk_20250630_205959345.jpg'
+  		WHERE
+  				USER_NO = #{userNo}
+  			
+  </delete>
+  
+  
+  
+  
+ <update id="updateNickname"
+  		  parameterType="com.kh.finalproject.user.model.dto.UserDTO">
+  
+		  UPDATE
+		  		TB_USER
+		  SET
+				NICKNAME = #{nickName}
+		  WHERE
+		  		USER_NO = #{userNo}	  		
+  </update>
+  
+   <select id="selectNickName"
+  		  parameterType="string"
+  		  resultType="int">
+  		  
+		SELECT
+				COUNT(*) 
+		FROM
+				TB_USER
+		WHERE
+				NICKNAME = #{nickName}
+  
+  </select>
+  
+  
+  <select id="selectComments"
+  		  parameterType="long"
+  		  resultType="com.kh.finalproject.user.model.dto.MypageDTO">
+  
+  		SELECT
+  				C.TITLE title,
+  				C.FIRST_IMAGE firstImage,
+  				C.CATEGORY_CODE category,
+  				R.CONTENT content,
+  				R.CREATED_TIME createTime,
+  				I.FILE_URL fileUrl
+  		FROM
+  				TB_REVIEW R
+  		JOIN
+  				TB_CONTENT C ON C.CONTENT_ID = R.CONTENT_ID
+  	LEFT JOIN
+  				TB_CONTENT_IMG I ON C.CONTENT_ID = I.CONTENT_ID
+  		WHERE
+  				R.USER_NO = #{userNo}
+  			
+  </select>
+  
  
-  </mapper>
+ 
+ 
+  <select id="selectFavorite"
+  		  parameterType="long"
+  		  resultType="com.kh.finalproject.user.model.dto.MypageDTO">
+  
+  		SELECT
+  				C.TITLE title,
+  				C.FIRST_IMAGE firstImage
+  		FROM
+  				TB_FAVORITE F
+  	LEFT JOIN
+  				TB_CONTENT C ON F.CONTENT_ID = C.CONTENT_ID 
+		WHERE
+				F.USER_NO = #{userNo}  				
+  		
+  </select>
+ </mapper>
+ 
+ 

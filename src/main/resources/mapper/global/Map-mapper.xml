@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.finalproject.global.map.model.dao.MapMapper">
+
+  <!-- MapDTO -->
+  <resultMap
+    id="resultMap"
+    type="com.kh.finalproject.global.map.model.dto.MapDTO">
+    <id property="contentId" column="CONTENT_ID"/>
+    <result property="mapX" column="MAP_X"/>
+    <result property="mapY" column="MAP_Y"/>
+  </resultMap>
+
+  <!-- 지도 조회 -->
+  <select
+    id="findByMap"
+    resultMap="resultMap"
+    parameterType="Long">
+    SELECT  CONTENT_ID
+          , MAP_X
+          , MAP_Y
+      FROM  TB_MAP
+     WHERE  CONTENT_ID = #{contentId}
+  </select>
+
+  <!-- 지도 저장 -->
+  <insert
+    id="addByMap"
+    parameterType="com.kh.finalproject.global.map.model.vo.MapVO">
+    INSERT 
+      INTO  TB_MAP
+        (
+            CONTENT_ID
+          , MAP_X
+          , MAP_Y
+        )
+    VALUES
+        (
+            #{contentId}
+          , #{mapX}
+          , #{mapY}
+        )
+  </insert>
+
+  <!-- 지도 수정 -->
+  <update
+    id="updateByMap"
+    parameterType="com.kh.finalproject.global.map.model.vo.MapVO">
+    UPDATE  TB_MAP
+    <set>
+      <if test="mapX != null">MAP_X = #{mapX},</if>
+      <if test="mapY != null">MAP_Y = #{mapY}</if>
+    </set>
+     WHERE  CONTENT_ID = #{contentId}
+  </update>
+
+</mapper>

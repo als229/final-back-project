@@ -41,7 +41,7 @@ public class TokenServiceImpl implements TokenService {
 	public String reissueToken(String RefreshToken) {
 		
 		
-		 RefreshTokenVO token = RefreshTokenVO.builder().token(RefreshToken).build();
+		 RefreshTokenVO token = RefreshTokenVO.builder().refreshToken(RefreshToken).build();
 		 RefreshTokenVO existingToken = tokenMapper.selectTokenByToken(token);
 		if(existingToken == null) {
 			throw new InvalidTokenException("토큰이 존재하지 않습니다.");
@@ -57,7 +57,7 @@ public class TokenServiceImpl implements TokenService {
 		
 		RefreshTokenVO newRefreshTokenVO= RefreshTokenVO.builder()
 														.userNo(userNo)
-														.token(newToken)
+														.refreshToken(newToken)
 														.expirationTime(System.currentTimeMillis() + 36000000L * 24 * 7)
 														.build();
 		 tokenMapper.insertRefreshToken(newRefreshTokenVO);
@@ -72,6 +72,8 @@ public class TokenServiceImpl implements TokenService {
 		
 		
 	}
+
+	
 
 	
 	
