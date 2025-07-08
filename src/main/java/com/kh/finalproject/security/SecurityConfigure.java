@@ -56,12 +56,20 @@ public class SecurityConfigure {
 							   request.requestMatchers(HttpMethod.POST, 
 									   "/api/main-contents/**",
 									   "/api/reviews/**",
-									   "/api/favorites/**").authenticated();
+									   "/api/favorites/**",
+										 "/api/systm/sido",
+										 "/api/systm/sigungu",
+										 "/api/systm/sigungu/**",
+										 "/api/systm/dong",
+										 "/api/systm/dong/**",
+										 "/api/systm/detail"
+										 ).authenticated();
 							   request.requestMatchers(HttpMethod.POST,
 									   "/api/region",
 									   "/api/festivals",
 									   "/api/systm/penaltys",
-									   "/api/systm/reportCategorys"
+										 "/api/systm/reportCategorys"
+
 										 ).hasRole("ADMIN");
 							  
 							   request.requestMatchers(HttpMethod.DELETE,
@@ -78,10 +86,12 @@ public class SecurityConfigure {
 									  "/api/festivals/**",
 									  "/api/lodgings",
 									  "/api/diners",
-										"/api/systm/sido",
-										"/api/systm/sigungu",
-										"/api/systm/dong",
-										"/api/systm/detail"
+										 "/api/systm/sido",
+										 "/api/systm/sigungu",
+										 "/api/systm/sigungu/**",
+										 "/api/systm/dong",
+										 "/api/systm/dong/**",
+										 "/api/systm/detail"
 										).hasRole("ADMIN");
 							  
 							   
@@ -97,14 +107,14 @@ public class SecurityConfigure {
 										  "/api/lodgings/**",
 										  "/api/diners",
 										  "/api/diners/**",
-											"/api/systm/sido",
-											"/api/systm/sigungu",
-											"/api/systm/dong",
-											"/api/systm/detail",
-											"/api/systm/sido",
-											"/api/systm/sigungu",
-											"/api/systm/dong",
-											"/api/systm/detail"
+										 "/api/systm/sido",
+										 "/api/systm/sigungu",
+										 "/api/systm/sigungu/**",
+										 "/api/systm/dong",
+										 "/api/systm/dong/**",
+										 "/api/systm/detail",
+										 "/api/systm/member",
+										 "/api/systm/member/**"
 											).hasRole("ADMIN");
 							   
 							   request.requestMatchers(HttpMethod.GET,
@@ -122,13 +132,24 @@ public class SecurityConfigure {
 									   "/api/systm/reportCategorys"
 										 ).permitAll();
 							   request.requestMatchers(HttpMethod.GET,
-									    "/api/users/comments",
-									    "/api/users/**",
-										"/api/systm/reports",
-										"/api/systm/sido",
-										"/api/systm/sigungu",
-										"/api/systm/dong",
-										"/api/systm/detail"
+									     "/api/users/comments",
+									     "/api/users/**",
+										 "/api/systm/reports",
+										 "/api/systm/sido",
+										 "/api/systm/sigungu",
+										 "/api/systm/dong",
+										 "/api/systm/detail",
+									     "/api/users/comments",
+										 "/api/users/**",
+										 "/api/systm/reports",
+										 "/api/systm/sido",
+										 "/api/systm/sigungu",
+										 "/api/systm/sigungu/**",
+										 "/api/systm/dong",
+										 "/api/systm/dong/**",
+										 "/api/systm/detail",
+										 "/api/systm/member",
+										 "/api/systm/member/**"
 										).authenticated();
 							   request.requestMatchers(HttpMethod.GET,
 									   "/api/systm/penaltys"

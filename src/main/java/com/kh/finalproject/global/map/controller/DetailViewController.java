@@ -1,18 +1,15 @@
 package com.kh.finalproject.global.map.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kh.finalproject.global.map.model.dto.DongDTO;
-import com.kh.finalproject.global.map.model.service.DongService;
+import com.kh.finalproject.global.map.model.dto.DetailViewDTO;
+import com.kh.finalproject.global.map.model.service.DetailViewService;
 import com.kh.finalproject.util.model.dto.ResponseData;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,60 +23,56 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/systm/dong")
-public class DongController {
+@RequestMapping("/api/systm/detail")
+public class DetailViewController {
   
-  private final DongService dongService;
+  private final DetailViewService detailViewService;
 
   @GetMapping
-  public ResponseEntity<ResponseData> findByDong(@RequestParam Long sigunguNo) {
+  public ResponseEntity<ResponseData> findByDetailView(Long contentId) {
 
-    List<DongDTO> list = dongService.findByDong(sigunguNo);
+    DetailViewDTO detailViewDTO = detailViewService.findByDetailView(contentId);
     return ResponseEntity.ok(
       ResponseData.builder()
                   .code("M100")
-                  .message("동 정보 조회 성공")
-                  .items(list)
+                  .message("세부사항 정보 조회 성공")
+                  .items(detailViewDTO)
                   .build()
     );
   }
 
   @PostMapping
-  public ResponseEntity<ResponseData> addByDong(@Valid @RequestBody DongDTO dongDTO) {
+  public ResponseEntity<ResponseData> addByDetailAView(@Valid @RequestBody DetailViewDTO detailViewDTO) {
 
-    dongService.addByDong(dongDTO);
+    detailViewService.addByDetailView(detailViewDTO);
     return ResponseEntity.ok(
       ResponseData.builder()
                   .code("M101")
-                  .message("동 정보 등록 성공")
+                  .message("세부사항 정보 등록 성공")
                   .build()
     );
   }
 
-  @PutMapping("/{dongNo}")
-  public ResponseEntity<ResponseData> updateByDong(
-    @PathVariable Long dongNo,
-    @Valid @RequestBody DongDTO dongDTO
-    ) {
+  @PutMapping
+  public ResponseEntity<ResponseData> updateByDetailView(@Valid @RequestBody DetailViewDTO detailViewDTO) {
     
-    dongDTO.setDongNo(dongNo);
-    dongService.updateByDong(dongDTO);
+    detailViewService.updateByDetailView(detailViewDTO);
     return ResponseEntity.ok(
       ResponseData.builder()
                   .code("M100")
-                  .message("동 정보 수정 성공")
+                  .message("세부사항 정보 수정 성공")
                   .build()
     );
   }
 
-  @DeleteMapping("/{dongNo}")
-  public ResponseEntity<ResponseData> deleteByDong(@PathVariable Long dongNo) {
+  @DeleteMapping
+  public ResponseEntity<ResponseData> deleteByDetailView(@PathVariable Long detailViewNo) {
 
-    dongService.deleteByDong(dongNo);
+    detailViewService.deleteByDetailView(detailViewNo);
     return ResponseEntity.ok(
       ResponseData.builder()
                   .code("M104")
-                  .message("동 정보 삭제 성공")
+                  .message("세부사항 정보 삭제 성공")
                   .build()
     );
   }

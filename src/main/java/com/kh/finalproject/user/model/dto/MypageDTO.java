@@ -19,7 +19,7 @@ public class MypageDTO {
 	private String firstImage;
 	private String category;
 	
-	
+	private String contentId;
 	private String content;
 	private Date createTime;
 	private String fileUrl;

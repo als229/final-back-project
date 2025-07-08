@@ -12,7 +12,7 @@ import com.kh.finalproject.chat.handshakeInterceptor.AuthHandshakeInterceptor;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
-@EnableWebSocket 
+@EnableWebSocket
 @EnableWebSocketSecurity
 @RequiredArgsConstructor
 public class WebSocketConfig implements WebSocketConfigurer{
