@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.kh.finalproject.exception.exceptions.DuplicateNicknameException;
@@ -19,8 +18,6 @@ import com.kh.finalproject.exception.exceptions.InvaildFindPwException;
 import com.kh.finalproject.exception.exceptions.InvaildPasswordException;
 import com.kh.finalproject.exception.exceptions.InvalidTokenException;
 import com.kh.finalproject.exception.exceptions.LoginFailedException;
-import com.kh.finalproject.exception.exceptions.NotFoundException;
-import com.kh.finalproject.exception.exceptions.NullPointException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
