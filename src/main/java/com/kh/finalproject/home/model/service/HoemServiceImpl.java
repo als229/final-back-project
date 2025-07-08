@@ -16,18 +16,11 @@ public class HoemServiceImpl implements HomeService{
 		private final HomeMapper homeMapper;
 		
 	@Override
-	public List<HomeVO> category() {
-		List<HomeVO> categoryList= homeMapper.category();
+	public List<HomeVO> allContent() {
+		List<HomeVO> categoryList= homeMapper.allContent();
 		return categoryList;
 		}
 		
-	@Override
-	public List<HomeVO> contentType(String category) {
-	
-		List<HomeVO> contentTypeList = homeMapper.contentType(category);
-		
-		return contentTypeList;
-	}
 	
 			
 	

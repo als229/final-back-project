@@ -7,7 +7,6 @@ import com.kh.finalproject.home.model.vo.HomeVO;
 public interface HomeService {
 
 	
-	List<HomeVO> category();
-	List<HomeVO> contentType(String category);
+	List<HomeVO> allContent();
 	
 }

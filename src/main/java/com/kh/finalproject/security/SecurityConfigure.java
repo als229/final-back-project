@@ -117,6 +117,7 @@ public class SecurityConfigure {
 									   "/api/users/festivals",
 									   "/api/lodgings",
 									   "/api/diners",
+									   "/api/festival",
 									   "/api/diners/**",
 										 "/api/systm/reportCategorys"
 										 ).permitAll();

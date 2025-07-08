@@ -5,57 +5,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   
   <mapper namespace="com.kh.finalproject.home.model.dao.HomeMapper">
   
-  		<select id="category"
-  				resultType="com.kh.finalproject.home.model.vo.HomeVO">
+  	
   		
-  		
-  			SELECT
-  					CONTENT_ID contentId,
-  					FIRST_IMAGE first_image,
-  					TITLE title
-  			FROM
-  					TB_CONTENT
-  		
-  		
-  		
-  		</select>
-  
-  		
-  		<select id="contentType"
-        parameterType="string"
+  	<select id="allContent"
         resultType="com.kh.finalproject.home.model.vo.HomeVO">
-			SELECT
-        C.CONTENT_ID contentId,
-        C.FIRST_IMAGE firstImage,
-        C.CATEGORY_CODE category,
-        C.TITLE title,
-        COUNT(F.USER_NO) AS likeCount,
-        I.SIDO_NAME sidoName,
-        S.SIGUNGU_NAME sigunguName,
-        D.DONG_NAME dongName,
-        A.DETAIL_NAME detailName,
-        A.POST_ADDRESS postAddress
-    FROM
-        TB_CONTENT C
-    JOIN
-        TB_DETAIL_ADD A ON C.CONTENT_ID = A.CONTENT_ID
-    JOIN
-        TB_DONG D ON A.DONG_NO = D.DONG_NO
-    JOIN
-        TB_SIGUNGU S ON D.SIGUNGU_NO = S.SIGUNGU_NO
-    JOIN
-        TB_SIDO I ON S.SIDO_NO = I.SIDO_NO
-    LEFT JOIN
-        TB_FAVORITE F 
-        ON C.CONTENT_ID = F.CONTENT_ID AND F.CATEGORY = 1
-    WHERE
-        C.CATEGORY_CODE = #{category}
-    GROUP BY
-        C.CONTENT_ID, C.FIRST_IMAGE, C.TITLE,
-        I.SIDO_NAME, S.SIGUNGU_NAME, D.DONG_NAME, C.CATEGORY_CODE,
-        A.DETAIL_NAME, A.POST_ADDRESS
-    ORDER BY
-        COUNT(F.USER_NO) DESC
+
+		    SELECT
+		        C.CONTENT_ID contentId,
+		        C.TITLE title,
+		        C.FIRST_IMAGE firstImage,
+		        I.SIDO_NAME sidoName,
+		        S.SIGUNGU_NAME sigunguName,
+		        D.DONG_NAME dongName,
+		        A.DETAIL_NAME detailName,
+		        A.POST_ADDRESS postAddress,
+		        COUNT(F.USER_NO) AS likeCount,
+		        C.CATEGORY_CODE category
+		    FROM
+		        TB_CONTENT C
+		    LEFT JOIN TB_DETAIL_ADD A ON C.CONTENT_ID = A.CONTENT_ID
+		    LEFT JOIN TB_DONG D ON A.DONG_NO = D.DONG_NO
+		    LEFT JOIN TB_SIGUNGU S ON D.SIGUNGU_NO = S.SIGUNGU_NO
+		    LEFT JOIN TB_SIDO I ON S.SIDO_NO = I.SIDO_NO
+		    LEFT JOIN TB_FAVORITE F ON C.CONTENT_ID = F.CONTENT_ID AND F.CATEGORY = 1
+		    GROUP BY
+		        C.CONTENT_ID, C.FIRST_IMAGE, C.TITLE,
+		        I.SIDO_NAME, S.SIGUNGU_NAME, D.DONG_NAME,
+		        A.DETAIL_NAME, A.POST_ADDRESS, C.CATEGORY_CODE
+		    ORDER BY
+		        COUNT(F.USER_NO) DESC
+
 </select>
-  
   </mapper>

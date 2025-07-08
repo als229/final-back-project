@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/festivals")
+@RequestMapping("/api/festival")
 public class FestivalController {
 
   private final FestivalService festivalService;

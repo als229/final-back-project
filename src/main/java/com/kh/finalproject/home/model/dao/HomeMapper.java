@@ -11,8 +11,7 @@ import com.kh.finalproject.home.model.vo.HomeVO;
 public interface HomeMapper {
 
 	
-	List<HomeVO> category();
-	List<HomeVO> contentType(String category);
+	List<HomeVO> allContent();
 
 
 

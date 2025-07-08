@@ -20,7 +20,7 @@ public class HomeVO {
 	private String dongName;
 	private Long dongNo;
 	private String detailName;
-	private String postAddres;
+	private String postAddrres;
 	private Long likeCount;
 	private String category;
 	

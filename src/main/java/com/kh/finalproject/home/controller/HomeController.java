@@ -27,20 +27,13 @@ public class HomeController {
 	@GetMapping("/home")
 	public ResponseEntity<ResponseData> selectList(){
 		
-		List<HomeVO> category = homeService.category(); 
-		List<HomeVO> tour = homeService.contentType("tour");
-		List<HomeVO> restaurant = homeService.contentType("restaurant");
-		List<HomeVO> festivals = homeService.contentType("festival");
+		List<HomeVO> category = homeService.allContent(); 
 		
-		 Map<String, Object> result = new HashMap();
-		    result.put("category", category);
-		    result.put("tour", tour);
-		    result.put("restaurant", restaurant);
-		    result.put("festival", festivals);
+		
 		
 		ResponseData response = ResponseData.builder()
 											.message("리스트 반환 성공")
-											.items(result)
+											.items(category)
 											.code("A100")
 											.build();
 		
