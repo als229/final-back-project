@@ -1,9 +1,6 @@
 package com.kh.finalproject.chat.socketconfiguration;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Component;
@@ -48,6 +45,8 @@ public class WebSocketHandler extends TextWebSocketHandler  {
                          .withReason("새 창에서 재접속되어 이전 연결을 종료합니다.")
             );
         }
+        
+        broadcastSystemMessage(roomId, loginUser.getUsername() + "님이 입장하셨습니다.");
 	}
 
 	@Override

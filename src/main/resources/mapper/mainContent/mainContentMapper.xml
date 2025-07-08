@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.kh.finalproject.mainContent.model.dao.MainContentMapper">
+
+  <insert id="addContent" parameterType="Content">
+	INSERT INTO TB_CONTENT (
+	    CONTENT_ID
+	  , CATEGORY_CODE
+	  , TITLE
+	  , FIRST_IMAGE
+	  , TEL
+	  , HOMEPAGE
+	  , PLAY_TIME
+	  , CREATED_TIME
+	  , MODIFIED_TIME
+	  , STATUS
+	) VALUES (
+	    SEQ_CONTENT.NEXTVAL
+	  , #{categoryCode}
+	  , #{title}
+	  , #{firstImage}
+	  , #{tel}
+	  , #{homepage}
+	  , #{playTime}
+	  , SYSDATE
+	  , SYSDATE
+	  , 'Y'
+	)
+  </insert>
+  
+  <select id="selectContentId"  resultType="Long">
+  	SELECT
+  		SEQ_CONTENT.CURRVAL
+  	FROM
+  		DUAL
+  </select>
+  <select id="selectDongNoByRegionName" parameterType="MainContentReqDTO" resultType="Long">
+	SELECT 
+		D.DONG_NO
+	  FROM 
+	  	TB_DONG D
+	  JOIN TB_SIGUNGU S
+	    ON D.SIGUNGU_NO = S.SIGUNGU_NO
+	 WHERE 1=1
+	 	AND S.SIGUNGU_NAME = #{sigunguName}
+	   	AND D.DONG_NAME    = #{dongName}
+  </select>
+  
+  <insert id="addDetailAdd" parameterType="DetailAdd">
+	INSERT INTO TB_DETAIL_ADD (
+	    DETAIL_NO
+	  , CONTENT_ID
+	  , DONG_NO
+	  , DETAIL_NAME
+	  , POST_ADDRESS
+	) VALUES (
+	    SEQ_DETAIL_ADD.NEXTVAL
+	  , SEQ_CONTENT.CURRVAL
+	  , #{dongNo}
+	  , #{detailName}
+	  , #{postAddress}
+	)
+  </insert>
+  
+  <insert id="addContentImg" parameterType="FileUrl">
+	INSERT INTO TB_CONTENT_IMG (
+	    CONTENT_IMG_NO
+	  , CONTENT_ID
+	  , FILE_URL
+	) VALUES (
+	    SEQ_CONTENT_IMG.NEXTVAL
+	  , #{contentId}
+	  , #{fileUrl}
+	)
+  </insert>
+  
+  <insert id="addFestival" parameterType="Festival">
+	INSERT INTO TB_FESTIVAL (
+	    CONTENT_ID
+	  , PROGRAM
+	  , EVENT_EXP
+	  , SPONSOR
+	  , USETIME_FESTIVAL
+	  , EVENT_START_DATE
+	  , EVENT_END_DATE
+	) VALUES (
+	    #{contentId}
+	  , #{program}
+	  , #{eventExp}
+	  , #{sponsor}
+	  , #{usetimeFestival}
+	  , #{eventStartDate}
+	  , #{eventEndDate}
+	)
+  </insert>
+  
+  <insert id="addFood" parameterType="Food">
+	INSERT INTO TB_FOOD (
+	    CONTENT_ID
+	  , FOOD_EXP
+	  , MAIN_MENU
+	  , PARKING
+	) VALUES (
+	    #{contentId}
+	  , #{foodExp}
+	  , #{mainMenu}
+	  , #{parking}
+	)
+  </insert>
+  
+  <insert id="addLodging" parameterType="Lodging">
+	INSERT INTO TB_LODGING (
+	    CONTENT_ID
+	  , LODGING_EXP
+	  , CHECK_IN
+	  , CHECK_OUT
+	  , PARKING
+	  , ELEVATOR
+	) VALUES (
+	    #{contentId}
+	  , #{lodgingExp}
+	  , #{checkIn}
+	  , #{checkOut}
+	  , #{parking}
+	  , #{elevator}
+	)
+  </insert>
+  
+  <insert id="addTour" parameterType="Tour">
+	INSERT INTO TB_TOUR (
+	    CONTENT_ID
+	  , TOUR_EXP
+	  , USETIME_TOUR
+	  , PARKING
+	) VALUES (
+	    #{contentId}
+	  , #{tourExp}
+	  , #{usetimeTour}
+	  , #{parking}
+	)
+  </insert>
+  
+  <select id="selectContentCardList" parameterType ="ContentSearchDTO" resultType="MainContentResDTO">
+  
+	SELECT 
+		  C.CONTENT_ID AS contentId
+		, C.CATEGORY_CODE AS categoryCode
+		, C.TITLE AS title
+		, C.FIRST_IMAGE AS firstImage
+		, C.CREATED_TIME AS createdTime
+		, C.MODIFIED_TIME AS modifiedTime
+		, C.TEL AS tel
+		, C.CATEGORY_CODE AS categoryCode
+		, C.STATUS AS status
+		, T.CATEGORY_NAME AS categoryName
+		, SIDO.SIDO_NO AS sidoNo
+		, SIDO.SIDO_NAME AS sidoName
+		, TS.SIGUNGU_NAME AS sigunguName
+	FROM 
+		TB_CONTENT C
+	LEFT JOIN TB_CATEGORY T
+		ON (C.CATEGORY_CODE = T.CATEGORY_CODE )
+	LEFT JOIN TB_DETAIL_ADD A
+		ON (C.CONTENT_ID = A.CONTENT_ID )
+	LEFT JOIN TB_DONG TD 
+		ON (TD.DONG_NO = A.DONG_NO )
+	LEFT JOIN TB_SIGUNGU TS
+		ON (TS.SIGUNGU_NO  = TD.SIGUNGU_NO )
+	LEFT JOIN TB_SIDO SIDO 
+		ON (TS.SIDO_NO = SIDO.SIDO_NO )
+	WHERE 1=1
+		AND STATUS = 'Y'
+	<if test="category != null and category != ''">
+      	AND T.CATEGORY_CODE = #{category}
+	</if>
+	<if test="sidoNo != null and sidoNo != ''">
+      	AND SIDO.SIDO_NO = #{sidoNo}
+	</if>
+	<if test="searchKeyword != null and searchKeyword != ''">
+      	AND C.TITLE LIKE '%' || #{searchKeyword} || '%'
+	</if>
+	
+  	ORDER BY C.CREATED_TIME DESC
+  
+  </select>
+  <select id="selectContentCardCount" parameterType ="ContentSearchDTO" >
+  
+  	SELECT 
+  		COUNT(*)
+  	FROM
+  		TB_CONTENT C
+ 	LEFT JOIN TB_CATEGORY T
+		ON (C.CATEGORY_CODE = T.CATEGORY_CODE )
+	LEFT JOIN TB_DETAIL_ADD A
+		ON (C.CONTENT_ID = A.CONTENT_ID )
+	LEFT JOIN TB_DONG TD 
+		ON (TD.DONG_NO = A.DONG_NO )
+	LEFT JOIN TB_SIGUNGU TS
+		ON (TS.SIGUNGU_NO  = TD.SIGUNGU_NO )
+	LEFT JOIN TB_SIDO SIDO 
+		ON (TS.SIDO_NO = SIDO.SIDO_NO )
+	WHERE 1=1
+		AND STATUS = 'Y'
+  	<if test="category != 0">
+      	AND T.CATEGORY_CODE = #{category}
+	</if>
+	<if test="sidoNo != 0">
+      	AND SIDO.SIDO_NO = #{sidoNo}
+	</if>
+	<if test="searchKeyword != null and searchKeyword != ''">
+      	AND C.TITLE LIKE '%' || #{searchKeyword} || '%'
+	</if>
+  
+  </select>
+  
+  
+<!--  <select id="selectContentByContentId" parameterType="Long" resultType="MainContentResDTO">
+	SELECT
+	
+	FROMT
+		TB_
+
+
+  </select>-->
+
+</mapper>
