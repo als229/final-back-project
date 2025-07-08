@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.finalproject.global.map.model.dto.SigunguDTO;
@@ -29,7 +30,7 @@ public class SigunguController {
   private final SigunguService sigunguService;
 
   @GetMapping
-  public ResponseEntity<ResponseData> findBySigungu(Long sidoNo) {
+  public ResponseEntity<ResponseData> findBySigungu(@RequestParam Long sidoNo) {
 
     List<SigunguDTO> list = sigunguService.findBySigungu(sidoNo);
     return ResponseEntity.ok(
@@ -53,9 +54,13 @@ public class SigunguController {
     );
   }
 
-  @PutMapping
-  public ResponseEntity<ResponseData> updateBySido(@Valid @RequestBody SigunguDTO sigunguDTO) {
+  @PutMapping("/{sigunguNo}")
+  public ResponseEntity<ResponseData> updateBySido(
+    @PathVariable Long sigunguNo, 
+    @Valid @RequestBody SigunguDTO sigunguDTO
+    ) {
     
+    sigunguDTO.setSigunguNo(sigunguNo);
     sigunguService.updateBySigungu(sigunguDTO);
     return ResponseEntity.ok(
       ResponseData.builder()
@@ -65,7 +70,7 @@ public class SigunguController {
     );
   }
 
-  @DeleteMapping
+  @DeleteMapping("/{sigunguNo}")
   public ResponseEntity<ResponseData> deleteBySido(@PathVariable Long sigunguNo) {
 
     sigunguService.deleteBySigungu(sigunguNo);

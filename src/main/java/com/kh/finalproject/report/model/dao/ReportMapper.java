@@ -12,6 +12,12 @@ public interface ReportMapper {
 
   void addByReport(ReportVO reportVO);
 
+  void updateByReport(ReportVO reportVO);
+
+  Long findUserNoByReviewNo(Long reviewNo);
+
+  void deleteByReportReview(Long id);
+
   List<ReportDTO> findByReport(String status);
 
   ReportDTO findByReportId(Long id);

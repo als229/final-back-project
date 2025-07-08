@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
+   
   
   <mapper namespace="com.kh.finalproject.review.model.dao.ReviewMapper">
   	<sql id="reviewColumn">
@@ -14,7 +14,7 @@
 	        CREATED_TIME AS createdTime,
 	        MODIFIED_TIME AS modifiedTime,
 	        STATUS AS status
-  	</sql>
+  	</sql> 
   	
 	<resultMap id="reviewResultMap" type="ReviewResDTO">
 	    <id property="reviewNo" column="REVIEW_NO"/>
@@ -187,39 +187,6 @@
 	    DELETE FROM TB_REVIEW_IMG
 	    WHERE FILE_URL = #{fileUrl}
 	</delete>
-	
-	<!-- 별점 관련 -->
-<!--	<insert id="addStar" parameterType="ReviewReqDTO">
-	    INSERT INTO TB_STAR (
-	        USER_NO,
-	        CONTENT_ID,
-	        POINT
-	    ) VALUES (
-	        #{userNo},
-	        #{contentId},
-	        #{point}
-	    )
-	</insert>
-	
-	<update id="updateStar" parameterType="StarDTO">
-	    UPDATE 
-	    	TB_STAR
-	    SET 
-	    	POINT = #{point}
-	    WHERE 1=1
-	    	AND USER_NO = #{userNo}
-	      	AND CONTENT_ID = #{contentId}
-	</update>
-	
-	<select id="selectStar" resultType="StarDTO">
-	    SELECT 
-	        USER_NO,
-	        CONTENT_ID,
-	        POINT
-	    FROM TB_STAR
-	    WHERE USER_NO = #{userNo}
-	      AND CONTENT_ID = #{contentId}
-	</select>-->
 	
 	<select id="selectAverageStarByContentId" resultType="double">
 	    SELECT 
