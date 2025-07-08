@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
 import com.kh.finalproject.mainContent.model.dto.ContentSearchDTO;
+import com.kh.finalproject.mainContent.model.dto.DetailDTO;
 import com.kh.finalproject.mainContent.model.dto.MainContentReqDTO;
 import com.kh.finalproject.mainContent.model.dto.MainContentResDTO;
 import com.kh.finalproject.mainContent.model.vo.Content;
@@ -39,4 +40,11 @@ public interface MainContentMapper {
     List<MainContentResDTO> selectContentCardList(ContentSearchDTO searchDto, RowBounds rb);
     
     int selectContentCardCount(ContentSearchDTO searchDto);
+    
+    MainContentResDTO selectContentByContentId(Long contentId);
+    
+    DetailDTO selectFestivalByContentId(Long contentId);
+    DetailDTO selectFoodByContentId(Long contentId);
+    DetailDTO selectLodgingByContentId(Long contentId);
+    DetailDTO selectTourByContentId(Long contentId);
 }

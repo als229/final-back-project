@@ -119,16 +119,16 @@ public class SecurityConfigure {
 									   "/api/lodgings",
 									   "/api/diners",
 									   "/api/diners/**",
-										 "/api/systm/reportCategorys"
+									   "/api/systm/reportCategorys"
 										 ).permitAll();
 							   request.requestMatchers(HttpMethod.GET,
-									   "/api/users/comments",
-										  "/api/users/**",
-											"/api/systm/reports",
-											"/api/systm/sido",
-											"/api/systm/sigungu",
-											"/api/systm/dong",
-											"/api/systm/detail"
+									    "/api/users/comments",
+									    "/api/users/**",
+										"/api/systm/reports",
+										"/api/systm/sido",
+										"/api/systm/sigungu",
+										"/api/systm/dong",
+										"/api/systm/detail"
 										).authenticated();
 							   request.requestMatchers(HttpMethod.GET,
 									   "/api/systm/penaltys"

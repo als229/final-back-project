@@ -5,6 +5,30 @@
   
 <mapper namespace="com.kh.finalproject.mainContent.model.dao.MainContentMapper">
 
+
+  <resultMap id="ContentDetailResultMap" type="MainContentResDTO">
+    <!-- 기본 키 -->
+    <id     property="contentId"    column="contentId"/>
+    <!-- 콘텐츠 공통 컬럼 -->
+    <result property="categoryCode" column="categoryCode"/>
+    <result property="title"        column="title"/>
+    <result property="firstImage"   column="firstImage"/>
+    <result property="createdTime"  column="createdTime"/>
+    <result property="modifiedTime" column="modifiedTime"/>
+    <result property="tel"          column="tel"/>
+    <result property="status"       column="status"/>
+    <!-- 조인된 추가 정보 -->
+    <result property="categoryName" column="categoryName"/>
+    <result property="sidoNo"       column="sidoNo"/>
+    <result property="sidoName"     column="sidoName"/>
+    <result property="sigunguName"  column="sigunguName"/>
+    <result property="postAddress"  column="postAddress"/>
+    <!-- 이미지 URL 리스트 -->
+    <collection property="fileUrl" ofType="java.lang.String">
+      <result column="FILE_URL"/>
+    </collection>
+  </resultMap>
+
   <insert id="addContent" parameterType="Content">
 	INSERT INTO TB_CONTENT (
 	    CONTENT_ID
@@ -217,13 +241,91 @@
   </select>
   
   
-<!--  <select id="selectContentByContentId" parameterType="Long" resultType="MainContentResDTO">
+  <select id="selectContentByContentId" parameterType="Long" resultMap="ContentDetailResultMap">
 	SELECT
+		  C.CONTENT_ID AS contentId
+		, C.CATEGORY_CODE AS categoryCode
+		, C.TITLE AS title
+		, C.FIRST_IMAGE AS firstImage
+		, C.CREATED_TIME AS createdTime
+		, C.MODIFIED_TIME AS modifiedTime
+		, C.TEL AS tel
+		, C.CATEGORY_CODE AS categoryCode
+		, C.STATUS AS status
+		, T.CATEGORY_NAME AS categoryName
+		, SIDO.SIDO_NO AS sidoNo
+		, SIDO.SIDO_NAME AS sidoName
+		, TS.SIGUNGU_NAME AS sigunguName
+		, A.POST_ADDRESS AS postAddress
+		, I.FILE_URL AS FILE_URL
+	FROM 
+		TB_CONTENT C
+	LEFT JOIN TB_CATEGORY T
+		ON (C.CATEGORY_CODE = T.CATEGORY_CODE )
+	LEFT JOIN TB_DETAIL_ADD A
+		ON (C.CONTENT_ID = A.CONTENT_ID )
+	LEFT JOIN TB_DONG TD 
+		ON (TD.DONG_NO = A.DONG_NO )
+	LEFT JOIN TB_SIGUNGU TS
+		ON (TS.SIGUNGU_NO  = TD.SIGUNGU_NO )
+	LEFT JOIN TB_SIDO SIDO 
+		ON (TS.SIDO_NO = SIDO.SIDO_NO )
+	LEFT JOIN TB_CONTENT_IMG I   
+		ON (C.CONTENT_ID = I.CONTENT_ID)	
+	WHERE 1=1
+		AND C.CONTENT_ID = #{contentId}
+  </select>
+  
+	<select id="selectFestivalByContentId"
+	        parameterType="Long"
+	        resultType="DetailDTO">
+	  SELECT
+	      PROGRAM             AS program,
+	      EVENT_EXP           AS eventExp,
+	      SPONSOR             AS sponsor,
+	      USETIME_FESTIVAL    AS useTimeFestival,
+	      EVENT_START_DATE    AS eventStartDate,
+	      EVENT_END_DATE      AS eventEndDate
+	  FROM TB_FESTIVAL
+	  WHERE CONTENT_ID = #{contentId}
+	</select>
 	
-	FROMT
-		TB_
-
-
-  </select>-->
+	<!-- 2. 맛집 정보 조회 (TB_FOOD) -->
+	<select id="selectFoodByContentId"
+	        parameterType="Long"
+	        resultType="DetailDTO">
+	  SELECT
+	      FOOD_EXP    AS foodExp,
+	      MAIN_MENU   AS mainMenu,
+	      PARKING     AS parking
+	  FROM TB_FOOD
+	  WHERE CONTENT_ID = #{contentId}
+	</select>
+	
+	<!-- 3. 숙소 정보 조회 (TB_LODGING) -->
+	<select id="selectLodgingByContentId"
+	        parameterType="Long"
+	        resultType="DetailDTO">
+	  SELECT
+	      LODGING_EXP AS lodgingExp,
+	      CHECK_IN    AS checkIn,
+	      CHECK_OUT   AS checkOut,
+	      PARKING     AS parking,
+	      ELEVATOR    AS elevator
+	  FROM TB_LODGING
+	  WHERE CONTENT_ID = #{contentId}
+	</select>
+	
+	<!-- 4. 관광지 정보 조회 (TB_TOUR) -->
+	<select id="selectTourByContentId"
+	        parameterType="Long"
+	        resultType="DetailDTO">
+	  SELECT
+	      TOUR_EXP      AS tourExp,
+	      USETIME_TOUR  AS useTimeTour,
+	      PARKING       AS parking
+	  FROM TB_TOUR
+	  WHERE CONTENT_ID = #{contentId}
+	</select>
 
 </mapper>

@@ -27,7 +27,7 @@ public class MainContentResDTO {
 	private Date modifiedTime;
 	private String status;
 	
-	private List<String> images;
+	private List<String> fileUrl;
 	
 	// juso
 	private Long dongNo;
@@ -60,6 +60,9 @@ public class MainContentResDTO {
 	private String sidoName;
 	private String categoryName;
 	private String sigunguName;
+	private Long sidoNo;
+	
+	private DetailDTO detailDto;
 	
 	
 }

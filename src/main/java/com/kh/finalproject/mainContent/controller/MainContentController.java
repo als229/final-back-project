@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.finalproject.common.PageInfo;
-import com.kh.finalproject.common.Pagination;
 import com.kh.finalproject.mainContent.model.dto.ContentSearchDTO;
 import com.kh.finalproject.mainContent.model.dto.MainContentReqDTO;
+import com.kh.finalproject.mainContent.model.dto.MainContentResDTO;
 import com.kh.finalproject.mainContent.model.service.MainContentService;
 import com.kh.finalproject.util.model.dto.ResponseData;
 
@@ -104,5 +104,22 @@ public class MainContentController {
     	return ResponseEntity.ok(response);
     }
 	
+    @GetMapping("{contentId}")
+    public ResponseEntity<ResponseData> selectContentByContentId(
+    	    @RequestParam(name="contentId") Long contentId
+    		) {
+    	
+    	log.info("selectContentCardList: contentId={}", contentId);
+    	
+    	MainContentResDTO resDto = mainService.selectContentByContentId(contentId);
+    	
+    	ResponseData response = ResponseData.builder()
+    			.code("A400")
+    			.items(resDto)
+    			.message("상세 데이터 조회 성공")
+    			.build();
+    	
+    	return ResponseEntity.ok(response);
+    }
     
 }

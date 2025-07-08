@@ -76,4 +76,5 @@
         	ROOM_NO = #{roomNo}
         ORDER BY CREATED_DATE ASC
     </select>
+    
 </mapper>

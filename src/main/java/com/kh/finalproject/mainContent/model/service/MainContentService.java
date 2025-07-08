@@ -19,5 +19,7 @@ public interface MainContentService {
 	
 	public Map<String, Object> selectContentCardList(ContentSearchDTO searchDto);
 	
+	public MainContentResDTO selectContentByContentId(Long contentId);
+	
 }
 

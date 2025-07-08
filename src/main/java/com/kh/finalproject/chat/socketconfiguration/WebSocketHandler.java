@@ -46,7 +46,6 @@ public class WebSocketHandler extends TextWebSocketHandler  {
             );
         }
         
-        broadcastSystemMessage(roomId, loginUser.getUsername() + "님이 입장하셨습니다.");
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import com.kh.finalproject.common.Pagination;
 import com.kh.finalproject.common.S3Util;
 import com.kh.finalproject.mainContent.model.dao.MainContentMapper;
 import com.kh.finalproject.mainContent.model.dto.ContentSearchDTO;
+import com.kh.finalproject.mainContent.model.dto.DetailDTO;
 import com.kh.finalproject.mainContent.model.dto.MainContentReqDTO;
 import com.kh.finalproject.mainContent.model.dto.MainContentResDTO;
 import com.kh.finalproject.mainContent.model.vo.Content;
@@ -181,6 +182,31 @@ public class MainContentServiceImpl implements MainContentService {
 		System.out.println("list 나오느냐  : " + list.toString());
 		
 		return map;
+	}
+
+	@Override
+	public MainContentResDTO selectContentByContentId(Long contentId) {
+		
+		MainContentResDTO selectContent = contentMapper.selectContentByContentId(contentId);
+		DetailDTO detail = null;
+		
+		int categoryCode = selectContent.getCategoryCode();
+		
+		if (categoryCode == 1) {
+			detail = contentMapper.selectTourByContentId(contentId);
+		} else if (categoryCode == 2) {
+			detail = contentMapper.selectFoodByContentId(contentId);
+		} else if (categoryCode == 3) {
+			detail = contentMapper.selectLodgingByContentId(contentId);
+		} else if (categoryCode == 4) {
+			detail = contentMapper.selectFestivalByContentId(contentId);
+		} else {
+			System.out.println("selectContentByContentId 예외 일으켜야되는 곳~");
+		}
+		
+		selectContent.setDetailDto(detail);
+	
+		return selectContent;
 	}
 
 }

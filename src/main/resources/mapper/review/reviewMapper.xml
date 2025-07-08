@@ -188,39 +188,6 @@
 	    WHERE FILE_URL = #{fileUrl}
 	</delete>
 	
-	<!-- 별점 관련 -->
-<!--	<insert id="addStar" parameterType="ReviewReqDTO">
-	    INSERT INTO TB_STAR (
-	        USER_NO,
-	        CONTENT_ID,
-	        POINT
-	    ) VALUES (
-	        #{userNo},
-	        #{contentId},
-	        #{point}
-	    )
-	</insert>
-	
-	<update id="updateStar" parameterType="StarDTO">
-	    UPDATE 
-	    	TB_STAR
-	    SET 
-	    	POINT = #{point}
-	    WHERE 1=1
-	    	AND USER_NO = #{userNo}
-	      	AND CONTENT_ID = #{contentId}
-	</update>
-	
-	<select id="selectStar" resultType="StarDTO">
-	    SELECT 
-	        USER_NO,
-	        CONTENT_ID,
-	        POINT
-	    FROM TB_STAR
-	    WHERE USER_NO = #{userNo}
-	      AND CONTENT_ID = #{contentId}
-	</select>-->
-	
 	<select id="selectAverageStarByContentId" resultType="double">
 	    SELECT 
 	    	NVL(AVG(POINT), 0)
