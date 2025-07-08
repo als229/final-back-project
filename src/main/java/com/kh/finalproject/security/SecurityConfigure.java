@@ -118,6 +118,7 @@ public class SecurityConfigure {
 											).hasRole("ADMIN");
 							   
 							   request.requestMatchers(HttpMethod.GET,
+									   "api/home",
 									   "/api/main-contents/**",
 									   "/api/reviews/**",
 									   "/api/favorites/**",
@@ -128,6 +129,7 @@ public class SecurityConfigure {
 									   "/api/users/festivals",
 									   "/api/lodgings",
 									   "/api/diners",
+									   "/api/festival",
 									   "/api/diners/**",
 									   "/api/systm/reportCategorys"
 										 ).permitAll();
@@ -183,7 +185,8 @@ public class SecurityConfigure {
 		
 		CorsConfiguration configuration = new CorsConfiguration();
 		
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+		//configuration.setAllowedOrigins(Arrays.asList("https://nollerway.store"));
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:5174"));
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 		configuration.setAllowedHeaders(Arrays.asList("*"));	
 		configuration.setAllowCredentials(true);
