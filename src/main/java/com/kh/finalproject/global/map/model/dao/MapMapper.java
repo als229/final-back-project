@@ -16,4 +16,7 @@ public interface MapMapper {
   void deleteByMap(Long contentId);
 
   MapDTO findByMapId(Long contentId);
+  
+  MapDTO getMap(Long contentId);
+  
 }

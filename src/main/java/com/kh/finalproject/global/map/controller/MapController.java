@@ -70,5 +70,23 @@ public class MapController {
                   .build()
     );
   }
+  
+  @GetMapping("/{id}")
+  public ResponseEntity<ResponseData> getMap (@PathVariable Long contentId){
+	  
+	  MapDTO mapApi = mapService.getMap(contentId);
+	  
+	  ResponseData response = ResponseData.builder()
+			  							  .code("A100")
+			  							  .items(mapApi)
+	  									  .message("디테일API지도성공")
+	  									  .build();
+	  									  		
+	  return ResponseEntity.ok(response);
+	  
+  }
+  
+  
+  
 
 }

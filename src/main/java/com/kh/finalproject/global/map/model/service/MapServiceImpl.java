@@ -50,4 +50,12 @@ public class MapServiceImpl implements MapService {
 
     return mapMapper.findByMapId(contentId);
   }
+
+@Override
+public MapDTO getMap(Long contentId) {
+	
+	MapDTO result = mapMapper.getMap(contentId);
+	
+	return result;
+  }
 }

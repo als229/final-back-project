@@ -9,4 +9,6 @@ public interface MapService {
   void updateByMap(MapDTO mapDTO);
 
   MapDTO findByMapId(Long contentId);
+  
+  MapDTO getMap(Long contentId);
 }

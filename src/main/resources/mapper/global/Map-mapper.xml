@@ -55,5 +55,28 @@
     </set>
      WHERE  CONTENT_ID = #{contentId}
   </update>
+  
+  
+  <select id="getMap"
+  			parameterType="long"
+  			resultType="MapDTO">
+  	SELECT
+  			LAT mapX,
+  			LOT mapY,
+  			TITLE
+  	FROM
+  			TB_MAP
+  	WHERE
+  			CONTENT = #{contentId}
+  
+  </select>
+  
+  
+  
+  
+  
+  
+  
+  
 
 </mapper>
