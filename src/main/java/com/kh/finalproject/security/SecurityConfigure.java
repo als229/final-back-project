@@ -54,6 +54,7 @@ public class SecurityConfigure {
 										 "/api/systm/reports"
 										 ).permitAll();
 							   request.requestMatchers(HttpMethod.POST, 
+									   "/api/main-contents/**",
 									   "/api/reviews/**",
 									   "/api/favorites/**",
 										 "/api/systm/sido",
@@ -117,6 +118,7 @@ public class SecurityConfigure {
 											).hasRole("ADMIN");
 							   
 							   request.requestMatchers(HttpMethod.GET,
+									   "/api/main-contents/**",
 									   "/api/reviews/**",
 									   "/api/favorites/**",
 									   "/api/users/check-id",
@@ -127,12 +129,19 @@ public class SecurityConfigure {
 									   "/api/lodgings",
 									   "/api/diners",
 									   "/api/diners/**",
-										 "/api/systm/reportCategorys"
+									   "/api/systm/reportCategorys"
 										 ).permitAll();
 							   request.requestMatchers(HttpMethod.GET,
-									   "/api/users/comments",
-										  "/api/users/**",
-											"/api/systm/reports",
+									     "/api/users/comments",
+									     "/api/users/**",
+										 "/api/systm/reports",
+										 "/api/systm/sido",
+										 "/api/systm/sigungu",
+										 "/api/systm/dong",
+										 "/api/systm/detail",
+									     "/api/users/comments",
+										 "/api/users/**",
+										 "/api/systm/reports",
 										 "/api/systm/sido",
 										 "/api/systm/sigungu",
 										 "/api/systm/sigungu/**",
@@ -174,7 +183,7 @@ public class SecurityConfigure {
 		
 		CorsConfiguration configuration = new CorsConfiguration();
 		
-		configuration.setAllowedOrigins(Arrays.asList("https://nollerway.store"));
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 		configuration.setAllowedHeaders(Arrays.asList("*"));	
 		configuration.setAllowCredentials(true);
