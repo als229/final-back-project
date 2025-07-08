@@ -65,7 +65,7 @@ public class ContentServiceImpl implements ContentService{
 	public void updateContent(DetailContentDTO content, String fileUrl) {
 	    
 	    Content requestData = Content.builder()
-	            .contentId(content.getContentId())  // UpdateContentDTO에서 가져옴
+	            .contentId(content.getContentId())
 	            .categoryCode(content.getCategoryCode())
 	            .title(content.getTitle())
 	            .firstImageUrl("557575")  // 나중에 fileUrl로 변경하실 거니까
@@ -79,7 +79,7 @@ public class ContentServiceImpl implements ContentService{
 	
 	@Override
 	public void deleteContent(Long contentId) {
-		contentMapper.deleteContent(contentId);
+		contentMapper.deleteContent(contentId, "N");
 	}
 	
 	@Override

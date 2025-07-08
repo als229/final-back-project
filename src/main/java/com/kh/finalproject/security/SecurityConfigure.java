@@ -109,8 +109,7 @@ public class SecurityConfigure {
 											"/api/systm/sido",
 											"/api/systm/sigungu",
 											"/api/systm/dong",
-											"/api/systm/detail",
-											"/api/content/**"
+											"/api/systm/detail"
 											).hasRole("ADMIN");
 							   
 							   request.requestMatchers(HttpMethod.GET,

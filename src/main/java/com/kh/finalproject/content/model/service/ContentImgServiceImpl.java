@@ -53,6 +53,7 @@ public class ContentImgServiceImpl implements ContentImgService{
     
     @Override
     public void uploadAndInsertImages(List<MultipartFile> files, Long contentId) {
+    	System.out.println(">>> 전달되는 contentId: " + contentId);
         if (files == null || files.isEmpty()) {
             throw new IllegalArgumentException("업로드할 파일이 없습니다.");
         }

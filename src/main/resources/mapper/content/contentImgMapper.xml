@@ -13,8 +13,8 @@
  	       CONTENT_ID,
 	       FILE_URL
 	    ) VALUES (
-	       #{contentImgNo},
- 	       #{contentId},
+    	   #{contentImgNo, jdbcType=NUMERIC},
+    	   #{contentId, jdbcType=NUMERIC},
  	       #{fileUrl}
 	    )
 	</insert>

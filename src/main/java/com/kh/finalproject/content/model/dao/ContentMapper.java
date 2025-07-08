@@ -22,7 +22,7 @@ public interface ContentMapper {
 	
 	void updateContent(Content content);
 	
-	void deleteContent(Long contentId);
+	void deleteContent(@Param("contentId") Long contentId, @Param("status") String status);
 	
 	List<ContentCardDTO> searchContents(Long categoryCode, String regionName, String keyword);
 	

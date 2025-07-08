@@ -1,6 +1,7 @@
 package com.kh.finalproject.content.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -123,7 +124,7 @@ public class ContentController {
 	    return ResponseEntity.ok(detail);
 	}
 	
-	@PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+	@PutMapping(value="{contentId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	// @PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Void> updateContent(
 	        @RequestPart("detailContentDTO") DetailContentDTO updateContentDTO,
@@ -183,8 +184,15 @@ public class ContentController {
 	    return ResponseEntity.ok().build();
 	}
 	
-	@DeleteMapping("/{contentId}")
-	public ResponseEntity<Void> deleteContent(@PathVariable Long contentId) {
+	@PutMapping("/{contentId}/status")
+	public ResponseEntity<Void> deleteContent(
+	    @PathVariable("contentId") Long contentId,
+	    @RequestBody Map<String, String> body
+	) {
+	    if (!"N".equals(body.get("status"))) {
+	        return ResponseEntity.badRequest().build();
+	    }
+
 	    contentService.deleteContent(contentId);
 	    return ResponseEntity.ok().build();
 	}
