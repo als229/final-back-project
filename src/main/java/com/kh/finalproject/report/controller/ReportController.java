@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,8 @@ import com.kh.finalproject.util.model.dto.ResponseData;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @Slf4j
 @RequiredArgsConstructor
@@ -77,6 +80,34 @@ public class ReportController {
       ResponseData.builder()
                   .code("R101")
                   .message("신고 등록 성공")
+                  .build()
+    );
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<ResponseData> updateByReport(
+    @PathVariable long id, 
+    @RequestBody ReportDTO dto
+    ) {
+    
+    dto.setReportNo(id);
+    return ResponseEntity.ok(
+      ResponseData.builder()
+                  .code("R100")
+                  .message("신고 처리 성공")
+                  .items(reportService.findByReportId(id))
+                  .build()
+    );
+  }
+
+  @DeleteMapping("/{reviewNo}")
+  public ResponseEntity<ResponseData> deleteByReportReview(@PathVariable Long reviewNo) {
+
+    reportService.deleteByReportReview(reviewNo);
+    return ResponseEntity.ok(
+      ResponseData.builder()
+                  .code("R104")
+                  .message("신고된 리뷰 삭제 성공")
                   .build()
     );
   }

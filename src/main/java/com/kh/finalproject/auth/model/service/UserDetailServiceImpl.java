@@ -35,7 +35,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 							.realName(userDTO.getRealName())
 							.nickName(userDTO.getNickName())
 							.email(userDTO.getEmail())
-							.authorities(Collections.singletonList(new SimpleGrantedAuthority(userDTO.getRole())))
+							.authorities(Collections.singletonList(new SimpleGrantedAuthority("ROLE_"+ userDTO.getRole())))
 							.build();
 							
 					  

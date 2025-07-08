@@ -8,6 +8,10 @@ public interface ReportService {
 
   void addByReport(ReportDTO reportDTO);
 
+  void updateByReport(ReportDTO reportDTO);
+
+  void deleteByReportReview(Long reviewNo);
+
   List<ReportDTO> findByReport(String status);
 
   ReportDTO findByReportId(Long id);

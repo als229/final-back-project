@@ -53,9 +53,13 @@ public class SidoController {
     );
   }
 
-  @PutMapping
-  public ResponseEntity<ResponseData> updateBySido(@Valid @RequestBody SidoDTO sidoDTO) {
+  @PutMapping("/{sidoNo}")
+  public ResponseEntity<ResponseData> updateBySido(
+    @PathVariable Long sidoNo,
+    @Valid @RequestBody SidoDTO sidoDTO
+    ) {
     
+    sidoDTO.setSidoNo(sidoNo);
     sidoService.updateBySido(sidoDTO);
     return ResponseEntity.ok(
       ResponseData.builder()
@@ -65,7 +69,7 @@ public class SidoController {
     );
   }
 
-  @DeleteMapping
+  @DeleteMapping("/{sidoNo}")
   public ResponseEntity<ResponseData> deleteBySido(@PathVariable Long sidoNo) {
 
     sidoService.deleteBySido(sidoNo);
