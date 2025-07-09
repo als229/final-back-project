@@ -61,7 +61,7 @@
 			#{email},
 			#{realName},
 			#{nickName},
-			#{role}
+			'ROLE_USER'
 		)
 	
   </insert>

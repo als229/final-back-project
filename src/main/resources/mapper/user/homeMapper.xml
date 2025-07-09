@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.kh.finalproject.home.model.dao.HomeMapper">
+  
+  	
+  		
+  	<select id="allContent"
+        resultType="com.kh.finalproject.home.model.vo.HomeVO">
+
+		    SELECT
+		        C.CONTENT_ID contentId,
+		        C.TITLE title,
+		        C.FIRST_IMAGE firstImage,
+		        I.SIDO_NAME sidoName,
+		        S.SIGUNGU_NAME sigunguName,
+		        D.DONG_NAME dongName,
+		        A.DETAIL_NAME detailName,
+		        A.POST_ADDRESS postAddress,
+		        COUNT(F.USER_NO) AS likeCount,
+		        C.CATEGORY_CODE category
+		    FROM
+		        TB_CONTENT C
+		    LEFT JOIN TB_DETAIL_ADD A ON C.CONTENT_ID = A.CONTENT_ID
+		    LEFT JOIN TB_DONG D ON A.DONG_NO = D.DONG_NO
+		    LEFT JOIN TB_SIGUNGU S ON D.SIGUNGU_NO = S.SIGUNGU_NO
+		    LEFT JOIN TB_SIDO I ON S.SIDO_NO = I.SIDO_NO
+		    LEFT JOIN TB_FAVORITE F ON C.CONTENT_ID = F.CONTENT_ID AND F.CATEGORY = 1
+		    GROUP BY
+		        C.CONTENT_ID, C.FIRST_IMAGE, C.TITLE,
+		        I.SIDO_NAME, S.SIGUNGU_NAME, D.DONG_NAME,
+		        A.DETAIL_NAME, A.POST_ADDRESS, C.CATEGORY_CODE
+		    ORDER BY
+		        COUNT(F.USER_NO) DESC
+
+</select>
+  </mapper>

@@ -18,7 +18,7 @@
     <result property="categoryName" column="CATEGORY_NAME"/>
     <result property="reportContent" column="REPORT_CONTENT"/>
     <result property="createdTime" column="CREATED_TIME"/>
-    <result property="status" column="STATUS"/>
+    <result property="status" column="STATUS" jdbcType="VARCHAR"/>
   </resultMap>
 
   <!-- 공통 컬럼 -->
@@ -42,9 +42,11 @@
       JOIN  TB_REPORT_CATEGORY c  ON(r.CATEGORY_NO = c.CATEGORY_NO)
       JOIN  TB_PENALTY p  ON(r.PENALTY_NO = p.PENALTY_NO)
     <where>
-      <if test="status == 'Y'">r.STATUS = 'Y'</if>
-      <if test="status == 'D'">r.STATUS = 'D'</if>
-      <if test="status == 'N'">r.STATUS = 'N'</if>
+      <if test="status != null and status.equals('Y')">STATUS = 'Y'</if>
+      <if test="status != null and status.equals('D')">STATUS = 'D'</if>
+      <if test="status != null and status.equals('N')">STATUS = 'N'</if>
+      <if test="status != null and status.equals('')"></if> 
+      <if test="status == null"></if>
     </where>
   </select>
 
@@ -86,5 +88,38 @@
           , #{reportContent}
         )
   </insert>
+
+  <!-- 신고 수정 -->
+  <update 
+    id="updateByReport" 
+    parameterType="com.kh.finalproject.report.model.vo.ReportVO">
+    UPDATE  TB_REPORT
+    <set>
+      <if test="reviewNo != null">REVIEW_NO = #{reviewNo},</if>
+      <if test="penaltyNo != null">PENALTY_NO = #{penaltyNo},</if>
+      <if test="status != null">STATUS = #{status},</if>
+      MODIFIED_TIME = SYSDATE
+    </set>
+     WHERE  REPORT_NO = #{reportNo}
+  </update>
+
+  <!-- 리뷰 번호로 사용자 번호 조회 -->
+  <select 
+    id="findUserNoByReviewNo" 
+    parameterType="long" 
+    resultType="long">
+    SELECT  USER_NO
+      FROM  TB_REVIEW
+     WHERE  REVIEW_NO = #{reviewNo}
+  </select>
+
+  <!-- 신고된 리뷰 삭제 -->
+  <update 
+    id="deleteByReportReview" 
+    parameterType="long">
+    UPDATE  TB_REVIEW
+       SET  STATUS = 'N'
+     WHERE  REVIEW_NO = #{reviewNo}
+  </update>
 
 </mapper>
