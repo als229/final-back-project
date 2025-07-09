@@ -17,5 +17,6 @@ public class ContentSearchDTO {
 	private int category;
 	private int sidoNo;
 	private String searchKeyword;
+	private String status;
 	
 }

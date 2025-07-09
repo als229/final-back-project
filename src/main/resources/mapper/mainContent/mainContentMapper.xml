@@ -196,7 +196,10 @@
 	LEFT JOIN TB_SIDO SIDO 
 		ON (TS.SIDO_NO = SIDO.SIDO_NO )
 	WHERE 1=1
-		AND STATUS = 'Y'
+	
+	<if test="status != null and status != ''">
+		AND STATUS = #{status}
+	</if>
 	<if test="category != null and category != ''">
       	AND T.CATEGORY_CODE = #{category}
 	</if>
@@ -227,7 +230,9 @@
 	LEFT JOIN TB_SIDO SIDO 
 		ON (TS.SIDO_NO = SIDO.SIDO_NO )
 	WHERE 1=1
-		AND STATUS = 'Y'
+	<if test="status != null and status != ''">
+		AND STATUS = #{status}
+	</if>
   	<if test="category != 0">
       	AND T.CATEGORY_CODE = #{category}
 	</if>
@@ -327,5 +332,14 @@
 	  FROM TB_TOUR
 	  WHERE CONTENT_ID = #{contentId}
 	</select>
+	
+	<update id="updateContent" parameterType="MainContentReqDTO">
+		UPDATE TB_CONTENT
+		SET
+			CATEGORY_CODE = #{categoryCode}
+			
+	
+	
+	</update>
 
 </mapper>
