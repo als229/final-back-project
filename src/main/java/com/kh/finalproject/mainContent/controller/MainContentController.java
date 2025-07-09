@@ -86,10 +86,11 @@ public class MainContentController {
     	    @RequestParam(name="page",           defaultValue="1")  int page,
     	    @RequestParam(name="category",       defaultValue="0")  int category,
     	    @RequestParam(name="sidoNo",         defaultValue="0")  int sidoNo,
-    	    @RequestParam(name="searchKeyword",  defaultValue="")   String searchKeyword
+    	    @RequestParam(name="searchKeyword",  defaultValue="")   String searchKeyword,
+    	    @RequestParam(name="status",  defaultValue="")   String status
     		) {
     	
-    	ContentSearchDTO searchDto = new ContentSearchDTO(page, category, sidoNo, searchKeyword);
+    	ContentSearchDTO searchDto = new ContentSearchDTO(page, category, sidoNo, searchKeyword,status);
     	log.info("selectContentCardList: searchDto={}", searchDto);
     	
     	Map<String, Object> map = mainService.selectContentCardList(searchDto);
@@ -109,7 +110,7 @@ public class MainContentController {
     	    @RequestParam(name="contentId") Long contentId
     		) {
     	
-    	log.info("selectContentCardList: contentId={}", contentId);
+    	log.info("selectContentByContentId: contentId={}", contentId);
     	
     	MainContentResDTO resDto = mainService.selectContentByContentId(contentId);
     	
