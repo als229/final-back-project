@@ -26,6 +26,9 @@ public class MainContentResDTO {
 	private Date createdTime;
 	private Date modifiedTime;
 	private String status;
+	private String mapX;
+	private String mapY;
+	private String thumbnail;
 	
 	private List<String> fileUrl;
 	
@@ -33,12 +36,17 @@ public class MainContentResDTO {
 	private Long dongNo;
 	private String detailName;
 	private String postAddress;
+	private String sidoName;
+	private String categoryName;
+	private String sigunguName;
+	private Long sidoNo;
+	private String dongName;
 	
 	// festival
 	private String program;
 	private String eventExp;
 	private String sponsor;
-	private String usetimeFestival;
+	private String useTimeFestival;
 	private Date eventStartDate;
 	private Date eventEndDate;
 	
@@ -52,15 +60,11 @@ public class MainContentResDTO {
 	private String checkOut;
 	private String elevator;
 	
+	
 	// tour
 	private String tourExp;
 	private String usetimeTour;
 	private String parking;
-	
-	private String sidoName;
-	private String categoryName;
-	private String sigunguName;
-	private Long sidoNo;
 	
 	private DetailDTO detailDto;
 	

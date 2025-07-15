@@ -14,7 +14,7 @@ public class Festival {
 	private String program;
 	private String eventExp;
 	private String sponsor;
-	private String usetimeFestival;
+	private String useTimeFestival;
 	private Date eventStartDate;
 	private Date eventEndDate;
 }

@@ -29,12 +29,12 @@ public class DetailDTO {
     private String lodgingExp;        
     private String checkIn;           
     private String checkOut;          
-    private Boolean elevator;         
+    private String elevator;         
 
     // === TOUR (관광지) ===
     private String tourExp;           
     private String useTimeTour;       
 
     // === 공통 필드 ===
-    private Boolean parking;          
+    private String parking;          
 }
