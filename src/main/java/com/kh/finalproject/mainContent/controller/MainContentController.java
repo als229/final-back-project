@@ -5,12 +5,14 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +23,7 @@ import com.kh.finalproject.mainContent.model.dto.MainContentResDTO;
 import com.kh.finalproject.mainContent.model.service.MainContentService;
 import com.kh.finalproject.util.model.dto.ResponseData;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,53 +37,23 @@ public class MainContentController {
 	private final MainContentService mainService;
 	
 	@PostMapping
-	public ResponseEntity<ResponseData> addContent(@ModelAttribute MainContentReqDTO reqDto, @RequestParam(name="file", required = false) List<MultipartFile> files) {
+	public ResponseEntity<?> addContent(
+	    @RequestPart("contentReqDTO") @Valid MainContentReqDTO  contentReqDTO,
+	    @RequestPart(value = "thumbnail", required=true) MultipartFile thumbnail,
+	    @RequestPart(value = "files", required = true) List<MultipartFile> files) {
+	    
+		log.info("MainContentController addContent : MainContentReqDTO 값 확인 {} , files 값 확인 {} thumbnail 값 확인 {} " , contentReqDTO, files, thumbnail);
 		
-		log.info("MainContentController addContent : MainContentReqDTO 값 확인 {} , file 값 확인 {}" , reqDto, files);
-		
-		Long contentId = mainService.addMainContent(reqDto, files);
+		mainService.addMainContent(contentReqDTO, files, thumbnail);
 		
 		ResponseData responseData = ResponseData.builder()
-				.code("A100")
-				.items(contentId)
-				.message("컨텐츠, 이미지 등록 성공")
+				.code("C100")
+				.message("컨텐츠 등록 성공")
 				.build();
 
 		return ResponseEntity.ok(responseData);
 	}
 	
-    @PostMapping("/{contentId}/address")
-    public ResponseEntity<ResponseData> addAddress(
-            @PathVariable("contentId") Long contentId,
-            @ModelAttribute MainContentReqDTO reqDto
-    ) {
-        log.info("addAddress: contentId={}, reqDto={}", contentId, reqDto);
-
-        mainService.addDetailAdd(contentId, reqDto);
-
-        ResponseData response = ResponseData.builder()
-                .code("A200")
-                .message("주소 정보 저장 성공")
-                .build();
-        return ResponseEntity.ok(response);
-    }
-
-    @PostMapping("/{contentId}/details")
-    public ResponseEntity<ResponseData> addDetails(
-            @PathVariable("contentId") Long contentId,
-            @ModelAttribute MainContentReqDTO reqDto
-    ) {
-        log.info("addDetails: contentId={}, detailData={}", contentId, reqDto);
-
-        mainService.addContentDetail(contentId, reqDto);
-
-        ResponseData response = ResponseData.builder()
-                .code("A300")
-                .message("상세 데이터 저장 성공")
-                .build();
-        return ResponseEntity.ok(response);
-    }
-    
     @GetMapping
     public ResponseEntity<ResponseData> selectContentCardList(
     	    @RequestParam(name="page",           defaultValue="1")  int page,
@@ -123,4 +96,37 @@ public class MainContentController {
     	return ResponseEntity.ok(response);
     }
     
+    @PutMapping(value = "/{contentId}")
+    public ResponseEntity<ResponseData> updateContent(
+            @PathVariable("contentId") Long contentId,
+            @RequestPart("contentReqDTO") @Valid MainContentReqDTO dto,
+            @RequestParam(value = "thumbnailUrl", required = false) String thumbnailUrl,
+    	    @RequestPart(value = "thumbnail", required=false) MultipartFile thumbnail,
+    	    @RequestParam(value = "deletedImages", required=false) List<String> deletedImages,
+    	    @RequestPart(value = "files", required = false) List<MultipartFile> files) {
+    	
+		log.info("MainContentController updateContent : MainContentReqDTO 값 확인 {} , files 값 확인 {} thumbnail 값 확인 {} , thumbnailUrl 값 확인 : {}, deletedImages 값 확인 : {}" , dto, files, thumbnail, thumbnailUrl, deletedImages);
+    	
+    	mainService.updateContent(contentId, dto, thumbnail, files, thumbnailUrl, deletedImages);
+    	
+    	ResponseData response = ResponseData.builder()
+    			.code("A400")
+    			.message("컨텐츠 업데이트 성공")
+    			.build();
+    	
+    	return ResponseEntity.ok(response);
+    }
+    
+	@DeleteMapping
+	public ResponseEntity<ResponseData> deleteContentByContentId(@RequestParam("contentId") Long contentId, @RequestParam("status") String status){
+		
+		mainService.deleteContentByContentId(contentId, status);
+		
+	    ResponseData responseData = ResponseData.builder()
+	            .code("A200")
+	            .message("컨텐츠 비활성화 성공")
+	            .build();
+		
+	    return ResponseEntity.ok(responseData);
+	}
 }

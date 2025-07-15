@@ -15,14 +15,21 @@
     <result property="firstImage"   column="firstImage"/>
     <result property="createdTime"  column="createdTime"/>
     <result property="modifiedTime" column="modifiedTime"/>
+    <result property="homepage"     column="homepage"/>
     <result property="tel"          column="tel"/>
+    <result property="playTime"     column="playTime"/>
     <result property="status"       column="status"/>
     <!-- 조인된 추가 정보 -->
     <result property="categoryName" column="categoryName"/>
     <result property="sidoNo"       column="sidoNo"/>
     <result property="sidoName"     column="sidoName"/>
+    <result property="dongName"     column="dongName"/>
     <result property="sigunguName"  column="sigunguName"/>
     <result property="postAddress"  column="postAddress"/>
+    <result property="detailName"  column="detailName"/>
+    <result property="mapX"  column="MAP_X"/>
+    <result property="mapY"  column="MAP_Y"/>
+    
     <!-- 이미지 URL 리스트 -->
     <collection property="fileUrl" ofType="java.lang.String">
       <result column="FILE_URL"/>
@@ -115,7 +122,7 @@
 	  , #{program}
 	  , #{eventExp}
 	  , #{sponsor}
-	  , #{usetimeFestival}
+	  , #{useTimeFestival}
 	  , #{eventStartDate}
 	  , #{eventEndDate}
 	)
@@ -254,14 +261,20 @@
 		, C.FIRST_IMAGE AS firstImage
 		, C.CREATED_TIME AS createdTime
 		, C.MODIFIED_TIME AS modifiedTime
+		, C.HOMEPAGE AS homepage
 		, C.TEL AS tel
+		, C.PLAY_TIME AS playTime
 		, C.CATEGORY_CODE AS categoryCode
 		, C.STATUS AS status
 		, T.CATEGORY_NAME AS categoryName
 		, SIDO.SIDO_NO AS sidoNo
 		, SIDO.SIDO_NAME AS sidoName
 		, TS.SIGUNGU_NAME AS sigunguName
+		, TD.DONG_NAME AS dongName
+		, A.DETAIL_NAME AS detailName
 		, A.POST_ADDRESS AS postAddress
+		, M.MAP_X AS MAP_X
+		, M.MAP_Y AS MAP_Y
 		, I.FILE_URL AS FILE_URL
 	FROM 
 		TB_CONTENT C
@@ -277,6 +290,8 @@
 		ON (TS.SIDO_NO = SIDO.SIDO_NO )
 	LEFT JOIN TB_CONTENT_IMG I   
 		ON (C.CONTENT_ID = I.CONTENT_ID)	
+	LEFT JOIN TB_MAP M
+		ON (C.CONTENT_ID = M.CONTENT_ID)
 	WHERE 1=1
 		AND C.CONTENT_ID = #{contentId}
   </select>
@@ -333,13 +348,114 @@
 	  WHERE CONTENT_ID = #{contentId}
 	</select>
 	
-	<update id="updateContent" parameterType="MainContentReqDTO">
-		UPDATE TB_CONTENT
-		SET
-			CATEGORY_CODE = #{categoryCode}
-			
-	
-	
-	</update>
+  <insert id="addMapXY" parameterType="MapXY">
+	INSERT INTO TB_MAP (
+	    MAP_X
+	  , MAP_Y
+	  , CONTENT_ID
+	) VALUES (
+	    #{mapX}
+	  , #{mapY}
+	  , #{contentId}
+	)
+  </insert>
+  
+  
+  <!--update 관련-->
+
+  <update id="updateContent" parameterType="MainContentReqDTO">
+    UPDATE TB_CONTENT
+       SET TITLE         = #{title},
+           TEL           = #{tel},
+           HOMEPAGE      = #{homepage},
+           PLAY_TIME     = #{playTime},
+           MODIFIED_TIME = SYSDATE
+     WHERE CONTENT_ID   = #{contentId}
+  </update>
+
+  <update id="updateFirstImage">
+    UPDATE TB_CONTENT
+       SET FIRST_IMAGE = #{firstImage}
+     WHERE CONTENT_ID = #{contentId}
+  </update>
+
+  <delete id="deleteContentImg" parameterType="map">
+    DELETE FROM TB_CONTENT_IMG
+     WHERE CONTENT_ID = #{contentId}
+       AND FILE_URL   IN
+         <foreach collection="fileUrls" item="url" open="(" separator="," close=")">
+           #{url}
+         </foreach>
+  </delete>
+  
+  <delete id="deleteSingleContentImg">
+    DELETE FROM TB_CONTENT_IMG
+     WHERE CONTENT_ID = #{contentId}
+       AND FILE_URL IN  #{fileUrl}
+  </delete>
+
+  <!-- 5) 상세주소 수정 -->
+  <update id="updateDetailAdd" parameterType="DetailAdd">
+    UPDATE TB_DETAIL_ADD
+       SET DONG_NO      = #{dongNo},
+           DETAIL_NAME  = #{detailName},
+           POST_ADDRESS = #{postAddress}
+     WHERE CONTENT_ID  = #{contentId}
+  </update>
+
+  <!-- 6) 맵 좌표 수정 -->
+  <update id="updateMapXY" parameterType="MapXY">
+    UPDATE TB_MAP
+       SET MAP_X = #{mapX},
+           MAP_Y = #{mapY}
+     WHERE CONTENT_ID = #{contentId}
+  </update>
+
+  <!-- 7) 카테고리별 상세 수정 -->
+  <update id="updateTour" parameterType="Tour">
+    UPDATE TB_TOUR
+       SET TOUR_EXP     = #{tourExp},
+           USETIME_TOUR = #{usetimeTour},
+           PARKING      = #{parking}
+     WHERE CONTENT_ID = #{contentId}
+  </update>
+
+  <update id="updateFood" parameterType="Food">
+    UPDATE TB_FOOD
+       SET FOOD_EXP  = #{foodExp},
+           MAIN_MENU = #{mainMenu},
+           PARKING   = #{parking}
+     WHERE CONTENT_ID = #{contentId}
+  </update>
+
+  <update id="updateLodging" parameterType="Lodging">
+    UPDATE TB_LODGING
+       SET LODGING_EXP = #{lodgingExp},
+           CHECK_IN    = #{checkIn},
+           CHECK_OUT   = #{checkOut},
+           PARKING     = #{parking},
+           ELEVATOR    = #{elevator}
+     WHERE CONTENT_ID = #{contentId}
+  </update>
+
+  <update id="updateFestival" parameterType="Festival">
+    UPDATE TB_FESTIVAL
+       SET PROGRAM          = #{program},
+           EVENT_EXP        = #{eventExp},
+           SPONSOR          = #{sponsor},
+           USETIME_FESTIVAL = #{useTimeFestival},
+           EVENT_START_DATE = #{eventStartDate},
+           EVENT_END_DATE   = #{eventEndDate}
+     WHERE CONTENT_ID = #{contentId}
+  </update>
+  
+  <update id="deleteContentByContentId" parameterType="map">
+    UPDATE TB_CONTENT
+       SET STATUS     = #{status}
+     WHERE CONTENT_ID = #{contentId}
+  </update>
+  
+  
+
 
 </mapper>

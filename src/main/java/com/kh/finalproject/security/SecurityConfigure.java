@@ -54,7 +54,6 @@ public class SecurityConfigure {
 										 "/api/systm/reports"
 										 ).permitAll();
 							   request.requestMatchers(HttpMethod.POST, 
-									   "/api/main-contents/**",
 									   "/api/reviews/**",
 									   "/api/favorites/**",
 										 "/api/systm/sido",
@@ -65,17 +64,17 @@ public class SecurityConfigure {
 										 "/api/systm/detail"
 										 ).authenticated();
 							   request.requestMatchers(HttpMethod.POST,
+									   "/api/main-contents/**",
 									   "/api/region",
 									   "/api/festivals",
 									   "/api/systm/penaltys",
-										 "/api/systm/reportCategorys"
-
+									   "/api/systm/reportCategorys"
 										 ).hasRole("ADMIN");
-							  
 							   request.requestMatchers(HttpMethod.DELETE,
 									  "/api/auth/**").permitAll();
 							   
 							   request.requestMatchers(HttpMethod.DELETE, 
+									   "/api/main-contents/**",
 									   "/api/reviews/**",
 									   "/api/users",
 									   "/api/users/**",
@@ -86,16 +85,16 @@ public class SecurityConfigure {
 									  "/api/festivals/**",
 									  "/api/lodgings",
 									  "/api/diners",
-										 "/api/systm/sido",
-										 "/api/systm/sigungu",
-										 "/api/systm/sigungu/**",
-										 "/api/systm/dong",
-										 "/api/systm/dong/**",
-										 "/api/systm/detail"
+									  "/api/systm/sido",
+									  "/api/systm/sigungu",
+									  "/api/systm/sigungu/**",
+									  "/api/systm/dong",
+									  "/api/systm/dong/**",
+									  "/api/systm/detail"
 										).hasRole("ADMIN");
-							  
 							   
 							   request.requestMatchers(HttpMethod.PUT, 
+									   "/api/main-contents/**",
 									   "/api/reviews/**",
 									   "/api/users/update-nickname",
 									   "/api/users/update-pw",
@@ -119,6 +118,7 @@ public class SecurityConfigure {
 							   
 							   request.requestMatchers(HttpMethod.GET,
 									   "api/home",
+									   "/api/systm/map/**",
 									   "/api/main-contents/**",
 									   "/api/reviews/**",
 									   "/api/favorites/**",
@@ -161,8 +161,6 @@ public class SecurityConfigure {
 	                      .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 						   .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
 						   .build();
-							
-		
 		
 	}
 	

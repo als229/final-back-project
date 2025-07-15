@@ -8,16 +8,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.kh.finalproject.exception.exceptions.DatabaseException;
 import com.kh.finalproject.exception.exceptions.DuplicateNicknameException;
 import com.kh.finalproject.exception.exceptions.DuplicateUserEmailException;
 import com.kh.finalproject.exception.exceptions.DuplicateUserIdException;
 import com.kh.finalproject.exception.exceptions.DuplicateUserNickameException;
 import com.kh.finalproject.exception.exceptions.EmailCodeException;
+import com.kh.finalproject.exception.exceptions.FileUploadException;
 import com.kh.finalproject.exception.exceptions.InvaildFindIdException;
 import com.kh.finalproject.exception.exceptions.InvaildFindPwException;
 import com.kh.finalproject.exception.exceptions.InvaildPasswordException;
+import com.kh.finalproject.exception.exceptions.InvalidRequestException;
 import com.kh.finalproject.exception.exceptions.InvalidTokenException;
 import com.kh.finalproject.exception.exceptions.LoginFailedException;
+import com.kh.finalproject.exception.exceptions.ServiceException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -98,6 +102,47 @@ public class GlobalExceptionHandler {
 		error.put("message", e.getMessage());
 		return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
+
+//-------------------------------------------------------------------------------------------------------------------------------
+	
+	// content 관련 
+    @ExceptionHandler(InvalidRequestException.class)
+    public ResponseEntity<?> handleInvalidRequestException(InvalidRequestException e) {
+        Map<String, String> error = new HashMap<>();
+        error.put("code", "E400_INVALID_REQUEST");
+        error.put("message", e.getMessage());
+        
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+    
+    @ExceptionHandler(FileUploadException.class)
+    public ResponseEntity<?> handleFileUploadException(FileUploadException e) {
+        Map<String, String> error = new HashMap<>();
+        error.put("code", "E500_FILE_UPLOAD_FAILED");
+        error.put("message", e.getMessage());
+        
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }
+    
+    @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity<?> handleDatabaseException(DatabaseException e) {
+        Map<String, String> error = new HashMap<>();
+        error.put("code", "E500_DATABASE_ERROR");
+        error.put("message", e.getMessage());
+        
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }
+    
+    @ExceptionHandler(ServiceException.class)
+    public ResponseEntity<?> handleServiceException(ServiceException e) {
+        Map<String, String> error = new HashMap<>();
+        error.put("code", "E500_SERVICE_ERROR");
+        error.put("message", e.getMessage());
+        
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }
+
+//-------------------------------------------------------------------------------------------------------------------------------
 	
 	
 }
