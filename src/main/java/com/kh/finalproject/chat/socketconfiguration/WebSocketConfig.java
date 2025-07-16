@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSocket
-@EnableWebSocketSecurity
 @RequiredArgsConstructor
 public class WebSocketConfig implements WebSocketConfigurer{
 	
@@ -24,7 +23,7 @@ public class WebSocketConfig implements WebSocketConfigurer{
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 		registry.addHandler(chatHandler, "/ws/chat/{roomId}")
 				.addInterceptors(authInterceptor) 
-			 	.setAllowedOrigins("http://localhost:5173");
+			 	.setAllowedOrigins("http://localhost:5173", "https://nollerway.store");
 	}
 
 }
